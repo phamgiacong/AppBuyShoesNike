@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="title_bold">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="paragraph_regular">
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="paragraph_medium">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="label">
+        <item name="android:textSize">10sp</item>
+    </style>
+</resources>
