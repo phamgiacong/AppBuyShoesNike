@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_color">#FFFFFF</color>
+    <color name="primary_background">#111111</color>
+    <color name="foreign_background">#222222</color>
+    <color name="background_item">#222222</color>
+    <color name="background_border">#717171</color>
 
-<!--    backround-->
+    <color name="primary_text_color">#FFFFFFFF</color>
+    <color name="foreign_text_color">#F5F5F5</color>
+    <color name="text_color_red">#FF0000</color>
+
+    <color name="primary_color">#F5F5F5</color>
+    <color name="primary_color_dark">#EEEEEE</color>
+    <color name="primary_color_light">#FFFFFFFF</color>
 </resources>

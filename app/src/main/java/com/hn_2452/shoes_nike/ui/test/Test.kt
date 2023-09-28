@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.appbuyshosenike.R
+import com.hn_2452.shoes_nike.R
 
 class Test : Fragment() {
-asdasdasdasd
     private lateinit var viewModel: TestViewModel
 
     override fun onCreateView(
