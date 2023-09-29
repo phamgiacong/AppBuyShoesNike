@@ -16,4 +16,6 @@
     <color name="primary_color_dark">#000000</color>
     <color name="primary_color_light">#222222</color>
 
+    <color name="secondary_color">#737373</color>
+
 </resources>
