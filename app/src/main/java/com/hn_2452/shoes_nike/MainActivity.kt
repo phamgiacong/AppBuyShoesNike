@@ -38,4 +38,12 @@ open class MainActivity : AppCompatActivity() {
         _mBinding = null
     }
 
+    fun hideBottomNav() {
+        mBinding.bottomNav.visibility = View.INVISIBLE
+    }
+
+    fun showBottomNav() {
+        mBinding.bottomNav.visibility = View.VISIBLE
+    }
+
 }

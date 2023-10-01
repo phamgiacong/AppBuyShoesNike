@@ -5,11 +5,13 @@
 
     <color name="primary_background">#FFFFFFFF</color>
     <color name="foreign_background">#F5F5F5</color>
-    <color name="background_item">#EBEBEB</color>
-    <color name="background_border">#EBEBEB</color>
+    <color name="background_item">#F5F5F5</color>
+    <color name="background_border">#DADCE0</color>
 
     <color name="primary_text_color">#FF000000</color>
     <color name="foreign_text_color">#717171</color>
+    <color name="button_item_text_color">#FFFFFF</color>
+    <color name="button_text_color">#FFFFFF</color>
     <color name="text_color_red">#FF0000</color>
 
     <color name="primary_color">#111111</color>

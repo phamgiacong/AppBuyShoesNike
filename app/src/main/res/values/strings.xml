@@ -5,4 +5,11 @@
     <string name="order">Order</string>
     <string name="favorite">Favorite</string>
     <string name="profile">Profile</string>
+    <string name="my_orders">My Orders</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="track_order">Track Order</string>
+    <string name="you_don_t_have_an_order_yet">You don\'t have an order yet</string>
+    <string name="you_don_t_have_an_active_orders_at_this_time">You don\'t have an active orders at this time</string>
+    <string name="you_don_t_have_a_completed_orders_at_this_time">You don\'t have a completed orders at this time</string>
 </resources>
