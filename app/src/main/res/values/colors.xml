@@ -7,6 +7,7 @@
     <color name="foreign_background">#F5F5F5</color>
     <color name="background_item">#EBEBEB</color>
     <color name="background_border">#EBEBEB</color>
+    <color name="background_silver">#F1F1F1</color>
 
     <color name="primary_text_color">#FF000000</color>
     <color name="foreign_text_color">#717171</color>
