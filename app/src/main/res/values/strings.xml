@@ -5,4 +5,24 @@
     <string name="order">Order</string>
     <string name="favorite">Favorite</string>
     <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ten_app">Shoea</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="next">Next</string>
+    <string name="get_started">Get Started</string>
+    <string name="text_welcome1">We provide high quality products just for you</string>
+    <string name="text_welcome2">Your satisfaction is our number one priority</string>
+    <string name="text_welcome3">Lets fulfill your fashion needs with Shoea right now!</string>
+    <string name="title_login">LOGIN TO YOUR ACCOUNT</string>
+    <string name="no_account">Dont have an account? </string>
+    <string name="button_signin">Sign in</string>
+    <string name="button_signup">Sign up</string>
+    <string name="continue_with">or continue with</string>
+    <string name="forgot_pass">Forgot the password?</string>
+    <string name="remember">Remember me</string>
+    <string name="txtemail">Email</string>
+    <string name="txtpass">Password</string>
+    <string name="title_create">CREATE YOUR ACCOUNT</string>
+    <string name="have_account">Already have an account? </string>
 </resources>

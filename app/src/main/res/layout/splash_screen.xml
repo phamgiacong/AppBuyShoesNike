@@ -18,7 +18,6 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle_shape"
-            android:contentDescription="Circular Logo Image"
             android:src="@drawable/logo" />
 
 
@@ -27,8 +26,8 @@
             android:id="@+id/brandNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shoea"
-            android:textSize="30dp"
+            android:text="@string/ten_app"
+            android:textSize="@dimen/title_ten_app"
             android:textStyle="bold" />
     </LinearLayout>
     <ProgressBar
