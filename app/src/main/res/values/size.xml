@@ -17,5 +17,13 @@
     <style name="circular">
         <item name="cornerSize">50%</item>
     </style>
-
+    <dimen name="text_size_welcome_to">40sp</dimen>
+    <dimen name="text_size_shoea">70sp</dimen>
+    <dimen name="margin_welcome_to">160sp</dimen>
+    <dimen name="margin_left">30sp</dimen>
+    <dimen name="margin_bottom">16sp</dimen>
+    <dimen name="title_ten_app">30sp</dimen>
+    <dimen name="title_signin_signup">30sp</dimen>
+    <dimen name="padding">16sp</dimen>
+    <dimen name="margin_top">25sp</dimen>
 </resources>
