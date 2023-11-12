@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="light_label">
+        <item name="android:singleLine">true</item>
+        <item name="fontWeight">100</item>
+        <item name="android:textColor">@color/secondary_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="bold_label">
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary_color</item>
+    </style>
+
+    <style name="small_bold_label" parent="bold_label">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="shoes_image_rounded_corner">
+        <item name="cornerSize">20dp</item>
+    </style>
+
+    <style name="shoes_sold_textview">
+        <item name="android:background">@color/background_secondary_color</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

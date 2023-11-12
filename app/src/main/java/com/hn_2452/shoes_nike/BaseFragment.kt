@@ -11,7 +11,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
 
     private var _mBinding: T? = null
-    protected val mBinding get() = _mBinding!!
+    protected val mBinding get() = _mBinding
 
     abstract fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): T
 
@@ -21,7 +21,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _mBinding = getViewBinding(inflater, container)
-        return mBinding.root
+        return mBinding?.root
     }
 
     override fun onDestroyView() {
