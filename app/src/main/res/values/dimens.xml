@@ -94,4 +94,14 @@
     <dimen name="dimen_440dp">440dp</dimen>
 
 
+    <!--horizontal-->
+    <dimen name="small_horizontal_padding">12dp</dimen>
+    <dimen name="horizontal_padding">17dp</dimen>
+
+
+    <!--vertical-->
+    <dimen name="small_vertical_padding">10dp</dimen>
+    <dimen name="vertical_padding">24dp</dimen>
+    <dimen name="big_vertical_padding">32dp</dimen>
+
 </resources>

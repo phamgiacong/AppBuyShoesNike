@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
@@ -52,8 +53,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("com.hbb20:ccp:2.6.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     val lifecycle_version = "2.6.2"
     val arch_version = "2.2.0"
@@ -70,5 +69,17 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation ("com.google.android.material:material:1.9.0")
+
+
+    // Epoxy RecycleView
+    implementation ("com.airbnb.android:epoxy:5.1.3")
+
+    // Retrofit HTTP
+    val retrofit = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit")
+
+    // Coil load image
+    implementation("io.coil-kt:coil:2.4.0")
 
 }

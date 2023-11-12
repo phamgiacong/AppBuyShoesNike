@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/epoxy_viewBinding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imvShoesImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_shoes_image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/shoes_image_rounded_corner" />
+
+    <TextView
+        android:id="@+id/tvShoesName"
+        style="@style/bold_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_vertical_padding"
+        app:layout_constraintTop_toBottomOf="@+id/imvShoesImage" />
+
+    <ImageView
+        app:tint="@color/icon_background_color"
+        android:id="@+id/imvStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_vertical_padding"
+        android:src="@drawable/ic_star"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvShoesName" />
+
+    <TextView
+        android:id="@+id/tvShoesRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="4.8"
+        android:textColor="@color/text_secondary_color"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imvStart"
+        app:layout_constraintStart_toEndOf="@+id/imvStart"
+        app:layout_constraintTop_toTopOf="@+id/imvStart" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/secondary_color"
+        app:layout_constraintBottom_toBottomOf="@id/tvShoesRate"
+        app:layout_constraintStart_toEndOf="@+id/tvShoesRate"
+        app:layout_constraintTop_toTopOf="@+id/tvShoesRate" />
+
+    <TextView
+        android:id="@+id/tvShoesSold"
+        style="@style/shoes_sold_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="6,234 sold"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/tvShoesPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvShoesRate"
+        android:layout_marginTop="@dimen/small_vertical_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/vertical_padding"
+        android:text="$100000"
+        style="@style/bold_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
