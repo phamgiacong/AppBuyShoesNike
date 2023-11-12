@@ -6,11 +6,13 @@
     app:cardBackgroundColor="@color/primary_background"
     app:cardElevation="2dp"
     app:cardCornerRadius="30dp"
-    app:contentPadding="@dimen/dimen_17dp"
+    android:layout_marginHorizontal="@dimen/dimen_3dp"
+    android:layout_marginVertical="@dimen/dimen_10dp"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_17dp"
         >
         <androidx.cardview.widget.CardView
             android:id="@+id/cavAddress"
@@ -32,6 +34,7 @@
                 android:src="@drawable/icon_promo" />
         </androidx.cardview.widget.CardView>
         <TextView
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_32dp"
             android:textSize="20sp"
@@ -46,17 +49,18 @@
             app:layout_constraintVertical_bias="0" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvTitle"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="New user special promo"
             android:textColor="@color/foreign_text_color"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.183"
+            app:layout_constraintHorizontal_bias="0.408"
             app:layout_constraintStart_toEndOf="@id/cavAddress"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintVertical_bias="0.888" />
 
         <RadioButton
             android:id="@+id/radio"
@@ -68,6 +72,7 @@
             app:layout_constraintStart_toEndOf="@id/cavAddress"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="visible"
+            android:buttonTint="@color/primary_color"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
