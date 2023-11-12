@@ -74,18 +74,201 @@
                 android:textSize="15sp"
                 android:textColor="@color/primary_text_color"
                 />
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cavInfoAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_10dp"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                />
+                app:cardBackgroundColor="@color/primary_background"
+                app:cardElevation="2dp"
+                app:cardCornerRadius="30dp"
+                app:contentPaddingTop="@dimen/dimen_10dp"
+                app:contentPaddingBottom="@dimen/dimen_10dp"
+                app:contentPaddingLeft="@dimen/dimen_17dp"
+                app:contentPaddingRight="@dimen/dimen_17dp"
+                android:layout_marginVertical="@dimen/dimen_10dp"
+                android:layout_marginHorizontal="@dimen/dimen_3dp"
+                android:visibility="visible"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    >
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cavAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/background_silver"
+                        app:cardCornerRadius="@dimen/dimen_50dp"
+                        app:cardElevation="@dimen/dimen_2dp"
+                        app:contentPadding="8dp"
+                        android:layout_margin="@dimen/dimen_3dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="50dp"
+                            app:cardBackgroundColor="@color/primary_color"
+                            >
+
+                            <ImageView
+                                android:layout_width="@dimen/dimen_30dp"
+                                android:layout_height="@dimen/dimen_30dp"
+                                android:layout_margin="5dp"
+                                android:src="@drawable/icon_location_20px" />
+                        </androidx.cardview.widget.CardView>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/tvNameAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dimen_32dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/primary_text_color"
+                        android:textStyle="bold"
+                        android:text="Home"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.08"
+                        app:layout_constraintStart_toEndOf="@id/cavAddress"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/defaulted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="22dp"
+                        app:layout_constraintBottom_toTopOf="@id/tvAddress"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.041"
+                        app:layout_constraintStart_toEndOf="@id/tvNameAddress"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.4"
+                        android:backgroundTint="@color/background_silver"
+                        app:cardCornerRadius="10dp"
+                        android:visibility="gone"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Default"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:layout_marginVertical="3dp"
+                            android:layout_marginHorizontal="5dp"
+                            />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/tvAddress"
+                        android:layout_width="230dp"
+                        android:layout_height="wrap_content"
+                        android:text="dia chi"
+                        android:textColor="@color/foreign_text_color"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.375"
+                        app:layout_constraintStart_toEndOf="@id/cavAddress"
+                        app:layout_constraintTop_toBottomOf="@id/tvNameAddress"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/btnEditAddress"
+                        android:layout_width="@dimen/dimen_30dp"
+                        android:layout_height="@dimen/dimen_30dp"
+                        android:padding="5dp"
+                        android:src="@drawable/icon_edit"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.98"
+                        app:layout_constraintStart_toEndOf="@id/cavAddress"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:visibility="visible"
+                        />
+                    <RadioButton
+                        android:layout_width="@dimen/dimen_30dp"
+                        android:layout_height="@dimen/dimen_30dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintStart_toEndOf="@id/cavAddress"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:visibility="gone"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cavChooseAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/dimen_20dp"
+                app:cardElevation="@dimen/dimen_2dp"
+                app:cardBackgroundColor="@color/primary_background"
+                android:layout_marginVertical="@dimen/dimen_10dp"
+                android:layout_marginHorizontal="3dp"
+                android:visibility="gone"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginVertical="@dimen/dimen_10dp"
+                    android:layout_marginHorizontal="@dimen/dimen_17dp"
+                    >
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="50dp"
+                            app:cardBackgroundColor="@color/primary_color"
+                            >
+
+                            <ImageView
+                                android:layout_width="@dimen/dimen_30dp"
+                                android:layout_height="@dimen/dimen_30dp"
+                                android:layout_margin="5dp"
+                                android:src="@drawable/icon_location_20px" />
+                        </androidx.cardview.widget.CardView>
+
+
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen_8dp"
+                        android:layout_weight="1"
+                        android:text="Choose Your Address"
+                        android:textColor="@color/primary_color"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/btnChooseAddress"
+                        android:layout_width="@dimen/dimen_40dp"
+                        android:layout_height="@dimen/dimen_40dp"
+                        android:paddingHorizontal="@dimen/dimen_10dp"
+                        android:src="@drawable/arrow_forward_ios_20px"
+                        />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/foreign_text_color"
+                android:background="#2C717171"
                 android:layout_marginBottom="@dimen/dimen_10dp"
                 />
 
@@ -99,6 +282,7 @@
                 android:layout_marginBottom="@dimen/dimen_10dp"
                 />
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvShoesToCart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -108,7 +292,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/foreign_text_color"
+                android:background="#2C717171"
                 android:layout_marginBottom="@dimen/dimen_10dp"
                 />
             <TextView
@@ -120,17 +304,159 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="@dimen/dimen_10dp"
                 />
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cavChooseShipping"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_10dp"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                />
+                app:cardCornerRadius="@dimen/dimen_20dp"
+                app:cardElevation="@dimen/dimen_2dp"
+                app:cardBackgroundColor="@color/primary_background"
+                android:layout_marginVertical="@dimen/dimen_10dp"
+                android:layout_marginHorizontal="3dp"
+                android:visibility="visible"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginVertical="@dimen/dimen_10dp"
+                    android:layout_marginHorizontal="@dimen/dimen_17dp"
+                    >
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/local_shipping_20px"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen_8dp"
+                        android:layout_weight="1"
+                        android:text="Choose Shipping Type"
+                        android:textColor="@color/primary_color"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/btnChooseShipping"
+                        android:layout_width="@dimen/dimen_40dp"
+                        android:layout_height="@dimen/dimen_40dp"
+                        android:paddingHorizontal="@dimen/dimen_10dp"
+                        android:src="@drawable/arrow_forward_ios_20px"
+                        />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cavItemShipping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/primary_background"
+                app:cardElevation="2dp"
+                app:cardCornerRadius="30dp"
+                app:contentPaddingTop="@dimen/dimen_10dp"
+                app:contentPaddingBottom="@dimen/dimen_10dp"
+                app:contentPaddingLeft="@dimen/dimen_17dp"
+                app:contentPaddingRight="@dimen/dimen_17dp"
+                android:layout_marginVertical="@dimen/dimen_10dp"
+                android:layout_marginHorizontal="@dimen/dimen_3dp"
+                android:visibility="gone"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cavShipping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/primary_color"
+                        app:cardCornerRadius="@dimen/dimen_50dp"
+                        app:cardElevation="@dimen/dimen_2dp"
+                        app:contentPadding="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0">
+                        <ImageView
+                            android:layout_width="@dimen/dimen_30dp"
+                            android:layout_height="@dimen/dimen_30dp"
+                            android:src="@drawable/icon_box_20px" />
+                    </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/tvNameShipping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dimen_32dp"
+                        android:textSize="20sp"
+                        android:textColor="@color/primary_text_color"
+                        android:textStyle="bold"
+                        android:text="Express"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.08"
+                        app:layout_constraintStart_toEndOf="@id/cavShipping"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0" />
+
+                    <TextView
+                        android:id="@+id/tvTimeShipping"
+                        android:layout_width="240dp"
+                        android:layout_height="wrap_content"
+                        android:text="61480 Sunbrook Park, PC 567"
+                        android:textColor="@color/foreign_text_color"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.352"
+                        app:layout_constraintStart_toEndOf="@id/cavShipping"
+                        app:layout_constraintTop_toBottomOf="@id/tvNameShipping"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <ImageView
+                        android:id="@+id/btnEditShipping"
+                        android:layout_width="@dimen/dimen_30dp"
+                        android:layout_height="@dimen/dimen_30dp"
+                        android:padding="@dimen/dimen_5dp"
+                        android:src="@drawable/icon_edit"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.99"
+                        app:layout_constraintStart_toEndOf="@id/cavShipping"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:visibility="visible"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvPriceShipping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$50"
+                        android:textColor="@color/primary_text_color"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.86"
+                        app:layout_constraintStart_toEndOf="@id/cavShipping"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5" />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/foreign_text_color"
+                android:background="#2C717171"
                 android:layout_marginBottom="@dimen/dimen_10dp"
                 />
             <TextView
@@ -157,6 +483,7 @@
                     android:textSize="15sp"
                     />
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/btnAddPromo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/primary_text_color"
@@ -166,6 +493,7 @@
                     <ImageView
                         android:layout_width="@dimen/dimen_50dp"
                         android:layout_height="@dimen/dimen_50dp"
+                        android:padding="@dimen/dimen_10dp"
                         android:src="@drawable/icon_add_20px"
                         app:tint ="@color/primary_background"
 
@@ -205,6 +533,7 @@
 
                             />
                         <TextView
+                            android:id="@+id/tvAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$585.00"
@@ -226,6 +555,31 @@
 
                             />
                         <TextView
+                            android:id="@+id/priceShipping"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/primary_text_color"
+                            android:textSize="15sp"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/layoutPromo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/dimen_10dp"
+                        android:visibility="gone"
+                        >
+                        <TextView
+                            android:layout_width="@dimen/dimen_1dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Promo"
+                            android:textSize="15sp"
+
+                            />
+                        <TextView
+                            android:id="@+id/tvDiscount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
@@ -236,7 +590,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/foreign_text_color"
+                        android:background="#2C717171"
 
                         />
                     <LinearLayout
@@ -282,6 +636,7 @@
         >
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custtom_buttom_checkout"

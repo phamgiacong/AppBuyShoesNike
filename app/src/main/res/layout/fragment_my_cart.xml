@@ -51,14 +51,23 @@
             app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layoutTop"
         android:layout_marginStart="@dimen/dimen_17dp"
         android:layout_marginEnd="@dimen/dimen_17dp"
-        android:layout_marginBottom="@dimen/dimen_17dp" />
+        android:layout_marginBottom="@dimen/dimen_100dp"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvShoes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="110dp"
@@ -100,6 +109,7 @@
             app:layout_constraintVertical_bias="0.2" />
 
         <LinearLayout
+            android:id="@+id/btnCheckOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/custtom_buttom_checkout"
