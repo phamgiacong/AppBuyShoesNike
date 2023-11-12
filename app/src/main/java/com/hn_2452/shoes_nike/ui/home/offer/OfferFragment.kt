@@ -6,16 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet.Constraint
-import coil.ImageLoader
-import coil.imageLoader
 import coil.load
-import coil.request.ImageRequest
 import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.Offer
 import com.hn_2452.shoes_nike.databinding.FragmentOfferBinding
+import com.hn_2452.shoes_nike.ui.home.HomeFragmentDirections
 
 @Suppress("DEPRECATION")
 class OfferFragment : BaseFragment<FragmentOfferBinding>() {
@@ -28,18 +25,24 @@ class OfferFragment : BaseFragment<FragmentOfferBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val offer = arguments?.getParcelable<Offer>("offer")
-        offer?.let {offer ->
+        offer?.let { offer ->
             mBinding?.apply {
                 root.setBackgroundColor(Color.parseColor(offer.imageBackground))
                 tvTitle.text = offer.title
                 tvSubtitle.text = offer.subTitle
-                if(offer.discountUnit == 1) {
+                if (offer.discountUnit == 1) {
                     tvDiscount.text = "${offer.discount}%"
                 } else {
                     tvDiscount.text = "${offer.discount} USD"
                 }
                 imvOffer.load(BASE_URL + offer.image) {
                     error(R.drawable.shoes_placehoder)
+                }
+
+                root.setOnClickListener {
+                    val action = HomeFragmentDirections.actionHomeFragmentToOfferDetailFragment()
+                    action.offer = offer
+                    mNavController?.navigate(action)
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.hn_2452.shoes_nike.ui.home.adapter
+package com.hn_2452.shoes_nike.ui.home
 
 import coil.load
 import com.airbnb.epoxy.TypedEpoxyController

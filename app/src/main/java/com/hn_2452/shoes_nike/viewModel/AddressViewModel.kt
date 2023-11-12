@@ -5,25 +5,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import com.hn_2452.shoes_nike.repository.Repository
-import com.hn_2452.shoes_nike.ultils.Resoucce
+import com.hn_2452.shoes_nike.ultils.Resource
 import kotlinx.coroutines.Dispatchers
 
 class AddressViewModel(app:Application): ViewModel() {
     private val  repository : Repository = Repository(app)
     fun getAddressByIdU(idU:String) = liveData(Dispatchers.IO){
-        emit(Resoucce.loading(null))
+        emit(Resource.loading(null))
         try {
-            emit(Resoucce.success(repository.getAddressByIdU(idU)))
+            emit(Resource.success(repository.getAddressByIdU(idU)))
         }catch (ex:Exception){
-            emit(Resoucce.error(null,ex.message?:"Error!!"))
+            emit(Resource.error(null,ex.message?:"Error!!"))
         }
     }
     fun  getAddressById(id:String)= liveData(Dispatchers.IO){
-        emit(Resoucce.loading(null))
+        emit(Resource.loading(null))
         try {
-            emit(Resoucce.success(repository.getAddressByID(id)))
+            emit(Resource.success(repository.getAddressByID(id)))
         }catch (ex:Exception){
-            emit(Resoucce.error(null,ex.message?:"Error!!"))
+            emit(Resource.error(null,ex.message?:"Error!!"))
         }
     }
     class AddressViewModelFactory(private val app: Application): ViewModelProvider.Factory{

@@ -1,10 +1,9 @@
-package com.hn_2452.shoes_nike.ui.home.adapter
+package com.hn_2452.shoes_nike.ui.home.offer
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.hn_2452.shoes_nike.data.model.Offer
-import com.hn_2452.shoes_nike.ui.home.offer.OfferFragment
 
 class OfferAdapter(
     mFragment: Fragment,

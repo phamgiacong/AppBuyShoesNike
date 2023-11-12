@@ -6,42 +6,42 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import com.hn_2452.shoes_nike.data.Cart
 import com.hn_2452.shoes_nike.repository.Repository
-import com.hn_2452.shoes_nike.ultils.Resoucce
+import com.hn_2452.shoes_nike.ultils.Resource
 import kotlinx.coroutines.Dispatchers
 
 class CartViewModel(app:Application):ViewModel() {
     private val repository: Repository = Repository(app)
     fun postCart(idU: String,cart: Cart) = liveData(Dispatchers.IO){
-        emit(Resoucce.loading(null))
+        emit(Resource.loading(null))
         try {
-            emit(Resoucce.success(repository.postCart(idU,cart)))
+            emit(Resource.success(repository.postCart(idU,cart)))
         }catch (ex:Exception){
-            emit(Resoucce.error(null,ex.message?:"Error!!!"))
+            emit(Resource.error(null,ex.message?:"Error!!!"))
         }
 
     }
     fun getCart(idU:String) = liveData(Dispatchers.IO){
-        emit(Resoucce.loading(null))
+        emit(Resource.loading(null))
         try {
-            emit(Resoucce.success(repository.getCart(idU)))
+            emit(Resource.success(repository.getCart(idU)))
         }catch (ex:Exception){
-            emit(Resoucce.error(null,ex.message?:"Error!!!"))
+            emit(Resource.error(null,ex.message?:"Error!!!"))
         }
     }
     fun updateAddress(id:String,cart: Cart) = liveData(Dispatchers.IO){
-        emit(Resoucce.loading(null))
+        emit(Resource.loading(null))
         try {
-            emit(Resoucce.success(repository.updateAddressToCart(id, cart)))
+            emit(Resource.success(repository.updateAddressToCart(id, cart)))
         }catch (ex:Exception){
-            emit(Resoucce.error(null,ex.message?:"Error!!!"))
+            emit(Resource.error(null,ex.message?:"Error!!!"))
         }
     }
     fun updateShipping(id:String,cart: Cart) = liveData(Dispatchers.IO){
-        emit(Resoucce.loading(null))
+        emit(Resource.loading(null))
         try {
-            emit(Resoucce.success(repository.updateShippingToCart(id, cart)))
+            emit(Resource.success(repository.updateShippingToCart(id, cart)))
         }catch (ex:Exception){
-            emit(Resoucce.error(null,ex.message?:"Error!!!"))
+            emit(Resource.error(null,ex.message?:"Error!!!"))
         }
     }
 

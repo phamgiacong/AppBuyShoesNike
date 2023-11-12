@@ -33,6 +33,14 @@ open class MainActivity : AppCompatActivity() {
         )
     }
 
+     fun setupBottomNavigation(show : Boolean) {
+        if(show) {
+            mBinding.bottomNav.visibility = View.VISIBLE
+        } else {
+            mBinding.bottomNav.visibility = View.GONE
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _mBinding = null

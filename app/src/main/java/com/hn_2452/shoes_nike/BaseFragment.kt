@@ -5,10 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.appbar.MaterialToolbar
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
+
+    protected var mNavController : NavController? = null
 
     private var _mBinding: T? = null
     protected val mBinding get() = _mBinding
@@ -20,6 +25,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mNavController = requireActivity().findNavController(R.id.host_fragment)
         _mBinding = getViewBinding(inflater, container)
         return mBinding?.root
     }
@@ -27,6 +33,17 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _mBinding = null
+        mNavController = null
+    }
+    fun setupToolbar(toolbar: MaterialToolbar?) {
+        toolbar?.setNavigationOnClickListener {
+            mNavController?.navigateUp()
+        }
+    }
+
+    fun setupBottomBar(show: Boolean) {
+        val mainActivity = requireActivity() as MainActivity
+        mainActivity.setupBottomNavigation(show)
     }
 
 }

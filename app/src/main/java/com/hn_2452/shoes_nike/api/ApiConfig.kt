@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object ApiConfig {
-    private const val BASE_URL = "http://192.168.1.140:3000/"
+    private const val BASE_URL = "http:192.168.0.104:3000/"
     private var builder = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
     var retrofit = builder.build()
     var apiShippingService:ShippingApi = retrofit.create(ShippingApi::class.java)
