@@ -15,4 +15,20 @@
     <color name="primary_color_light">#FFFFFFFF</color>
 
     <color name="secondary_color">#B6B6B6</color>
+
+
+    <!-- New Color Set-->
+    <color name="background_primary_color">#181A20</color>
+    <color name="background_secondary_color">#35383F</color>
+    <color name="background_third_color">#1F222A</color>
+    <color name="text_primary_color">#FFFFFF</color>
+    <color name="text_secondary_color">#C6C6C8</color>
+    <color name="text_hint_color">#6E6B71</color>
+    <color name="icon_on_product_color">#E6E6E6</color>
+    <color name="icon_on_hint_color">#9E9E9E</color>
+    <color name="icon_on_toolbar_color">#FFFFFF</color>
+    <color name="icon_background_color">#FFFFFF</color>
+    <color name="border_color">#38353F</color>
+    <color name="button_color">#FAFAFA</color>
+
 </resources>

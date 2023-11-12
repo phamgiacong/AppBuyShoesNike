@@ -6,11 +6,10 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.hn_2452.shoes_nike.ui.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
-
+        android:id="@+id/myEWalletFragment"
+        android:name="com.hn_2452.shoes_nike.ui.orders.e_wallet.MyEWalletFragment"
+        android:label="fragment_my_e_wallet"
+        tools:layout="@layout/fragment_my_e_wallet" />
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.hn_2452.shoes_nike.ui.cart.CartFragment"
@@ -21,19 +20,25 @@
             app:destination="@id/confirmCartFragment" />
     </fragment>
 
+        android:id="@+id/EReceiptFragment"
+        android:name="com.hn_2452.shoes_nike.ui.orders.e_receipt.EReceiptFragment"
+        android:label="fragment_e_receipt"
+        tools:layout="@layout/fragment_e_receipt" />
     <fragment
-        android:id="@+id/orderFragment"
-        android:name="com.hn_2452.shoes_nike.ui.orders.OrderFragment"
-        android:label="OrderFragment"
-        tools:layout="@layout/fragment_order" />
-
+        android:id="@+id/historysFragment"
+        android:name="com.hn_2452.shoes_nike.ui.orders.historys.HistorysFragment"
+        android:label="fragment_historys"
+        tools:layout="@layout/fragment_historys" />
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.hn_2452.shoes_nike.ui.favorite.FavoriteFragment"
-        android:label="FavoriteFragment"
-        tools:layout="@layout/fragment_favorite" />
-
+        android:id="@+id/topUpFragment"
+        android:name="com.hn_2452.shoes_nike.ui.orders.topup.topupprice.TopUpFragment"
+        android:label="fragment_top_up"
+        tools:layout="@layout/fragment_top_up" />
     <fragment
+        android:id="@+id/payFragment"
+        android:name="com.hn_2452.shoes_nike.ui.orders.topup.topuppayment.PayFragment"
+        android:label="fragment_pay"
+        tools:layout="@layout/fragment_pay" />
         android:id="@+id/profileFragment"
         android:name="com.hn_2452.shoes_nike.ui.profile.ProfileFragment"
         android:label="ProfileFragment"
