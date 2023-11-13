@@ -12,16 +12,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
-import com.hn_2452.shoes_nike.data.Cart
-import com.hn_2452.shoes_nike.viewModel.CartViewModel
-import com.hn_2452.shoes_nike.data.Shoes
-import com.hn_2452.shoes_nike.data.ShoesToCart
-import com.hn_2452.shoes_nike.adapter.ShoesToCartAdapter
-import com.hn_2452.shoes_nike.viewModel.ShoesToCartViewModel
-import com.hn_2452.shoes_nike.viewModel.ShoesViewModel
+import com.hn_2452.shoes_nike.data.model.Cart
+import com.hn_2452.shoes_nike.data.model.Shoes
+import com.hn_2452.shoes_nike.data.model.ShoesToCart
 import com.hn_2452.shoes_nike.databinding.FragmentBottomBinding
 import com.hn_2452.shoes_nike.databinding.FragmentMyCartBinding
-import com.hn_2452.shoes_nike.ultils.Status
+import com.hn_2452.shoes_nike.utility.Status
 
 class CartFragment : BaseFragment<FragmentMyCartBinding>() {
     private var _mBinding: FragmentMyCartBinding? = null
@@ -106,7 +102,7 @@ class CartFragment : BaseFragment<FragmentMyCartBinding>() {
             }
         })
     }
-    private var onClick:(ShoesToCart,Shoes) ->Unit={ shoesToCart: ShoesToCart, shoes: Shoes ->
+    private var onClick:(ShoesToCart, Shoes) ->Unit={ shoesToCart: ShoesToCart, shoes: Shoes ->
         binding.rcvShoes.post({
             shoesToCartAdapter.notifyDataSetChanged()
         })

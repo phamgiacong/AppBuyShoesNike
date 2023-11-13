@@ -1,20 +1,20 @@
 package com.hn_2452.shoes_nike.data.repository
 
-import com.hn_2452.shoes_nike.data.ShoesAPI
-import com.hn_2452.shoes_nike.data.adapter.ShoesTypeAdapter
+import com.hn_2452.shoes_nike.data.NikeService
 import com.hn_2452.shoes_nike.data.model.ShoesType
-import com.hn_2452.shoes_nike.utility.Result
-import kotlinx.coroutines.CoroutineDispatcher
+import com.hn_2452.shoes_nike.utility.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ShoesTypeRepository(
-    private val mShoesAPI: ShoesAPI,
-    private val mShoesTypeAdapter: ShoesTypeAdapter,
-    override val mDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : BaseRepository(mDispatcher) {
-    suspend fun getShoesType(): Result<List<ShoesType>> = run {
-        mShoesTypeAdapter.networkDataToShoesTypeList(mShoesAPI.getShoesType())
+class ShoesTypeRepository @Inject constructor() {
+    suspend fun getShoesType(): Resource<List<ShoesType>> = withContext(Dispatchers.IO) {
+        val networkResult = NikeService.mShoesTypeApi.getShoesType()
+        if (networkResult.success) {
+            return@withContext Resource.success(networkResult.data)
+        } else {
+            return@withContext Resource.error(null, networkResult.message)
+        }
     }
-
 }
 

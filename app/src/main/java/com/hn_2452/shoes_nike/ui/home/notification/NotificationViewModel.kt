@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import com.hn_2452.shoes_nike.data.model.Notification
-import com.hn_2452.shoes_nike.ultils.Resource
+import com.hn_2452.shoes_nike.utility.Resource
 
 class NotificationViewModel(
     private val mNotificationSource: List<Notification> = mutableListOf(

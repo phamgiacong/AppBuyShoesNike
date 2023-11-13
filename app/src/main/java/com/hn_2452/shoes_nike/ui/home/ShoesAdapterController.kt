@@ -1,5 +1,6 @@
 package com.hn_2452.shoes_nike.ui.home
 
+import android.annotation.SuppressLint
 import coil.load
 import com.airbnb.epoxy.TypedEpoxyController
 import com.hn_2452.shoes_nike.BASE_URL
@@ -15,15 +16,16 @@ class ShoesAdapterController : TypedEpoxyController<List<Shoes>>() {
         }
 
         data.forEach { shoes ->
-            ShoesModel(shoes).id(shoes.id).addTo(this)
+            ShoesModel(shoes).id(shoes._id).addTo(this)
         }
     }
 
     class ShoesModel(
         private val shoes: Shoes
     ) : ViewBindingModel<LayoutShoesItemBinding>(R.layout.layout_shoes_item) {
+        @SuppressLint("SetTextI18n")
         override fun LayoutShoesItemBinding.bind() {
-            imvShoesImage.load(BASE_URL + shoes.mainImage)
+            imvShoesImage.load(BASE_URL + shoes.main_image)
             tvShoesName.text = shoes.name
             tvShoesRate.text = shoes.rate.toString()
             tvShoesPrice.text = shoes.price.toString()

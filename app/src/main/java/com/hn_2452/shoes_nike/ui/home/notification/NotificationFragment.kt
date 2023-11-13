@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.databinding.FragmentNotificationBinding
-import com.hn_2452.shoes_nike.ultils.Status
+import com.hn_2452.shoes_nike.utility.Status
 
 class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
 
