@@ -16,6 +16,10 @@
         <item name="android:textColor">@color/text_primary_color</item>
     </style>
 
+    <style name="medium_bold_label" parent="bold_label">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="small_bold_label" parent="bold_label">
         <item name="android:textSize">14sp</item>
     </style>

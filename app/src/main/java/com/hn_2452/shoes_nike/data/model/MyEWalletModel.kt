@@ -1,4 +1,4 @@
-package com.hn_2452.shoes_nike.data
+package com.hn_2452.shoes_nike.data.model
 
 data class MyEWalletModel(
     var backGround : Int? = 0,

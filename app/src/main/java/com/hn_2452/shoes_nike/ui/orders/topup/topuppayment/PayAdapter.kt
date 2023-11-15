@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hn_2452.shoes_nike.R
-import com.hn_2452.shoes_nike.data.PayModel
+import com.hn_2452.shoes_nike.data.model.PayModel
 
 class PayAdapter(private val list: List<PayModel>) :
     RecyclerView.Adapter<PayAdapter.PayViewHolder>() {

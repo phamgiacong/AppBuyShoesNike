@@ -2,7 +2,7 @@ package com.hn_2452.shoes_nike.ui.orders.topup.topupprice
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hn_2452.shoes_nike.data.TopUpModel
+import com.hn_2452.shoes_nike.data.model.TopUpModel
 
 class TopupViewModel : ViewModel() {
 

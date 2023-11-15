@@ -107,7 +107,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupPopularShoesList() {
-        val controller = ShoesAdapterController()
+        val controller = ShoesAdapterController {
+            val action = HomeFragmentDirections.actionHomeFragmentToShoesFragment(it._id)
+            mNavController?.navigate(action)
+        }
         mBinding?.rcvPopularShoes?.setController(controller)
         mBinding?.rcvPopularShoes?.addItemDecoration(
             GridSpacingItemDecoration(2, dpToPx(requireContext(), 17), false)

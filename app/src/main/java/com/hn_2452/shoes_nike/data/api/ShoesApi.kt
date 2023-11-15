@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface ShoesApi {
     @GET("/shoes/{id}")
-    suspend fun getShoesById(@Path("id") id: String): Shoes
+    suspend fun getShoesById(@Path("id") id: String): NetworkResult<Shoes>
 
     @GET("/shoes?sort_sold=1&state=1&limit=20")
     suspend fun getPopularShoes(): NetworkResult<List<Shoes>>

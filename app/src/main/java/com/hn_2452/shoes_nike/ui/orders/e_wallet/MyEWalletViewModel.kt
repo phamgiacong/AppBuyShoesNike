@@ -3,7 +3,7 @@ package com.hn_2452.shoes_nike.ui.orders.e_wallet
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hn_2452.shoes_nike.R
-import com.hn_2452.shoes_nike.data.MyEWalletModel
+import com.hn_2452.shoes_nike.data.model.MyEWalletModel
 
 class MyEWalletViewModel : ViewModel() {
     val eWalletData = MutableLiveData<List<MyEWalletModel>>()
