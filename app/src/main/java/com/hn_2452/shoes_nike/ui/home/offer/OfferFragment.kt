@@ -27,7 +27,10 @@ class OfferFragment : BaseFragment<FragmentOfferBinding>() {
         val offer = arguments?.getParcelable<Offer>("offer")
         offer?.let { offer ->
             mBinding?.apply {
-                root.setBackgroundColor(Color.parseColor(offer.imageBackground))
+                if(offer.imageBackground != null) {
+                    root.setBackgroundColor(Color.parseColor(offer.imageBackground))
+                }
+
                 tvTitle.text = offer.title
                 tvSubtitle.text = offer.subTitle
                 if (offer.discountUnit == 1) {

@@ -15,7 +15,7 @@ class ShoesViewModel(app:Application):ViewModel() {
     fun getShoesById(id:String) = liveData(Dispatchers.IO){
         emit(Resource.loading(null))
         try {
-            emit(Resource.success(cartRepository.getShoesById(id)))
+            emit(cartRepository.getShoesById(id))
         }catch (ex:Exception){
             emit(Resource.error(null,ex.message?:"Error!!!"))
         }

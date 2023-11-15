@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hn_2452.shoes_nike.R
-import com.hn_2452.shoes_nike.data.MyEWalletModel
+import com.hn_2452.shoes_nike.data.model.MyEWalletModel
 
 class MyEWalletAdapter(private val list: List<MyEWalletModel>) :
     RecyclerView.Adapter<MyEWalletAdapter.MyEWalletViewHolder>() {

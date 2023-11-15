@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hn_2452.shoes_nike.R
-import com.hn_2452.shoes_nike.data.TopUpModel
+import com.hn_2452.shoes_nike.data.model.TopUpModel
 
 class TopupAdapter(private val list: List<TopUpModel>) :
     RecyclerView.Adapter<TopupAdapter.TopupViewHolder>() {

@@ -18,4 +18,13 @@ class ShoesRepository @Inject constructor() {
             return@withContext Resource.error(null, popularShoesData.message)
         }
     }
+
+    suspend fun getShoesById(id: String): Resource<Shoes> = withContext(Dispatchers.IO) {
+        val shoesData = NikeService.mShoesApi.getShoesById(id)
+        if (shoesData.success) {
+            return@withContext Resource.success(shoesData.data)
+        } else {
+            return@withContext Resource.error(null, shoesData.message)
+        }
+    }
 }
