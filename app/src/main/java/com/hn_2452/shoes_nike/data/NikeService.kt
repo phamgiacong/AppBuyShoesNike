@@ -9,13 +9,21 @@ import com.hn_2452.shoes_nike.data.api.ShippingApi
 import com.hn_2452.shoes_nike.data.api.ShoesApi
 import com.hn_2452.shoes_nike.data.api.ShoesToCartApi
 import com.hn_2452.shoes_nike.data.api.ShoesTypeApi
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object NikeService {
     private val mRetrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+        .client(
+            OkHttpClient.Builder()
+                .writeTimeout(30000, TimeUnit.MILLISECONDS)
+                .readTimeout(30000, TimeUnit.MILLISECONDS)
+                .build()
+        )
         .build()
 
     val mShippingApi: ShippingApi = mRetrofit.create(ShippingApi::class.java)

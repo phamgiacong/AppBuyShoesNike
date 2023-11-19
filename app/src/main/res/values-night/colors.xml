@@ -31,4 +31,6 @@
     <color name="border_color">#38353F</color>
     <color name="button_color">#FAFAFA</color>
 
+    <color name="place_holder_color">#B8B8B8</color>
+
 </resources>

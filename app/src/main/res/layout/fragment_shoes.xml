@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ScrollView
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -122,7 +125,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
-            <com.airbnb.epoxy.EpoxyRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvSize"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -146,7 +149,7 @@
                 app:layout_constraintStart_toEndOf="@+id/tvSizeTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvSizeTitle" />
 
-            <com.airbnb.epoxy.EpoxyRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvColor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -164,26 +167,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/horizontal_padding"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:text="Quantity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rcvSize" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="24dp"
                 android:background="@drawable/bg_round"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:paddingHorizontal="24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvQuantityTitle"
                 app:layout_constraintStart_toEndOf="@+id/tvQuantityTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvQuantityTitle">
 
                 <ImageView
                     android:id="@+id/btnReduce"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:padding="@dimen/dimen_5dp"
                     android:src="@drawable/icon_remove_20px" />
 
@@ -191,16 +195,17 @@
                     android:id="@+id/editQuantity"
                     android:layout_width="19dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
+                    android:layout_marginHorizontal="16dp"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="1" />
+                    android:text="1"
+                    android:textSize="20sp" />
 
 
                 <ImageView
                     android:id="@+id/btnAugment"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:padding="5dp"
                     android:src="@drawable/icon_add_20px" />
             </LinearLayout>
@@ -273,5 +278,110 @@
 
     </ScrollView>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/placeHolderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:background="@color/place_holder_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginTop="17dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="300dp"
+                    android:layout_height="40dp"
+                    android:background="@color/place_holder_color" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="35dp"
+                    android:background="@color/place_holder_color" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="300dp"
+                    android:layout_height="40dp"
+                    android:background="@color/place_holder_color" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="300dp"
+                    android:layout_height="25dp"
+                    android:background="@color/place_holder_color" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginHorizontal="@dimen/horizontal_padding"
+                android:layout_marginTop="12dp"
+                android:background="@color/place_holder_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginVertical="17dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@color/place_holder_color" />
+
+                <View
+                    android:layout_width="240dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="35dp"
+                    android:background="@color/place_holder_color" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/loadingProgress"
+        style="@style/SpinKitView.Circle"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/black" />
 
 </RelativeLayout>

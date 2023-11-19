@@ -33,4 +33,6 @@
     <color name="border_color">#37393E</color>
     <color name="button_color">#101010</color>
 
+    <color name="place_holder_color">#DCDCDC</color>
+
 </resources>

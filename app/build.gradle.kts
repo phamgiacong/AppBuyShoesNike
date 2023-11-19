@@ -76,6 +76,12 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
+    // add placeholder
+    implementation("com.facebook.shimmer:shimmer:0.1.0@aar")
+
+    // loading
+    implementation("com.github.ybq:Android-SpinKit:1.2.0")
+
 }
 
 // Allow references to generated code
