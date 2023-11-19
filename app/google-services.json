@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672751390706",
+    "project_id": "shoesnike-8b9d0",
+    "storage_bucket": "shoesnike-8b9d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672751390706:android:46e3f833458edfe86a656b",
+        "android_client_info": {
+          "package_name": "com.hn_2452.shoes_nike"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3JsvqU02pUrcQ5e9jPBaVjsOQ3YFuP7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
