@@ -16,7 +16,7 @@ import com.hn_2452.shoes_nike.databinding.FragmentListPromoBinding
 import com.hn_2452.shoes_nike.ultils.Status
 
 class PromoFragment :BaseFragment<FragmentListPromoBinding>(){
-    private var _mBinding: FragmentListPromoBinding? = null
+    override var _mBinding: FragmentListPromoBinding? = null
     protected val  binding  get() = _mBinding!!
     private val promoViewModel : PromoViewModel by lazy{
         ViewModelProvider(this,

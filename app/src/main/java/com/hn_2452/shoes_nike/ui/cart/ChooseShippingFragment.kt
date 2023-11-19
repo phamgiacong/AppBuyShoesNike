@@ -20,7 +20,7 @@ import com.hn_2452.shoes_nike.ultils.Status
 
 class ChooseShippingFragment :BaseFragment<FragmentChooseShippingBinding>() {
 
-    private var _mBinding: FragmentChooseShippingBinding? = null
+     override var _mBinding: FragmentChooseShippingBinding? = null
     val args by navArgs<ChooseShippingFragmentArgs>()
     protected val  binding  get() = _mBinding!!
     private val shippingViewModel : ShippingViewModel by lazy {

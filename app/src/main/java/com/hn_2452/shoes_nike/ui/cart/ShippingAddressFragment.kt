@@ -20,7 +20,7 @@ import com.hn_2452.shoes_nike.databinding.FragmentListAddressBinding
 import com.hn_2452.shoes_nike.ultils.Status
 
 class ShippingAddressFragment: BaseFragment<FragmentListAddressBinding>() {
-    private var _mBinding: FragmentListAddressBinding? = null
+    override var _mBinding: FragmentListAddressBinding? = null
     val args by navArgs<ShippingAddressFragmentArgs>()
     protected val  binding  get() = _mBinding!!
     private val addressViewModel: AddressViewModel by lazy {

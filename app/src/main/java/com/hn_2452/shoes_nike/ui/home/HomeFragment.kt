@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hn_2452.shoes_nike.BaseFragment
+import com.hn_2452.shoes_nike.MainActivity
 import com.hn_2452.shoes_nike.databinding.FragmentHomeBinding
 import com.hn_2452.shoes_nike.di.LocalService
 import com.hn_2452.shoes_nike.ui.home.adapter.OfferAdapter
@@ -32,6 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as MainActivity).showBottomNav()
         setupShoesTypeList()
         setupPopularShoesList()
         setupOfferList()

@@ -25,7 +25,7 @@ import com.hn_2452.shoes_nike.databinding.FragmentConfirmCartBinding
 import com.hn_2452.shoes_nike.ultils.Status
 
 class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
-    private var _mBinding: FragmentConfirmCartBinding? = null
+    override var _mBinding: FragmentConfirmCartBinding? = null
     protected val  binding  get() = _mBinding!!
     private var cart =Cart()
     val args by navArgs<ConfirmCartFragmentArgs>()

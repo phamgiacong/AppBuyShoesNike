@@ -14,7 +14,7 @@ open class MainActivity : AppCompatActivity() {
 
     private var _mBinding: ActivityMainBinding? = null
     private val mBinding get() = _mBinding!!
-
+    private var isBottomNavHidden = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,21 @@ open class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _mBinding = null
+    }
+
+
+    fun hideBottomNav() {
+        if (!isBottomNavHidden) {
+            _mBinding?.bottomNav?.visibility = View.GONE
+            isBottomNavHidden = true
+        }
+    }
+
+    fun showBottomNav() {
+        if (isBottomNavHidden) {
+            _mBinding?.bottomNav?.visibility = View.VISIBLE
+            isBottomNavHidden = false
+        }
     }
 
 }

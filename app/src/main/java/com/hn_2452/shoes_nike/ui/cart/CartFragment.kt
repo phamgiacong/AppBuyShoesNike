@@ -24,7 +24,7 @@ import com.hn_2452.shoes_nike.databinding.FragmentMyCartBinding
 import com.hn_2452.shoes_nike.ultils.Status
 
 class CartFragment : BaseFragment<FragmentMyCartBinding>() {
-    private var _mBinding: FragmentMyCartBinding? = null
+    override var _mBinding: FragmentMyCartBinding? = null
     protected val  binding  get() = _mBinding!!
     private val    listIdShoesToCart=ArrayList<String>()
     private val shoesToCartViewModel: ShoesToCartViewModel by lazy{
