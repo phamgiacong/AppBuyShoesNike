@@ -1,4 +1,4 @@
-package com.hn_2452.shoes_nike.ui.home.notification
+package com.hn_2452.shoes_nike.ui.notification
 
 import android.os.Bundle
 import android.view.LayoutInflater

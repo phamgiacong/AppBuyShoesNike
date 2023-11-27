@@ -1,4 +1,4 @@
-package com.hn_2452.shoes_nike.ui.home
+package com.hn_2452.shoes_nike.ui.favorite
 
 import android.annotation.SuppressLint
 import coil.load
@@ -8,7 +8,6 @@ import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.Shoes
 import com.hn_2452.shoes_nike.databinding.LayoutShoesItemBinding
 import com.hn_2452.shoes_nike.utility.ViewBindingModel
-import com.hn_2452.shoes_nike.utility.toVND
 
 class ShoesAdapterController(private val onClick: (shoes: Shoes) -> Unit) : TypedEpoxyController<List<Shoes>>() {
     override fun buildModels(data: List<Shoes>?) {
@@ -31,8 +30,8 @@ class ShoesAdapterController(private val onClick: (shoes: Shoes) -> Unit) : Type
             imvShoesImage.load(BASE_URL + shoes.main_image)
             tvShoesName.text = shoes.name
             tvShoesRate.text = shoes.rate.toString()
-            tvShoesPrice.text = shoes.price.toLong().toVND()
-            tvShoesSold.text = "${shoes.sold} đã bán"
+            tvShoesPrice.text = shoes.price.toString()
+            tvShoesSold.text = "${shoes.sold} sold"
             root.setOnClickListener {
                 onClick(shoes)
             }

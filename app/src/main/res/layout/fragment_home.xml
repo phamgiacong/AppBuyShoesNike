@@ -68,16 +68,43 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include
+            <LinearLayout
                 android:id="@+id/search_bar"
-                layout="@layout/layout_search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="@dimen/horizontal_padding"
                 android:layout_marginVertical="@dimen/small_vertical_padding"
+                android:layout_marginTop="16dp"
+                android:background="@color/background_secondary_color"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_bar" />
+                app:layout_constraintTop_toBottomOf="@id/user_bar">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="12dp"
+                    android:src="@drawable/ic_search" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@null" />
+
+                <ImageView
+                    android:id="@+id/imvFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="12dp"
+                    android:src="@drawable/ic_filter" />
+
+
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/special_offer"

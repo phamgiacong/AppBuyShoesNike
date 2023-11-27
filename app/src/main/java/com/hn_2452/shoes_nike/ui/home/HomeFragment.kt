@@ -1,8 +1,10 @@
 package com.hn_2452.shoes_nike.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +37,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupPopularShoesList()
         setupOfferList()
         setupNavigateToNotificationScreen()
+        setupSearching()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupSearching() {
+        mBinding?.searchBar?.setOnClickListener {
+            mNavController?.navigate(R.id.searchFragment)
+        }
     }
 
     private fun setupNavigateToNotificationScreen() {
@@ -59,7 +69,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     Status.ERROR -> {
-
+                        Log.e(TAG, "setupOfferList: ${result.message}")
                     }
                 }
             }
@@ -69,17 +79,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun autoRunOfferBanner(size: Int) {
         val currentIndex = mBinding?.viewpagerOffer?.currentItem
         currentIndex?.let {
-            val index: Int? = if (currentIndex < size - 1) {
-                mBinding?.viewpagerOffer?.currentItem?.plus(1)
-            } else {
-                0
+            var index = 0
+            if (currentIndex < size - 1) {
+                index = mBinding?.viewpagerOffer?.currentItem?.plus(1) ?: 0
+            } else if (currentIndex >= size) {
+                index = 0
             }
-            index?.let {
-                mBinding?.viewpagerOffer?.setCurrentItem(index, false)
-                Handler(Looper.getMainLooper()).postDelayed({
-                    autoRunOfferBanner(size)
-                }, 4000L)
-            }
+
+            mBinding?.viewpagerOffer?.setCurrentItem(index, false)
+            Handler(Looper.getMainLooper()).postDelayed({
+                autoRunOfferBanner(size)
+            }, 3000L)
         }
 
     }
@@ -99,7 +109,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     Status.ERROR -> {
-
+                        Log.e(TAG, "setupShoesTypeList: ${result.message}")
                     }
                 }
             }
@@ -127,7 +137,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     Status.ERROR -> {
-
+                        Log.e(TAG, "setupPopularShoesList: ${result.message}")
                     }
                 }
             }

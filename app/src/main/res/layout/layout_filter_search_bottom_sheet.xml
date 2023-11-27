@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp">
+
+    <View
+        android:layout_width="60dp"
+        android:layout_height="3dp"
+        android:layout_gravity="center"
+        android:background="#E3E3E3" />
+
+    <TextView
+        style="@style/title_bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/sort_and_filter" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="#E3E3E3" />
+
+    <TextView
+        style="@style/medium_bold_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/category" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvShoesType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/layout_shoes_type_item" />
+
+    <TextView
+        style="@style/medium_bold_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/gender" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/gender_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_outline"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="8dp"
+            android:text="All"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/gender_men"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/bg_round_outline"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="8dp"
+            android:text="Men"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/gender_women"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/bg_round_outline"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="8dp"
+            android:text="Women"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/medium_bold_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/price_range" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/price_range"
+        style="@style/Myslider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stepSize="10000"
+        android:valueFrom="50000"
+        android:valueTo="10000000"
+        app:labelBehavior="visible"
+        app:thumbColor="@color/white"
+        app:thumbRadius="10dp"
+        app:thumbStrokeColor="@color/black"
+        app:thumbStrokeWidth="4dp"
+        app:tickVisible="true"
+        app:trackColorActive="@color/black"
+        app:trackColorInactive="#cdcdcd"
+        app:trackHeight="5dp"
+        app:values="@array/price" />
+
+    <TextView
+        style="@style/medium_bold_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/sort_by" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/sortPopular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_outline"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="@string/popular" />
+
+        <TextView
+            android:id="@+id/sortRecent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/bg_round_outline"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="@string/most_recent" />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/medium_bold_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/rating" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/layout_start_item" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="24dp"
+        android:background="#E3E3E3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#cdcdcd"
+            android:text="@string/reset"
+            android:textColor="#656565" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

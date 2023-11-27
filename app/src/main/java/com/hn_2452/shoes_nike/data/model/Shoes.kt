@@ -8,7 +8,7 @@ data class Shoes(
     var description: String,
     var price: Double,
     var type:String,
-    var rate:Int,
+    var rate: Float,
     var sold:Int,
     var available_sizes :List<Int>,
     var available_colors:List<String>,

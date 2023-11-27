@@ -24,6 +24,7 @@
         android:background="@null"
         android:importantForAutofill="no"
         android:inputType="text"
+        android:imeOptions="actionSearch"
         tools:ignore="LabelFor,RtlSymmetry" />
 
     <ImageView
