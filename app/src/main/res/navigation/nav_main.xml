@@ -126,7 +126,7 @@
     </fragment>
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.hn_2452.shoes_nike.ui.home.notification.NotificationFragment"
+        android:name="com.hn_2452.shoes_nike.ui.notification.NotificationFragment"
         android:label="NotificationFragment"
         tools:layout="@layout/fragment_notification" />
     <fragment
@@ -140,13 +140,23 @@
         android:label="OrderFragment"
         tools:layout="@layout/fragment_order" />
     <fragment
-        tools:layout="@layout/fragment_shoes"
         android:id="@+id/shoesFragment"
         android:name="com.hn_2452.shoes_nike.ui.home.shoes.ShoesFragment"
-        android:label="ShoesFragment" >
+        android:label="ShoesFragment"
+        tools:layout="@layout/fragment_shoes">
         <argument
             android:name="shoes_id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.hn_2452.shoes_nike.ui.searching.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_shoesFragment"
+            app:destination="@id/shoesFragment" />
+    </fragment>
+
 
 </navigation>

@@ -1,4 +1,4 @@
-package com.hn_2452.shoes_nike.ui.home
+package com.hn_2452.shoes_nike.ui.searching
 
 import android.annotation.SuppressLint
 import coil.load
@@ -9,15 +9,23 @@ import com.hn_2452.shoes_nike.data.model.Shoes
 import com.hn_2452.shoes_nike.databinding.LayoutShoesItemBinding
 import com.hn_2452.shoes_nike.utility.ViewBindingModel
 import com.hn_2452.shoes_nike.utility.toVND
+import javax.inject.Inject
 
-class ShoesAdapterController(private val onClick: (shoes: Shoes) -> Unit) : TypedEpoxyController<List<Shoes>>() {
+class ShoesAdapterController @Inject constructor() : TypedEpoxyController<List<Shoes>>() {
+
+    private var mOnClick: (shoes: Shoes) -> Unit = {}
+
+    fun setOnClick(onClick: (shoes: Shoes) -> Unit) {
+        mOnClick = onClick
+    }
+
     override fun buildModels(data: List<Shoes>?) {
         if (data.isNullOrEmpty()) {
             return
         }
 
         data.forEach { shoes ->
-            ShoesModel(shoes, onClick).id(shoes._id).addTo(this)
+            ShoesModel(shoes, mOnClick).id(shoes._id).addTo(this)
         }
     }
 

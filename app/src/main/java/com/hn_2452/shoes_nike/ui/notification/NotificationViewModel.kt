@@ -1,4 +1,4 @@
-package com.hn_2452.shoes_nike.ui.home.notification
+package com.hn_2452.shoes_nike.ui.notification
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

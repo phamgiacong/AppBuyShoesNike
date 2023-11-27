@@ -20,6 +20,7 @@
             android:name=".ui.welcome.WelcomeActivity"
             android:exported="false" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".MainActivity"
             android:exported="false" />
         <activity

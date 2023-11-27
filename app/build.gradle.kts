@@ -82,6 +82,15 @@ dependencies {
     // loading
     implementation("com.github.ybq:Android-SpinKit:1.2.0")
 
+    // room database
+    val room_version = "2.6.0"
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+
+    // flex box layout
+    implementation("com.google.android:flexbox:2.0.1")
+
 }
 
 // Allow references to generated code

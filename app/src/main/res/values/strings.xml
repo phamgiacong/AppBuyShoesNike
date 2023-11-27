@@ -1,26 +1,26 @@
 <resources>
     <string name="app_name">AppBuyShoesNike</string>
-    <string name="home">Home</string>
-    <string name="cart">Cart</string>
-    <string name="order">Order</string>
-    <string name="favorite">Favorite</string>
-    <string name="profile">Profile</string>
-    <string name="transaction_history">Transaction History</string>
-    <string name="see_all">See All</string>
+    <string name="home">Trang chủ</string>
+    <string name="cart">Giỏ hàng</string>
+    <string name="order">Đơn hàng</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="profile">Cá nhân</string>
+    <string name="transaction_history">Lịch sử giao dịch</string>
+    <string name="see_all">Xem tất cả</string>
     <string name="air_jordan_3_retro">Air Jordan 3 Retro</string>
     <string name="dec_15_2024">Dec 15, 2024</string>
     <string name="_10_am">10 AM</string>
     <string name="_105">$105</string>
-    <string name="orders">Order</string>
-    <string name="title_activity_account_setup">AccountSetupActivity</string>
+    <string name="orders">Đặt hàng</string>
+    <string name="title_activity_account_setup">Tạo tài khoản</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="previous">Previous</string>
+    <string name="previous">Về trước</string>
     <array name="gender">
-        <item>Gender</item>
-        <item>Male</item>
-        <item>Female</item>
+        <item>Tất cả</item>
+        <item>Nam</item>
+        <item>Nữ</item>
     </array>
 
     <string name="lorem_ipsum">
@@ -30,28 +30,49 @@
         litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
         diam, vel rutrum tellus vulputate quis.
     </string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ten_app">Shoea</string>
-    <string name="welcome_to">Welcome to</string>
-    <string name="get_started">Get Started</string>
-    <string name="text_welcome1">We provide high quality products just for you</string>
-    <string name="text_welcome2">Your satisfaction is our number one priority</string>
-    <string name="text_welcome3">Lets fulfill your fashion needs with Shoea right now!</string>
-    <string name="title_login">LOGIN TO YOUR ACCOUNT</string>
-    <string name="no_account">Dont have an account? </string>
-    <string name="button_signin">Sign in</string>
-    <string name="button_signup">Sign up</string>
-    <string name="continue_with">or continue with</string>
-    <string name="forgot_pass">Forgot the password?</string>
-    <string name="remember">Remember me</string>
+    <string name="welcome_to">Chào mừng tới</string>
+    <string name="get_started">Bắt đầu</string>
+    <string name="text_welcome1">Chúng tôi cung cấp sản phẩm tốt nhất cho bạn.</string>
+    <string name="text_welcome2">Sử thỏa mãn của bạn là ưu tiên số một của chúng tôi.</string>
+    <string name="text_welcome3">Hãy tạo nên thời trang của bạn với Shoea ngay nào!</string>
+    <string name="title_login">Đăng nhập</string>
+    <string name="no_account">Bạn chưa có tài khoản? </string>
+    <string name="button_signin">Đăng nhập</string>
+    <string name="button_signup">Đăng ký</string>
+    <string name="continue_with">hoặc tiếp tục với</string>
+    <string name="forgot_pass">Quên mật khẩu?</string>
+    <string name="remember">Nhớ tôi</string>
     <string name="txtemail">Email</string>
-    <string name="txtpass">Password</string>
-    <string name="title_create">CREATE YOUR ACCOUNT</string>
-    <string name="have_account">Already have an account? </string>
-    <string name="good_morning">Good Morning</string>
-    <string name="special_offers">Special Offers</string>
-    <string name="shoes_type">Shoes Types</string>
-    <string name="next">Next</string>
-    <string name="most_popular">Most Popular</string>
+    <string name="txtpass">Mật khẩu</string>
+    <string name="title_create">Tạo tài khoản</string>
+    <string name="have_account">Bạn đã có tài khoản? </string>
+    <string name="good_morning">Chào buổi sáng</string>
+    <string name="special_offers">Ưu đãi đặc biệt</string>
+    <string name="shoes_type">Loại giày</string>
+    <string name="next">Tiếp tục</string>
+    <string name="most_popular">Phổ biến</string>
+    <string name="recent">Gần đây</string>
+    <string name="category">Loại giày</string>
+    <string name="gender">Giới tính</string>
+    <string name="price_range">Khoảng giá</string>
+    <string name="sort_by">Sắp xếp</string>
+    <string name="most_recent">Gần đây</string>
+    <string name="rating">Đánh giá</string>
+    <string name="reset">Đặt lại</string>
+    <string name="apply">Áp dụng</string>
+    <string name="clear_all">Xóa tất cả</string>
+    <string name="result">Kết quả</string>
+    <string name="popular_sort_title">Sắp xếp: Phổ biến</string>
+    <string name="recent_sort_title">Sắp xếp: Gần đây</string>
+    <string name="popular">Phổ biến</string>
+    <string name="sort_and_filter">Sắp xếp và Bộ lọc</string>
+
+    <array name="price">
+        <item>50000</item>
+        <item>10000000</item>
+    </array>
 </resources>

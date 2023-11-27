@@ -1,5 +1,6 @@
 package com.hn_2452.shoes_nike.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -36,6 +37,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupPopularShoesList()
         setupOfferList()
         setupNavigateToNotificationScreen()
+        setupSearching()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupSearching() {
+        mBinding?.searchBar?.setOnClickListener {
+            mNavController?.navigate(R.id.searchFragment)
+        }
     }
 
     private fun setupNavigateToNotificationScreen() {
@@ -72,8 +81,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         currentIndex?.let {
             var index = 0
             if (currentIndex < size - 1) {
-                index = mBinding?.viewpagerOffer?.currentItem?.plus(1)?: 0
-            } else if(currentIndex >= size) {
+                index = mBinding?.viewpagerOffer?.currentItem?.plus(1) ?: 0
+            } else if (currentIndex >= size) {
                 index = 0
             }
 
@@ -100,7 +109,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     Status.ERROR -> {
-                        Log.e(TAG, "setupShoesTypeList: ${result.message}" )
+                        Log.e(TAG, "setupShoesTypeList: ${result.message}")
                     }
                 }
             }
