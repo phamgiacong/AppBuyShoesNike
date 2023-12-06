@@ -90,6 +90,8 @@ dependencies {
 
     // flex box layout
     implementation("com.google.android:flexbox:2.0.1")
+    //ggpay
+    implementation ("com.google.android.gms:play-services-wallet:19.2.1")
 
 }
 

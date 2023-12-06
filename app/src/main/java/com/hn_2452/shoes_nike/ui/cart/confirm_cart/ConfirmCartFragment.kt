@@ -14,6 +14,7 @@ import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.Address
 import com.hn_2452.shoes_nike.ui.cart.AddressViewModel
 import com.hn_2452.shoes_nike.data.model.Cart
+import com.hn_2452.shoes_nike.data.model.Shipping
 import com.hn_2452.shoes_nike.ui.cart.CartViewModel
 import com.hn_2452.shoes_nike.ui.cart.ShippingViewModel
 import com.hn_2452.shoes_nike.data.model.Shoes
@@ -22,13 +23,13 @@ import com.hn_2452.shoes_nike.ui.cart.ShoesToCartViewModel
 import com.hn_2452.shoes_nike.databinding.FragmentConfirmCartBinding
 import com.hn_2452.shoes_nike.ui.cart.ShoesViewModel
 import com.hn_2452.shoes_nike.utility.Status
+import java.util.Calendar
 
 class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
     private var _mBinding: FragmentConfirmCartBinding? = null
     protected val  binding  get() = _mBinding!!
-    private var cart = Cart()
+    private var cart1 = Cart()
     val args by navArgs<ConfirmCartFragmentArgs>()
-    private var discount:Double =0.0;
     private val shoesToCartViewModel: ShoesToCartViewModel by lazy{
         ViewModelProvider(this, ShoesToCartViewModel.ShoesToCartViewModelFactory(requireActivity().application))[
             ShoesToCartViewModel::class.java
@@ -74,31 +75,26 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var promo = args.promo
-
-        if(promo!=null){
-           discount=promo.discount
-        }
         binding.rcvShoesToCart.adapter=confirmShoesToCartApdater
         getShoesToCart()
         getIdCart("123")
         binding.btnEditAddress.setOnClickListener({
-            var b = Bundle().apply { putString("idCart",cart._id)}
+            var b = Bundle().apply { putString("idCart",cart1._id)}
             findNavController().navigate(R.id.shippingAddressFragment,b)
         })
         binding.btnChooseShipping.setOnClickListener({
-            var b = Bundle().apply { putString("idCart",cart._id)}
+            var b = Bundle().apply { putString("idCart",cart1._id)}
             findNavController().navigate(R.id.chooseShippingFragment,b)
         })
-        binding.btnAddPromo.setOnClickListener({
-            findNavController().navigate(R.id.promoFragment)
-        })
         binding.btnEditShipping.setOnClickListener({
-            var b = Bundle().apply { putString("idCart",cart._id)}
+            var b = Bundle().apply { putString("idCart",cart1._id)}
             findNavController().navigate(R.id.chooseShippingFragment,b)
         })
         binding.btnChooseAddress.setOnClickListener({
             findNavController().navigate(R.id.shippingAddressFragment)
+        })
+        binding.btnContinueToPay.setOnClickListener({
+            validateCart("123")
         })
     }
     private fun getDefaultAddress (){
@@ -107,7 +103,7 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
                 when(resoucce.status){
                     Status.SUCCESS ->{
                         resoucce.data?.let {
-                            addresses -> filterAddress(addresses)
+                                addresses -> filterAddress(addresses)
                         }
                     }
                     Status.ERROR ->{
@@ -131,11 +127,9 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
                         }
                     }
                     Status.ERROR ->{
-
                         Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING->{
-                        Log.e("TAG", "onViewCreated:4 ", )
                     }
                 }
             }
@@ -148,6 +142,8 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
         }
         for(i in addresses){
             if(i.default==true){
+                var cart = Cart(null,"",null,i?._id,"",0.0,null)
+                cart1._id?.let { updateAddressToCart(it,cart) }
                 binding.tvNameAddress.text=i.name
                 binding.tvAddress.text =i.address
                 binding.defaulted.visibility = View.VISIBLE
@@ -160,8 +156,8 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
                 when(resoucce.status){
                     Status.SUCCESS ->{
                         resoucce.data?.let {
-                         carts ->
-                            cart = carts.get(0)
+                                cart ->
+                            cart1 =cart
                             getAddress(cart.idAddress)
                             getShippingById(cart.idShipping)
                         }
@@ -184,12 +180,8 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
                     when(resoucce.status){
                         Status.SUCCESS ->{
                             resoucce.data?.let { shoes -> totalPrice = totalPrice+(shoes.price*i.quantity)
-                                    binding.tvAmount.text="$$totalPrice"
-                                    if(discount>0){
-                                        binding.layoutPromo.visibility=View.VISIBLE
-                                        binding.tvDiscount.text="-$${totalPrice*discount}"
-                                    }
-                                Log.e("TAG", "getTotalPrice: $totalPrice " )
+                                binding.tvAmount.text="$$totalPrice"
+                                shoesViewModel.getTotalPrice.value = totalPrice
                             }
                         }
                         Status.ERROR->{
@@ -200,10 +192,8 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
                 }
             })
         }
-
     }
     private var onClick:(ShoesToCart, Shoes) ->Unit= { shoesToCart: ShoesToCart, shoes: Shoes ->
-
     }
     private fun getAddress(id:String?){
         if(id!=null){
@@ -221,10 +211,9 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
                             }
                         }
                         Status.ERROR ->{
-                            Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
+                            getDefaultAddress()
                         }
                         Status.LOADING->{
-                            Log.e("TAG", "onViewCreated:4 ", )
                         }
                     }
                 }
@@ -240,24 +229,78 @@ class ConfirmCartFragment:BaseFragment<FragmentConfirmCartBinding>() {
                     when(resoucce.status){
                         Status.SUCCESS ->{
                             resoucce.data?.let {
-                                shipping ->
+                                    shipping ->
                                 binding.cavChooseShipping.visibility =View.GONE
                                 binding.cavItemShipping.visibility=View.VISIBLE
                                 binding.tvNameShipping.text=shipping.name
                                 binding.tvPriceShipping.text="$${shipping.price}"
                                 binding.priceShipping.text="$${shipping.price}"
+                                val calendar = Calendar.getInstance()
+                                val today = calendar.get(Calendar.DAY_OF_MONTH)
+                                val month = calendar.get(Calendar.MONTH)
+                                calendar.add(Calendar.DAY_OF_MONTH,shipping.days)
+                                val  receivedDay= calendar.get(Calendar.DAY_OF_MONTH)
+                                var receivedMonth = calendar.get(Calendar.MONTH)
+                                binding.tvTimeShipping.text ="Estimated arrival,$today/$month - $receivedDay/$receivedMonth"
+                                shoesViewModel.getTotalPrice.observe(viewLifecycleOwner,{
+                                    binding.tvTotal.text ="$${it+shipping.price!!}"
+                                    var cart = Cart(null,"",null,"","",it+shipping.price!!,null)
+                                    cart1._id?.let { it1 -> cartViewModel.udapteTotalPrice(it1,cart).observe(viewLifecycleOwner,{
+                                        Log.e("TAG", "update total price ", )
+                                    }) }
+                                })
                             }
                         }
                         Status.ERROR ->{
-                            Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
                         }
                         Status.LOADING->{
-                            Log.e("TAG", "onViewCreated:4 ", )
                         }
                     }
                 }
             })
         }
+    }
+    private fun updateAddressToCart(id:String, cart: Cart){
+        cartViewModel.updateAddress(id,cart).observe(viewLifecycleOwner,{
+            it?.let { resoucce ->
+                when(resoucce.status){
+                    Status.SUCCESS ->{
+                        findNavController().navigate(R.id.confirmCartFragment)
+                    }
+                    Status.ERROR ->{
+                        Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
+
+                    }
+                    Status.LOADING ->{
+
+                    }
+
+                }
+            }
+        })
+    }
+    private fun validateCart(idU:String){
+        cartViewModel.getCart(idU).observe(viewLifecycleOwner,{
+            it?.let { resource ->
+                when(resource.status){
+                    Status.SUCCESS ->{
+                        resource.data?.let { cart ->
+                            if(!cart.idShipping.equals("")&&!cart.idAddress.equals("")){
+                                findNavController().navigate(R.id.paymentFragment )
+                            }else{
+                                Toast.makeText(requireContext(),"Information is missing",Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }Status.LOADING ->{
+
+                }
+                    Status.ERROR ->{
+
+                    }
+                }
+            }
+        }
+        )
     }
 
 }

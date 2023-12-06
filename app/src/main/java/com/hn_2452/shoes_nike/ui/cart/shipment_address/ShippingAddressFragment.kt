@@ -62,8 +62,8 @@ class ShippingAddressFragment: BaseFragment<FragmentListAddressBinding>() {
         refreshData()
         binding.btnApply.setOnClickListener({
             var address: Address? = addressAdapter.getSelected()
-            var cart = Cart(null,"",null,"",address?._id,"",null)
-            updateAddressToCart(args.idCart,cart,address)
+            var cart = Cart(null,"",null,address?._id,"",0.0,null)
+            updateAddressToCart(args.idCart,cart)
 
         })
     }
@@ -98,13 +98,12 @@ class ShippingAddressFragment: BaseFragment<FragmentListAddressBinding>() {
         })
 
     }
-    private fun updateAddressToCart(id:String, cart: Cart, address: Address?){
+    private fun updateAddressToCart(id:String, cart: Cart){
         cartViewModel.updateAddress(id,cart).observe(viewLifecycleOwner,{
             it?.let { resoucce ->
                 when(resoucce.status){
                     Status.SUCCESS ->{
-                        var b = Bundle().apply { putSerializable("address",address) }
-                        findNavController().navigate(R.id.confirmCartFragment,b)
+                        findNavController().navigate(R.id.confirmCartFragment)
                     }
                     Status.ERROR ->{
                         Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()

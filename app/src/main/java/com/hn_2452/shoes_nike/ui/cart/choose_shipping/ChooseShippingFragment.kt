@@ -66,7 +66,7 @@ class ChooseShippingFragment :BaseFragment<FragmentChooseShippingBinding>() {
         refreshData()
         binding.btnApply.setOnClickListener({
             var shipping : Shipping? = shippingAdapter.getSelected()
-            var cart = Cart(null,"",null,"","",shipping?._id,null)
+            var cart = Cart(null,"",null,"",shipping?._id,0.0,null)
             updateShipping(args.idCart,cart,shipping)
 
         })

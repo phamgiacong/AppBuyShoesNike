@@ -31,4 +31,6 @@ class CartRepository(app:Application) {
     suspend fun getCart(idU: String)= NikeService.mCartApi.getCart(idU)
     suspend fun updateAddressToCart(id:String,cart: Cart) = NikeService.mCartApi.updateAddres(id,cart)
     suspend fun updateShippingToCart(id: String,cart: Cart)= NikeService.mCartApi.updateShipping(id,cart)
+    suspend fun updateTotalPrice(id: String,cart: Cart)= NikeService.mCartApi.updateTotalPrice(id,cart)
+    suspend fun deleteCart(id:String) = NikeService.mCartApi.deleteCart(id)
 }

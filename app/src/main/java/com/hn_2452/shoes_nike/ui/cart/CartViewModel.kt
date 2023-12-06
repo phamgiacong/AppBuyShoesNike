@@ -28,6 +28,14 @@ class CartViewModel(app:Application):ViewModel() {
             emit(Resource.error(null,ex.message?:"Error!!!"))
         }
     }
+    fun deleteCart(id:String) = liveData(Dispatchers.IO) {
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(cartRepository.deleteCart(id)))
+        }catch (ex:Exception){
+            emit(Resource.error(null,ex.message?:"Error!!!"))
+        }
+    }
     fun updateAddress(id:String,cart: Cart) = liveData(Dispatchers.IO){
         emit(Resource.loading(null))
         try {
@@ -45,6 +53,14 @@ class CartViewModel(app:Application):ViewModel() {
         }
     }
 
+    fun udapteTotalPrice(id:String,cart: Cart) = liveData(Dispatchers.IO){
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(cartRepository.updateTotalPrice(id, cart)))
+        }catch (ex:Exception){
+            emit(Resource.error(null,ex.message?:"Error!!!"))
+        }
+    }
     class CartViewModelFactory(private val app: Application): ViewModelProvider.Factory{
         override  fun <T:ViewModel> create(modelClass: Class<T>):T{
             if(modelClass.isAssignableFrom(CartViewModel::class.java)){
