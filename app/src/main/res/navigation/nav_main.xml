@@ -94,6 +94,9 @@
             android:defaultValue="@null"
             app:argType="com.hn_2452.shoes_nike.data.model.Address"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_confirmCartFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
 
     </fragment>
     <fragment
@@ -157,6 +160,10 @@
             android:id="@+id/action_searchFragment_to_shoesFragment"
             app:destination="@id/shoesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.hn_2452.shoes_nike.ui.cart.payment.PaymentFragment"
+        android:label="PaymentFragment" />
 
 
 </navigation>

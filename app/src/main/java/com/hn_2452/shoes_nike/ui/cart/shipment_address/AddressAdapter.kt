@@ -1,11 +1,15 @@
 package com.hn_2452.shoes_nike.ui.cart.shipment_address
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hn_2452.shoes_nike.data.model.Address
 import com.hn_2452.shoes_nike.databinding.ItemAddressBinding
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Calendar
 
 class AddressAdapter(
     private var onClick:(Address) ->Unit
@@ -26,6 +30,10 @@ class AddressAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemBindding.tvNameAddress.text = listAddress.get(position).name
         holder.itemBindding.tvAddress.text = listAddress.get(position).address
+        val time = Calendar.getInstance().time
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val current = formatter.format(time)
+        Log.e("TAG", "onBindViewHolder: $current", )
         if(listAddress.get(position).default==true){
             holder.itemBindding.defaulted.visibility = View.VISIBLE
         }

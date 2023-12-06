@@ -25,18 +25,18 @@ class CartFragment : BaseFragment<FragmentMyCartBinding>() {
     private val    listIdShoesToCart=ArrayList<String>()
     private val shoesToCartViewModel: ShoesToCartViewModel by lazy{
         ViewModelProvider(this, ShoesToCartViewModel.ShoesToCartViewModelFactory(requireActivity().application))[
-                ShoesToCartViewModel::class.java
+            ShoesToCartViewModel::class.java
         ]
     }
     private val shoesViewModel: ShoesViewModel by lazy {
         ViewModelProvider(this, ShoesViewModel.ShoesViewModelFactory(requireActivity().application))[
-                ShoesViewModel::class.java
+            ShoesViewModel::class.java
         ]
     }
     private val cartViewModel: CartViewModel by lazy {
         ViewModelProvider(this, CartViewModel.CartViewModelFactory(requireActivity().application))[
             CartViewModel::class.java
-                ]
+        ]
     }
     private val shoesToCartAdapter: ShoesToCartAdapter by lazy {
         ShoesToCartAdapter(onClick,shoesViewModel,viewLifecycleOwner,shoesToCartViewModel)
@@ -62,10 +62,15 @@ class CartFragment : BaseFragment<FragmentMyCartBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnCheckOut.setOnClickListener({
-            findNavController().navigate(R.id.confirmCartFragment)
-            var cart = Cart(null,"123",listIdShoesToCart,"","","",null)
-            Log.e("TAG", "onViewCreated: $cart ", )
-            createCart("123",cart)
+
+            if(listIdShoesToCart.size>0){
+                var cart = Cart(null,"123",listIdShoesToCart,"","",0.0,null)
+                Log.e("TAG", "onViewCreated: $cart", )
+                createCart("123",cart)
+            }else{
+                Toast.makeText(requireContext(),"Your cart is empty",Toast.LENGTH_LONG).show()
+            }
+
         })
         binding.rcvShoes.adapter = shoesToCartAdapter
         binding.swipeRefresh.setOnRefreshListener {
@@ -73,6 +78,9 @@ class CartFragment : BaseFragment<FragmentMyCartBinding>() {
             refreshData()
         }
         refreshData()
+        shoesViewModel.getTotalPrice.observe(viewLifecycleOwner,{
+            binding.tvPrice.text = "$$it"
+        })
 
     }
     public fun refreshData(){
@@ -82,12 +90,10 @@ class CartFragment : BaseFragment<FragmentMyCartBinding>() {
                     Status.SUCCESS ->{
                         binding.swipeRefresh.isRefreshing=false
                         resoucce.data?.let {
-                            shoesToCarts ->  shoesToCartAdapter.setShoesToCart(shoesToCarts)
-                                            getTotalPrice(shoesToCarts)
-                                            for (i in shoesToCarts){
-                                                Log.e("TAG", "refreshData:${i._id} ", )
-                                                listIdShoesToCart.add(i._id)
-                                            }
+                                shoesToCarts ->  shoesToCartAdapter.setShoesToCart(shoesToCarts)
+                            for (i in shoesToCarts){
+                                listIdShoesToCart.add(i._id)
+                            }
                         }
                     }
                     Status.ERROR ->{
@@ -95,7 +101,6 @@ class CartFragment : BaseFragment<FragmentMyCartBinding>() {
                         Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING->{
-                        Log.e("TAG", "onViewCreated:4 ", )
                         binding.swipeRefresh.isRefreshing=true
                     }
                 }
@@ -137,40 +142,20 @@ class CartFragment : BaseFragment<FragmentMyCartBinding>() {
         })
         dialog.show()
     }
-    private fun getTotalPrice(list:List<ShoesToCart>){
-        var totalPrice :Double =0.0
-        for(i in list){
-            shoesViewModel.getShoesById(i.idShoes).observe(viewLifecycleOwner,{
-                it?.let { resoucce ->
-                    when(resoucce.status){
-                        Status.SUCCESS ->{
-                            resoucce.data?.let { shoes -> totalPrice = totalPrice+(shoes.price*i.quantity)
-                                binding.tvPrice.text="$$totalPrice"
-                            }
-                        }
-                        Status.ERROR->{
-                            Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
-                            Log.e("TAG", "refreshData: ${it.message}", )
-                        }
-                        Status.LOADING->{
-                        }
-                    }
-                }
-            })
-        }
-
-    }
     private fun createCart(idU:String,cart: Cart){
         cartViewModel.postCart(idU,cart).observe(viewLifecycleOwner,{
             it?.let { resoucce ->
                 when(resoucce.status){
                     Status.SUCCESS ->{
-                        Toast.makeText(requireContext(),"Success",Toast.LENGTH_LONG).show()
-                        Log.e("TAG", "createCart:ok ", )
+                        resoucce.data?.let {
+                                cart ->
+                            Log.e("TAG", "createCart:ok $cart", )
+                            findNavController().navigate(R.id.confirmCartFragment)
+                        }
                     }
                     Status.ERROR->{
                         Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
-                        Log.e("TAG", "refreshData: ${it.message}", )
+                        Log.e("TAG", "error : ${it.message}", )
                     }
                     Status.LOADING->{
                     }

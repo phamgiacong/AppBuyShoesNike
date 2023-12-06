@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/foreign_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:wallet="http://schemas.android.com/apk/res-auto"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,19 +69,18 @@
         android:layout_marginTop="@dimen/dimen_8dp"
         android:layout_marginBottom="8dp"
         />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_address"
+    <com.google.android.gms.wallet.button.PayButton
+        android:id="@+id/ggpay_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        wallet:buttonTheme="dark"
+        wallet:cornerRadius="100dp"
+        android:layout_weight="0.5"
         android:layout_below="@id/tv_title"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/dimen_17dp"
-        android:layout_marginStart="@dimen/dimen_17dp"
-        android:layout_marginBottom="@dimen/dimen_120dp"
-
-
         />
+
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -90,6 +90,7 @@
         android:padding="@dimen/dimen_17dp"
         >
         <LinearLayout
+            android:id="@+id/confirm_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custtom_buttom_checkout"

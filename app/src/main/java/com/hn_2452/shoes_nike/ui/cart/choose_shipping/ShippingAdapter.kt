@@ -1,5 +1,6 @@
 package com.hn_2452.shoes_nike.ui.cart.choose_shipping
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CompoundButton
@@ -29,10 +30,14 @@ class ShippingAdapter (
                 onClick(listShipping.get(selected))
             }
         })
-        var calendar = Calendar.getInstance().time
+        val calendar = Calendar.getInstance()
+        val today = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+        calendar.add(Calendar.DAY_OF_MONTH,listShipping.get(position).days)
+        val  receivedDay= calendar.get(Calendar.DAY_OF_MONTH)
+        var receivedMonth = calendar.get(Calendar.MONTH)
+        holder.itemBindding.tvTime.text="Estimated arrival,$today/$month - $receivedDay/$receivedMonth"
 
-        var dateFormat= DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar)
-        holder.itemBindding.tvTime.text ="Estimated Arrival: ${dateFormat.substring(0,2)}"
     }
     public fun getSelected(): Shipping? {
         if(selected ==-1){

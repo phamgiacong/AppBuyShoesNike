@@ -227,19 +227,19 @@
                     android:layout_marginHorizontal="@dimen/dimen_17dp"
                     >
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardCornerRadius="50dp"
-                            app:cardBackgroundColor="@color/primary_color"
-                            >
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="50dp"
+                        app:cardBackgroundColor="@color/primary_color"
+                        >
 
-                            <ImageView
-                                android:layout_width="@dimen/dimen_30dp"
-                                android:layout_height="@dimen/dimen_30dp"
-                                android:layout_margin="5dp"
-                                android:src="@drawable/icon_location_20px" />
-                        </androidx.cardview.widget.CardView>
+                        <ImageView
+                            android:layout_width="@dimen/dimen_30dp"
+                            android:layout_height="@dimen/dimen_30dp"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/icon_location_20px" />
+                    </androidx.cardview.widget.CardView>
 
 
 
@@ -408,15 +408,15 @@
                         android:id="@+id/tvTimeShipping"
                         android:layout_width="240dp"
                         android:layout_height="wrap_content"
-                        android:text="61480 Sunbrook Park, PC 567"
+                        android:text="time"
                         android:textColor="@color/foreign_text_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.352"
+                        app:layout_constraintHorizontal_bias="0.2"
                         app:layout_constraintStart_toEndOf="@id/cavShipping"
                         app:layout_constraintTop_toBottomOf="@id/tvNameShipping"
-                        app:layout_constraintVertical_bias="1.0" />
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <ImageView
                         android:id="@+id/btnEditShipping"
@@ -459,50 +459,50 @@
                 android:background="#2C717171"
                 android:layout_marginBottom="@dimen/dimen_10dp"
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Promo Code"
-                android:textSize="15sp"
-                android:textColor="@color/primary_text_color"
-                android:textStyle="bold"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/custom_editext"
-                    android:padding="10dp"
-                    android:hint="Enter promo code"
-                    android:textSize="15sp"
-                    />
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btnAddPromo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/primary_text_color"
-                    app:cardCornerRadius="50dp"
-                    android:layout_marginLeft="@dimen/dimen_17dp"
-                    >
-                    <ImageView
-                        android:layout_width="@dimen/dimen_50dp"
-                        android:layout_height="@dimen/dimen_50dp"
-                        android:padding="@dimen/dimen_10dp"
-                        android:src="@drawable/icon_add_20px"
-                        app:tint ="@color/primary_background"
 
-                        >
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="24dp"-->
+            <!--                android:layout_marginBottom="@dimen/dimen_10dp"-->
+            <!--                android:text="Promo Code"-->
+            <!--                android:textColor="@color/primary_text_color"-->
+            <!--                android:textSize="15sp"-->
+            <!--                android:textStyle="bold" />-->
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                >-->
+            <!--                <EditText-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="50dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:background="@drawable/custom_editext"-->
+            <!--                    android:padding="10dp"-->
+            <!--                    android:hint="Enter promo code"-->
+            <!--                    android:textSize="15sp"-->
+            <!--                    />-->
+            <!--                <androidx.cardview.widget.CardView-->
+            <!--                    android:id="@+id/btnAddPromo"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    app:cardBackgroundColor="@color/primary_text_color"-->
+            <!--                    app:cardCornerRadius="50dp"-->
+            <!--                    android:layout_marginLeft="@dimen/dimen_17dp"-->
+            <!--                    >-->
+            <!--                    <ImageView-->
+            <!--                        android:layout_width="@dimen/dimen_50dp"-->
+            <!--                        android:layout_height="@dimen/dimen_50dp"-->
+            <!--                        android:padding="@dimen/dimen_10dp"-->
+            <!--                        android:src="@drawable/icon_add_20px"-->
+            <!--                        app:tint ="@color/primary_background"-->
 
-                    </ImageView>
-                </androidx.cardview.widget.CardView>
+            <!--                        >-->
 
-            </LinearLayout>
+            <!--                    </ImageView>-->
+            <!--                </androidx.cardview.widget.CardView>-->
+
+            <!--            </LinearLayout>-->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -510,6 +510,7 @@
                 app:cardCornerRadius="@dimen/dimen_30dp"
                 android:background="@color/primary_background"
                 android:layout_marginTop="@dimen/dimen_10dp"
+                android:layout_marginHorizontal="2dp"
                 android:layout_marginBottom="130dp"
                 >
                 <LinearLayout
@@ -607,6 +608,7 @@
 
                             />
                         <TextView
+                            android:id="@+id/tvTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
@@ -636,7 +638,7 @@
         >
 
         <LinearLayout
-
+            android:id="@+id/btnContinueToPay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custtom_buttom_checkout"

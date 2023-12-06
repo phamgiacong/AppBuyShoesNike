@@ -7,7 +7,8 @@ import kotlinx.parcelize.Parcelize
 data class Shipping(
     var _id:String,
     var name: String,
-    var price: Double?
+    var price: Double?,
+    var days:Int
 ):Parcelable{
 
 }

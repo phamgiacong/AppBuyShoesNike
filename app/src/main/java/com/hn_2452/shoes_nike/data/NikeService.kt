@@ -5,6 +5,7 @@ import com.hn_2452.shoes_nike.data.api.AddressApi
 import com.hn_2452.shoes_nike.data.api.CartApi
 import com.hn_2452.shoes_nike.data.api.OfferApi
 import com.hn_2452.shoes_nike.data.api.PromoApi
+import com.hn_2452.shoes_nike.data.api.ReceiptApi
 import com.hn_2452.shoes_nike.data.api.ShippingApi
 import com.hn_2452.shoes_nike.data.api.ShoesApi
 import com.hn_2452.shoes_nike.data.api.ShoesToCartApi
@@ -12,6 +13,7 @@ import com.hn_2452.shoes_nike.data.api.ShoesTypeApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 object NikeService {
@@ -34,6 +36,7 @@ object NikeService {
     val mCartApi: CartApi = mRetrofit.create(CartApi::class.java)
     val mShoesTypeApi: ShoesTypeApi = mRetrofit.create(ShoesTypeApi::class.java)
     val mOfferApi: OfferApi = mRetrofit.create(OfferApi::class.java)
+    val mReceiptApi:ReceiptApi = mRetrofit.create(ReceiptApi::class.java)
 }
 
 

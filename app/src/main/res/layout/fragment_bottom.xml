@@ -23,7 +23,7 @@
         android:textStyle="bold"
         android:textColor="@color/primary_color"
         android:layout_marginVertical="15dp"
-            
+
 
         />
     <View
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/primary_background"
-        app:cardElevation="@dimen/dimen_1dp"
+        app:cardElevation="@dimen/dimen_2dp"
         app:cardCornerRadius="@dimen/dimen_30dp"
         android:layout_marginVertical="@dimen/dimen_15dp"
         android:layout_marginHorizontal="@dimen/dimen_3dp"
@@ -129,14 +129,7 @@
                     android:layout_margin="@dimen/dimen_2dp"
                     >
                 </androidx.cardview.widget.CardView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Black"
-                    android:layout_marginLeft="@dimen/dimen_8dp"
-                    android:layout_marginRight="@dimen/dimen_5dp"
 
-                    />
 
                 <View
                     android:layout_width="1dp"
