@@ -9,7 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.data.model.Offer
 import com.hn_2452.shoes_nike.databinding.FragmentOfferDetailBinding
-import com.hn_2452.shoes_nike.utility.toTimeString
+import com.hn_2452.shoes_nike.utility.toDayString
 
 class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
     override fun getViewBinding(
@@ -31,7 +31,7 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
                 tvTitle.text = offer.title
                 tvSubtitle.text = offer.subTitle
                 tvDescription.text = offer.description
-                tvAppliedTime.text = "Apply from ${offer.startTime.toTimeString()} to ${offer.endTime.toTimeString()}"
+                tvAppliedTime.text = "Apply from ${offer.startTime.toDayString()} to ${offer.endTime.toDayString()}"
                 btnGetOffer.setOnClickListener {
                     // TODO(get offer)
                 }

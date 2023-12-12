@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.databinding.FragmentFavoriteBinding
-import com.hn_2452.shoes_nike.ui.home.HomeFragment
 import com.hn_2452.shoes_nike.ui.home.ShoesAdapterController
-import com.hn_2452.shoes_nike.utility.GridSpacingItemDecoration
 import com.hn_2452.shoes_nike.utility.Status
-import com.hn_2452.shoes_nike.utility.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,9 +34,6 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
         }
         mBinding?.rcvFavoriteShoes?.setController(controller)
-        mBinding?.rcvFavoriteShoes?.addItemDecoration(
-            GridSpacingItemDecoration(2, dpToPx(requireContext(), 17), false)
-        )
         mFavoriteViewModel.loadFavoriteShoesList().observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result.status) {

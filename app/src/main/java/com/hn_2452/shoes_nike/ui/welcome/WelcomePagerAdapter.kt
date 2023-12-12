@@ -3,10 +3,6 @@ package com.hn_2452.shoes_nike.ui.welcome
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.hn_2452.shoes_nike.ui.welcome.Welcome1Fragment
-import com.hn_2452.shoes_nike.ui.welcome.Welcome2Fragment
-import com.hn_2452.shoes_nike.ui.welcome.Welcome3Fragment
-import com.hn_2452.shoes_nike.ui.welcome.WelcomeFragment
 
 class WelcomePagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
@@ -20,7 +16,5 @@ class WelcomePagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         }
     }
 
-    override fun getCount(): Int {
-        return 4 // Số lượng trang trong ViewPager
-    }
+    override fun getCount() = 4
 }

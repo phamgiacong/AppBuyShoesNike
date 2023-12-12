@@ -5,6 +5,7 @@ plugins {
     id("androidx.navigation.safeargs")
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -51,6 +52,9 @@ dependencies {
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.6")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -70,6 +74,7 @@ dependencies {
     val retrofit = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofit")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit")
+    implementation("com.google.code.gson:gson:2.9.0")
     // Coil load image
     implementation("io.coil-kt:coil:2.4.0")
     // Hilt
@@ -90,6 +95,14 @@ dependencies {
 
     // flex box layout
     implementation("com.google.android:flexbox:2.0.1")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+
+    // Facebook SDK
+    implementation("com.facebook.android:facebook-android-sdk:[4,5)")
+
+    // Google Play Service
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
 }
 
