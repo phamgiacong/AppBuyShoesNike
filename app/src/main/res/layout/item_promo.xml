@@ -1,79 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/primary_background"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="30dp"
     android:layout_marginHorizontal="@dimen/dimen_3dp"
     android:layout_marginVertical="@dimen/dimen_10dp"
-    >
+    app:cardBackgroundColor="@color/primary_background"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="2dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_17dp"
-        >
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cavAddress"
+        android:layout_margin="12dp">
+
+        <TextView
+            android:id="@+id/tvSale"
+            style="@style/bold_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Giảm 15%"
+            app:layout_constraintEnd_toStartOf="@+id/line1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSaleMore"
+            style="@style/small_bold_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:singleLine="false"
+            android:text="Giảm tối đa 50.000đ cho đơn hàng từ 250.000đ"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/line1"
+            app:layout_constraintStart_toStartOf="@+id/tvSale"
+            app:layout_constraintTop_toBottomOf="@+id/tvSale" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/line1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/primary_color"
-            app:cardCornerRadius="@dimen/dimen_50dp"
-            app:cardElevation="@dimen/dimen_2dp"
-            app:contentPadding="13dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
-            <ImageView
-                android:layout_width="@dimen/dimen_30dp"
-                android:layout_height="@dimen/dimen_30dp"
-                android:src="@drawable/icon_promo" />
-        </androidx.cardview.widget.CardView>
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.41" />
+
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvDetail"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_32dp"
-            android:textSize="20sp"
-            android:textColor="@color/primary_text_color"
-            android:textStyle="bold"
-            android:text="Discount 30 % Off"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:padding="4dp"
+            android:text="@string/detail"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.18"
-            app:layout_constraintStart_toEndOf="@id/cavAddress"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/line1" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="250dp"
+            style="@style/small_bold_label"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="New user special promo"
-            android:textColor="@color/foreign_text_color"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:text="Lễ hội mùa đông"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.408"
-            app:layout_constraintStart_toEndOf="@id/cavAddress"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.888" />
+            app:layout_constraintStart_toStartOf="@+id/line1"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/radio"
-            android:layout_width="@dimen/dimen_30dp"
-            android:layout_height="@dimen/dimen_30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toEndOf="@id/cavAddress"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="visible"
-            android:buttonTint="@color/primary_color"
-            />
+        <TextView
+            android:id="@+id/tvExpired"
+            style="@style/small_bold_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:text="Hết hạn lúc 17 tháng 12 11:59 PM"
+            android:textStyle="italic|normal"
+            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+            app:layout_constraintStart_toStartOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

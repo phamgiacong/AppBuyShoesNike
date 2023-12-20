@@ -8,15 +8,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.github.ybq.android.spinkit.sprite.Sprite
-import com.github.ybq.android.spinkit.style.FadingCircle
 import com.hn_2452.shoes_nike.BaseFragment
-import com.hn_2452.shoes_nike.data.model.OrderDetail
 import com.hn_2452.shoes_nike.databinding.FragmentShoesBinding
 import com.hn_2452.shoes_nike.ui.home.shoes.shoes_image.ShoesImageAdapter
 import com.hn_2452.shoes_nike.utility.Status
@@ -32,6 +28,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
     }
 
     private val mShoesViewModel: ShoesViewModel by viewModels()
+
     private val mArgs: ShoesFragmentArgs by navArgs()
 
     @Inject
@@ -50,10 +47,17 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         startPlaceHolderLayout()
         setupLoading(mBinding?.loadingProgress)
         setupToolbar(mBinding?.toolBar)
-        setupBottomBar(false)
         setupShoesData(mArgs.shoesId)
         setupCurrentShoes()
         setupAddToFavorite()
+        setupBtnAddOrderDetailToCart()
+        setupBuyNow()
+    }
+
+    private fun setupBuyNow() {
+        mBinding?.btnBuyNow?.setOnClickListener {
+
+        }
     }
 
     private fun startPlaceHolderLayout() {
@@ -82,7 +86,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
             it?.let {
                 when (it.status) {
                     Status.LOADING -> {
-
+                        Log.i(TAG, "setupShoesData: loading...")
                     }
 
                     Status.SUCCESS -> {
@@ -90,9 +94,6 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                         shoes?.let {
                             mBinding?.run {
                                 mShoesViewModel.setCurrentShoes(it)
-                                mShoesViewModel.updateCurrentOrderDetail(
-                                    OrderDetail(shoesId = shoes._id)
-                                )
                                 stopPlaceHolderLayout()
                             }
 
@@ -122,7 +123,6 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                     setupSizeDataList()
                     setupColorDataList()
                     setupQuantity()
-                    setupBtnAddToCar()
                 }
             }
         }
@@ -145,14 +145,46 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         }
     }
 
-    private fun setupBtnAddToCar() {
+    private fun setupBtnAddOrderDetailToCart() {
         mBinding?.btnAddToCart?.setOnClickListener {
-            Log.i(TAG, "setupShoesData: " + mShoesViewModel.mCurrentOrderDetail.value.toString())
-            startLoading()
-            Thread.sleep(3000L)
-            Log.i(TAG, "push success")
-            stopLoading()
+            mShoesViewModel.addOrderDetail().observe(viewLifecycleOwner) { result ->
+                when(result?.status) {
+                    Status.LOADING -> {
+                        Log.i(TAG, "setupBtnAddToCar: loading...")
+                    }
+                    Status.SUCCESS -> {
+                        Toast.makeText(requireContext(), "Thêm sản phẩm vào giỏ thành công", Toast.LENGTH_SHORT).show()
+                        Log.i(TAG, "setupBtnAddToCar: success ${result.data}")
+                        resetShoes()
+                    }
+                    Status.ERROR -> {
+                        Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                        Log.e(TAG, "setupBtnAddToCar: ${result.message}")
+                    }
+                    null -> {
+                        Log.i(TAG, "setupBtnAddToCar: null")
+                    }
+                }
+            }
         }
+    }
+
+    private fun resetShoes() {
+        mBinding?.editQuantity?.text = "1"
+
+        val sizeDataList = mutableListOf<Pair<Int, Boolean>>()
+        mShoesViewModel.mCurrentShoes.value?.available_sizes?.forEach {
+            sizeDataList.add(Pair(it, false))
+        }
+        mSizeAdapter.setData(sizeDataList)
+        mShoesViewModel.mSelectedSize = -1
+
+        val colorDataList = mutableListOf<Pair<String, Boolean>>()
+        mShoesViewModel.mCurrentShoes.value?.available_colors?.forEach {
+            colorDataList.add(Pair(it, false))
+        }
+        mColorAdapter.setData(colorDataList)
+        mShoesViewModel.mSelectedColor = null
     }
 
     private fun setupQuantity() {
@@ -174,25 +206,10 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                     Toast.LENGTH_LONG
                 ).show()
             }
-
         }
-        mShoesViewModel.mCurrentShoes.observe(viewLifecycleOwner) { shoes ->
-            shoes?.let {
-                mBinding?.editQuantity?.doAfterTextChanged {
-                    Log.e("TAG", "setupShoesData: " + mBinding?.editQuantity?.text.toString())
-                    val numberOfShoes =
-                        Integer.parseInt(mBinding?.editQuantity?.text.toString())
-                    val totalPrice = numberOfShoes * shoes.price
-                    mBinding?.tvTotalPrice?.text = totalPrice.toString()
-                    mShoesViewModel.updateCurrentOrderDetail(
-                        mShoesViewModel.mCurrentOrderDetail.value?.apply {
-                            this.numberOfShoes = numberOfShoes
-                            this.totalPrice = totalPrice.toLong()
-                        }
-                    )
-                }
-                mBinding?.editQuantity?.text = "1"
-            }
+
+        mBinding?.editQuantity?.doAfterTextChanged {
+            mShoesViewModel.mSelectedNumber = it.toString().toInt()
         }
 
     }
@@ -201,11 +218,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         mShoesViewModel.mCurrentShoes.observe(viewLifecycleOwner) { shoes ->
             shoes?.let {
                 mColorAdapter.setOnClick { color ->
-                    mShoesViewModel.updateCurrentOrderDetail(
-                        mShoesViewModel.mCurrentOrderDetail.value?.copy(
-                            color = color
-                        )
-                    )
+                    mShoesViewModel.mSelectedColor = color
                     val updatedColorDataList = mutableListOf<Pair<String, Boolean>>()
                     shoes.available_colors.forEach {
                         if (color == it) {
@@ -231,25 +244,16 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         mShoesViewModel.mCurrentShoes.observe(viewLifecycleOwner) { shoes ->
 
             mSizeAdapter.setOnClickListener { size ->
-                mShoesViewModel.updateCurrentOrderDetail(
-                    mShoesViewModel.mCurrentOrderDetail.value?.apply {
-                        this.size = size
+                mShoesViewModel.mSelectedSize = size
+                val newSizeDataList = mutableListOf<Pair<Int, Boolean>>()
+                shoes.available_sizes.forEach {
+                    if (it == size) {
+                        newSizeDataList.add(Pair(it, true))
+                    } else {
+                        newSizeDataList.add(Pair(it, false))
                     }
-                )
-
-                mShoesViewModel.mCurrentShoes.value?.let { currentShoes ->
-                    val newSizeDataList = mutableListOf<Pair<Int, Boolean>>()
-
-                    currentShoes.available_sizes.forEach {
-                        if (it == size) {
-                            newSizeDataList.add(Pair(it, true))
-                        } else {
-                            newSizeDataList.add(Pair(it, false))
-                        }
-                    }
-                    mSizeAdapter.setData(newSizeDataList)
                 }
-
+                mSizeAdapter.setData(newSizeDataList)
             }
 
             val sizeDataList = mutableListOf<Pair<Int, Boolean>>()
@@ -260,12 +264,6 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
             mBinding?.rcvSize?.adapter = mSizeAdapter
         }
 
-    }
-
-
-    override fun onStop() {
-        super.onStop()
-        setupBottomBar(true)
     }
 
 

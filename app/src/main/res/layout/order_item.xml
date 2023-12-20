@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/dimen_3dp"
+    android:layout_marginVertical="@dimen/dimen_15dp"
+    android:visibility="visible"
+    app:cardBackgroundColor="@color/primary_background"
+    app:cardCornerRadius="@dimen/dimen_30dp"
+    app:cardElevation="@dimen/dimen_2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="8dp">
+
+        <LinearLayout
+            android:id="@+id/orderDetailContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include layout="@layout/sub_order_item" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvOrderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_round"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="4dp"
+            android:text="Đang đóng gói" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvTotalPrice"
+                style="@style/small_bold_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="Giá : 30000000Đ"
+                android:textAlignment="textStart" />
+
+            <TextView
+                android:id="@+id/tvDetail"
+                style="@style/small_bold_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="Xem chi tiết"
+                android:textAlignment="center"
+                android:textColor="@color/link_color"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

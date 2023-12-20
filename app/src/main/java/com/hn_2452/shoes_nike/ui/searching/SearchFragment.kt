@@ -69,7 +69,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBottomBar(false)
         setupSearching()
         setupRcvRecentSearching()
         setupRcvShoesList()
@@ -489,10 +488,5 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        setupBottomBar(true)
     }
 }

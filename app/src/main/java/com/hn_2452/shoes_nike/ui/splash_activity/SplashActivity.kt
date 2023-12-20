@@ -35,6 +35,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         val token = getStringDataByKey(this, TOKEN)
+        Log.i(TAG, "token: $token")
         if (token.isNotEmpty()) {
             mSplashActivityViewModel.autoLogin(token)
                 .observe(this@SplashActivity) { result ->

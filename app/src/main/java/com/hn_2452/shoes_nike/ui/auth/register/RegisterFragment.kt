@@ -35,7 +35,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBottomBar(false)
         setupLoading(mBinding?.loadingProgress)
         setupPolicy()
         setupBtnRegister()
@@ -110,7 +109,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     override fun onStop() {
         super.onStop()
-        setupBottomBar(true)
         mRegisterViewModel.mRegisterInfoInput = RegisterViewModel.RegisterInfoInput(
             mBinding?.edtEmail?.editText?.text.toString(),
             mBinding?.edtPassword?.editText?.text.toString(),

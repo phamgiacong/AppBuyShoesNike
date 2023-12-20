@@ -10,7 +10,7 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -220,49 +220,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvQuantityTitle" />
 
-            <TextView
-                android:id="@+id/tvTotalTitle"
-                style="@style/small_bold_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/horizontal_padding"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-thin"
-                android:text="Total price"
-                android:textColor="#AFAFAF"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
-
-            <TextView
-                android:id="@+id/tvTotalPrice"
-                style="@style/bold_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/horizontal_padding"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="20dp"
-                android:text="$150.00"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTotalTitle" />
 
             <Button
                 android:id="@+id/btnAddToCart"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/horizontal_padding"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"
                 android:backgroundTint="@color/black"
                 android:drawableStart="@drawable/ic_cart"
                 android:drawableTintMode="add"
                 android:elevation="4dp"
-                android:text="Add To Cart"
+                android:text="@string/add_to_cart"
                 app:drawableTint="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/tvTotalPrice"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnBuyNow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view" />
+
+            <Button
+                android:id="@+id/btnBuyNow"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:text="@string/buy_now"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvTotalPrice"
-                app:layout_constraintTop_toTopOf="@id/tvTotalTitle" />
+                app:layout_constraintStart_toEndOf="@+id/btnAddToCart"
+                app:layout_constraintTop_toTopOf="@+id/btnAddToCart" />
 
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -377,9 +362,9 @@
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/loadingProgress"
         style="@style/SpinKitView.Circle"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:visibility="gone"
         app:SpinKit_Color="@color/black" />
