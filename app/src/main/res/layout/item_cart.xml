@@ -53,6 +53,8 @@
             android:textColor="@color/primary_text_color"
             android:textSize="@dimen/dimen_20dp"
             android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.17"
@@ -81,42 +83,30 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.12"
-            app:layout_constraintStart_toEndOf="@+id/cavCart"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tvNameProduct"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.47"
-            >
+            app:layout_constraintVertical_bias="0.47">
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cavColor"
                 android:layout_width="@dimen/dimen_20dp"
                 android:layout_height="@dimen/dimen_20dp"
-                app:cardBackgroundColor="@color/background_silver"
-                app:cardCornerRadius="@dimen/dimen_100dp"
                 android:layout_margin="@dimen/dimen_2dp"
-                >
-            </androidx.cardview.widget.CardView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Black"
-                android:layout_marginLeft="@dimen/dimen_8dp"
-                android:layout_marginRight="@dimen/dimen_5dp"
-
-                />
+                app:cardBackgroundColor="@color/background_silver"
+                app:cardCornerRadius="@dimen/dimen_100dp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/foreign_text_color"
-                android:layout_margin="@dimen/dimen_3dp"
-                />
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/foreign_text_color" />
+
             <TextView
                 android:id="@+id/tvSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_5dp"
-                android:text="Size = 41"
-                />
+                android:text="Size = 41" />
 
 
         </LinearLayout>
@@ -132,7 +122,7 @@
             android:text="$105.00"
             android:textColor="@color/primary_text_color"
             android:textStyle="bold"
-            android:textSize="@dimen/dimen_21dp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.08"
@@ -174,7 +164,7 @@
                 </ImageView>
 
                 <TextView
-                    android:id="@+id/editQuantity"
+                    android:id="@+id/tvQuantity"
                     android:layout_width="19dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -193,30 +183,6 @@
             </LinearLayout>
 
 
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cavQuantity"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:cardCornerRadius="38dp"
-            app:cardBackgroundColor="@color/background_silver"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.807"
-            app:layout_constraintStart_toEndOf="@id/tvPriceProduct"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            android:layout_margin="2dp"
-            android:visibility="gone"
-            >
-            <TextView
-                android:id="@+id/tvQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:gravity="center"
-                android:text="1"
-                />
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

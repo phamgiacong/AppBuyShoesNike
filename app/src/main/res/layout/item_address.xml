@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/primary_background"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="30dp"
-    android:layout_marginVertical="@dimen/dimen_10dp"
     android:layout_marginHorizontal="@dimen/dimen_3dp"
-    >
+    android:layout_marginVertical="@dimen/dimen_10dp"
+    app:cardBackgroundColor="@color/primary_background"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="2dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_17dp"
-        android:layout_marginBottom="@dimen/dimen_17dp"
-        android:layout_marginLeft="@dimen/dimen_17dp"
-        android:layout_marginRight="@dimen/dimen_17dp"
-        >
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="16dp">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cavAddress"
             android:layout_width="wrap_content"
@@ -26,23 +24,20 @@
             app:cardElevation="@dimen/dimen_2dp"
             app:contentPadding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toTopOf="parent">
+
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="50dp"
                 app:cardBackgroundColor="@color/primary_color"
-                >
+                app:cardCornerRadius="50dp">
+
                 <ImageView
                     android:layout_width="@dimen/dimen_30dp"
                     android:layout_height="@dimen/dimen_30dp"
-                    android:src="@drawable/icon_location_20px"
                     android:layout_margin="5dp"
-                    />
+                    android:src="@drawable/icon_location_20px" />
             </androidx.cardview.widget.CardView>
 
 
@@ -50,82 +45,69 @@
 
         <TextView
             android:id="@+id/tvNameAddress"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="@dimen/dimen_32dp"
-            android:textSize="20dp"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:singleLine="true"
+            android:text="Nguyen Doan Hung"
             android:textColor="@color/primary_text_color"
+            android:textSize="16sp"
             android:textStyle="bold"
-
-            android:text="Home"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintEnd_toStartOf="@+id/tvPhoneNumber"
             app:layout_constraintStart_toEndOf="@id/cavAddress"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0" />
-        <androidx.cardview.widget.CardView
-            android:id="@+id/defaulted"
-            android:layout_width="wrap_content"
-            android:layout_height="22dp"
-            app:layout_constraintBottom_toTopOf="@id/tvAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.041"
-            app:layout_constraintStart_toEndOf="@id/tvNameAddress"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4"
-            android:backgroundTint="@color/background_silver"
-            app:cardCornerRadius="10dp"
-            android:visibility="gone"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Default"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:layout_marginVertical="3dp"
-                android:layout_marginHorizontal="5dp"
-                />
-
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
             android:id="@+id/tvAddress"
-            android:layout_width="240dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="61480 Sunbrook Park, PC 5678"
+            android:layout_marginTop="8dp"
+            android:text="xom 8, Xuan Tuong, Thanh Chuong, Nghe An"
             android:textColor="@color/foreign_text_color"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvPhoneNumber"
             app:layout_constraintHorizontal_bias="0.28"
-            app:layout_constraintStart_toEndOf="@id/cavAddress"
-            app:layout_constraintTop_toBottomOf="@id/tvNameAddress"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="@+id/tvNameAddress"
+            app:layout_constraintTop_toBottomOf="@id/tvNameAddress" />
+
+        <TextView
+            android:id="@+id/tvPhoneNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="0868358175"
+            android:textColor="#8C8C8C"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNameAddress"
+            app:layout_constraintEnd_toStartOf="@+id/imvEdit"
+            app:layout_constraintStart_toEndOf="@+id/tvNameAddress"
+            app:layout_constraintTop_toTopOf="@+id/tvNameAddress" />
+
+        <TextView
+            android:id="@+id/tvMore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Nhà riêng - Mặc định"
+            android:textColor="@color/foreign_text_color"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="@+id/tvAddress"
+            app:layout_constraintStart_toStartOf="@+id/tvAddress"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
 
         <ImageView
-            android:layout_width="@dimen/dimen_20dp"
-            android:layout_height="@dimen/dimen_20dp"
+            android:id="@+id/imvEdit"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/icon_edit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.98"
-            app:layout_constraintStart_toEndOf="@id/cavAddress"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
-            />
-        <RadioButton
-            android:id="@+id/radiobtn"
-            android:layout_width="@dimen/dimen_30dp"
-            android:layout_height="@dimen/dimen_30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toEndOf="@id/cavAddress"
-            app:layout_constraintTop_toTopOf="parent"
-            android:buttonTint="@color/primary_color"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

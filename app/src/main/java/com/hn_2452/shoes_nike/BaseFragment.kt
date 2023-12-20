@@ -35,6 +35,16 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         return mBinding?.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupBottomBar(false)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        setupBottomBar(true)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _mBinding = null
@@ -42,7 +52,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     }
     fun setupToolbar(toolbar: MaterialToolbar?) {
         toolbar?.setNavigationOnClickListener {
-            mNavController?.navigateUp()
+            mNavController?.popBackStack()
         }
     }
 

@@ -17,19 +17,11 @@ data class Offer(
     val startTime: Long,
     @SerializedName("end_time")
     val endTime: Long,
-    @SerializedName("applied_product_type")
-    val appliedProductType: Int,  // 1: Shoes, 2: Shoes type
-    @SerializedName("applied_shoes")
-    val appliedShoes: List<String> = emptyList(),
-    @SerializedName("applied_shoes_type")
-    val appliedShoesType: List<String> = emptyList(),
-    @SerializedName("applied_user_type")
-    val appliedUserType: List<Int>, //0:All, 1: New, 2: Silver, 3: Golden, 4: Diamond
     val image: String,
     val title: String,
-    @SerializedName("sub_title")
-    val subTitle: String,
     val description: String,
-    @SerializedName("background_image")
-    val imageBackground: String,
-) : Parcelable, Serializable
+    @SerializedName("max_value")
+    val maxDiscount: Long,
+    @SerializedName("value_to_apply")
+    val valueToApply: Long,
+) : Parcelable

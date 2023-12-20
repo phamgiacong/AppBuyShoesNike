@@ -17,12 +17,6 @@ class PolicyFragment: BaseFragment<FragmentPolicyBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar(mBinding?.toolBar)
-        setupBottomBar(false)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        setupBottomBar(true)
     }
 
 }

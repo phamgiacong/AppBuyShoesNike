@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/dimen_17dp">
 
         <ImageView
-            android:id="@+id/img_logo"
+            android:id="@+id/imv_navigation_icon"
             android:layout_width="@dimen/dimen_30dp"
             android:layout_height="@dimen/dimen_30dp"
             android:src="@drawable/icon_arrow_back_20px"
@@ -38,7 +38,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@id/img_logo"
+            app:layout_constraintStart_toEndOf="@id/imv_navigation_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5" />
 

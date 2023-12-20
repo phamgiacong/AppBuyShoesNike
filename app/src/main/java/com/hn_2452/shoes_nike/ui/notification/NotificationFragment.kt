@@ -19,7 +19,6 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBottomBar(false)
         setupToolbar(mBinding?.toolbar)
         setupNotificationList()
     }
@@ -46,11 +45,6 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
                 }
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        setupBottomBar(true)
     }
 
 }

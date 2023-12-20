@@ -30,6 +30,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupBottomBar(true)
+
         mBinding?.editProfile?.setOnClickListener {
             mNavController?.navigate(R.id.changeInfoFragment)
         }
@@ -106,6 +108,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        setupBottomBar(false)
     }
 
 }
