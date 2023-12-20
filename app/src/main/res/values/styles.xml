@@ -55,4 +55,20 @@
         <item name="labelStyle">@style/My_Tooltip</item>
     </style>
 
+    <style name="AppSmallTextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="AppPasswordEdittext">
+        <item name="android:singleLine">true</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="AppBoldTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

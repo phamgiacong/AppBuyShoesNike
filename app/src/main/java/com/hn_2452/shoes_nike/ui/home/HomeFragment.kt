@@ -9,13 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import coil.load
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentHomeBinding
 import com.hn_2452.shoes_nike.ui.home.offer.OfferAdapter
-import com.hn_2452.shoes_nike.utility.GridSpacingItemDecoration
 import com.hn_2452.shoes_nike.utility.Status
-import com.hn_2452.shoes_nike.utility.dpToPx
+import com.hn_2452.shoes_nike.utility.getTimeOfDay
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +38,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupOfferList()
         setupNavigateToNotificationScreen()
         setupSearching()
+        setupLogin()
+        updateUserInfo()
+    }
+
+    private fun setupLogin() {
+        mBinding?.imvUser?.setOnClickListener {
+            mNavController?.navigate(R.id.loginFragment)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -122,9 +130,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             mNavController?.navigate(action)
         }
         mBinding?.rcvPopularShoes?.setController(controller)
-        mBinding?.rcvPopularShoes?.addItemDecoration(
-            GridSpacingItemDecoration(2, dpToPx(requireContext(), 17), false)
-        )
         mHomeViewModel.getPopularShoes().observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result.status) {
@@ -140,6 +145,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         Log.e(TAG, "setupPopularShoesList: ${result.message}")
                     }
                 }
+            }
+        }
+    }
+
+    private fun updateUserInfo() {
+        mBinding?.userBar?.visibility = View.GONE
+        mHomeViewModel.mUsers.observe(viewLifecycleOwner) { users ->
+            if(users != null && users.isNotEmpty()) {
+                mBinding?.imvUser?.load(users[0].avatar) {
+                    error(R.drawable.ic_launcher_background)
+                }
+                mBinding?.tvUserName?.text = users[0].name
+                mBinding?.tvHello?.text = getTimeOfDay()
+                mBinding?.userBar?.visibility = View.VISIBLE
+            } else {
+                Log.i(TAG, "updateUserInfo: user is null")
+                mBinding?.userBar?.visibility = View.GONE
             }
         }
     }

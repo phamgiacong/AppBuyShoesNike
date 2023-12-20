@@ -2,6 +2,7 @@ package com.hn_2452.shoes_nike.data
 
 import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.data.api.AddressApi
+import com.hn_2452.shoes_nike.data.api.AuthApi
 import com.hn_2452.shoes_nike.data.api.CartApi
 import com.hn_2452.shoes_nike.data.api.OfferApi
 import com.hn_2452.shoes_nike.data.api.PromoApi
@@ -34,6 +35,7 @@ object NikeService {
     val mCartApi: CartApi = mRetrofit.create(CartApi::class.java)
     val mShoesTypeApi: ShoesTypeApi = mRetrofit.create(ShoesTypeApi::class.java)
     val mOfferApi: OfferApi = mRetrofit.create(OfferApi::class.java)
+    val mAuthApi: AuthApi = mRetrofit.create(AuthApi::class.java)
 }
 
 

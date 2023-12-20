@@ -157,6 +157,59 @@
             android:id="@+id/action_searchFragment_to_shoesFragment"
             app:destination="@id/shoesFragment" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_login"
+        android:id="@+id/loginFragment"
+        android:name="com.hn_2452.shoes_nike.ui.auth.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        tools:layout="@layout/fragment_register"
+        android:id="@+id/registerFragment"
+        android:name="com.hn_2452.shoes_nike.ui.auth.register.RegisterFragment"
+        android:label="RegisterFragment" />
+    <fragment
+        tools:layout="@layout/fragment_policy"
+        android:id="@+id/policyFragment"
+        android:name="com.hn_2452.shoes_nike.ui.auth.PolicyFragment"
+        android:label="PolicyFragment" />
+    <fragment
+        tools:layout="@layout/fragment_verify_register"
+        android:id="@+id/verifyRegisterFragment"
+        android:name="com.hn_2452.shoes_nike.ui.auth.register.VerifyRegisterFragment"
+        android:label="VerifyRegisterFragment" >
+        <action
+            android:id="@+id/action_verifyRegisterFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetAccountFragment"
+        android:name="com.hn_2452.shoes_nike.ui.auth.forget_account.ForgetAccountFragment"
+        android:label="ForgetAccountFragment" />
+    <fragment
+        android:id="@+id/changeInfoFragment"
+        android:name="com.hn_2452.shoes_nike.ui.profile.change_info.ChangeInfoFragment"
+        android:label="fragment_change_info"
+        tools:layout="@layout/fragment_change_info" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.hn_2452.shoes_nike.ui.profile.change_password.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" />
+    <fragment
+        android:id="@+id/manageAddressFragment"
+        android:name="com.hn_2452.shoes_nike.ui.profile.manage_address.ManageAddressFragment"
+        android:label="ManageAddressFragment" />
+    <fragment
+        android:id="@+id/manageNotificationFragment"
+        android:name="com.hn_2452.shoes_nike.ui.profile.manage_notification.ManageNotificationFragment"
+        android:label="fragment_manage_notification"
+        tools:layout="@layout/fragment_manage_notification" />
+    <fragment
+        android:id="@+id/managePaymentFragment"
+        android:name="com.hn_2452.shoes_nike.ui.profile.manage_payment.ManagePaymentFragment"
+        android:label="fragment_manage_payment"
+        tools:layout="@layout/fragment_manage_payment" />
 
 
 </navigation>

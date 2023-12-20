@@ -68,19 +68,6 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         mBinding?.placeHolderLayout?.stopShimmerAnimation()
     }
 
-    private fun startProcessBar() {
-        mBinding?.loadingProgress?.visibility = View.VISIBLE
-    }
-
-    private fun stopProcessBar() {
-        mBinding?.loadingProgress?.visibility = View.GONE
-    }
-
-
-    private fun setupLoading(progressBar: ProgressBar?) {
-        val doubleBounce: Sprite = FadingCircle()
-        progressBar?.indeterminateDrawable = doubleBounce
-    }
 
     private fun setupAddToFavorite() {
         mBinding?.imvFavorite?.setOnClickListener {
@@ -161,10 +148,10 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
     private fun setupBtnAddToCar() {
         mBinding?.btnAddToCart?.setOnClickListener {
             Log.i(TAG, "setupShoesData: " + mShoesViewModel.mCurrentOrderDetail.value.toString())
-            startProcessBar()
+            startLoading()
             Thread.sleep(3000L)
             Log.i(TAG, "push success")
-            stopProcessBar()
+            stopLoading()
         }
     }
 

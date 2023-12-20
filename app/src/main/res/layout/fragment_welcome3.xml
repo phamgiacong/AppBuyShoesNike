@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/get_started"
+        android:backgroundTint="@color/black"
         android:onClick="getStarted"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/margin_bottom"/>

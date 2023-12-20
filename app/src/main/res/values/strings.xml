@@ -70,9 +70,36 @@
     <string name="recent_sort_title">Sắp xếp: Gần đây</string>
     <string name="popular">Phổ biến</string>
     <string name="sort_and_filter">Sắp xếp và Bộ lọc</string>
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
+    <string name="for_get_password">Quên mật khẩu?</string>
+    <string name="sign_in_with">Đăng nhập với</string>
+    <string name="have_not_account">Bạn chưa có tài khoản?</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="sign_in">Đăng nhập</string>
+    <string name="password">Nhập mật khẩu</string>
+    <string name="user_name">Nhập tên đăng nhập</string>
+    <string name="email">Nhập email</string>
+    <string name="confirm_password">Nhập lại mật khẩu</string>
+    <string name="policy">Để đăng ký bạn cần chấp nhận điều khoản của chúng tôi</string>
+    <string name="sign_up_cap">Đăng ký</string>
 
     <array name="price">
         <item>50000</item>
         <item>10000000</item>
     </array>
+
+    <string name="facebook_app_id">323475530544352</string>
+    <string name="fb_login_protocol_scheme">fb323475530544352</string>
+    <string name="facebook_client_token">fe12091d22e29620a1509a9219f797b2</string>
+    <string name="policy_title">Điều khoản</string>
+    <string name="forget_account">Quên tài khoản</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="code">Nhập mã để đăng ký</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="continue_">Tiếp tục</string>
+    <string name="auth_code">Nhập mã để xác nhận</string>
+    <string name="new_password">Nhập mật khẩu mới</string>
+    <string name="re_new_password">Nhập lại mật khẩu mới</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="enter_current_password">Nhập mật khẩu hiện tại</string>
 </resources>
