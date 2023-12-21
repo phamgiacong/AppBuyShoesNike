@@ -3,6 +3,7 @@ package com.hn_2452.shoes_nike.ui.cart
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,6 +12,8 @@ import coil.load
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.OrderDetail
 import com.hn_2452.shoes_nike.databinding.ItemCartBinding
+import com.hn_2452.shoes_nike.utility.getOriginPrice
+import com.hn_2452.shoes_nike.utility.getPrice
 import com.hn_2452.shoes_nike.utility.toVND
 import javax.inject.Inject
 
@@ -61,7 +64,13 @@ class CartItemAdapterHolder(
             }
 
             tvNameProduct.text = cartItem.shoes.name
-            tvPriceProduct.text = cartItem.shoes.price.toLong().toVND()
+            tvPriceProduct.text = getPrice(cartItem.shoes)
+            if(cartItem.shoes.discount > 0) {
+                tvOriginPrice.visibility = View.VISIBLE
+                tvOriginPrice.text = getOriginPrice(cartItem.shoes)
+            } else {
+                tvOriginPrice.visibility = View.GONE
+            }
             tvSize.text = "Cỡ: ${cartItem.size}"
             tvQuantity.text = cartItem.quantity.toString()
             cavColor.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor(cartItem.color)))

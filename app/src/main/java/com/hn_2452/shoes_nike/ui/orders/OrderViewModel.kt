@@ -13,10 +13,10 @@ class OrderViewModel @Inject constructor(
     private val mOrderRepository: OrderRepository
 ) : ViewModel() {
 
-    fun getOrderOfUser() = liveData(Dispatchers.IO) {
+    fun getOrderOfUser(active: Boolean) = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {
-            emit(mOrderRepository.getOrderOfUser())
+            emit(mOrderRepository.getOrderOfUser(active))
         } catch (ex: Exception) {
             emit(Resource.error(message =  ex.message!!))
         }

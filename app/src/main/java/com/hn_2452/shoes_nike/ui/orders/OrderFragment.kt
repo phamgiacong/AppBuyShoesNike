@@ -2,6 +2,7 @@ package com.hn_2452.shoes_nike.ui.orders
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
     companion object {
         const val ACTIVE = 0
         const val COMPLETE = 1
+        const val TAG = "Nike:OrderFragment: "
     }
 
     private var mCurrentStateOrder = ACTIVE
@@ -48,8 +50,13 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
 
         }
         mBinding?.rcvCartItem?.adapter = mOrderItemAdapter
+        loadOrderOfUser(true)
+    }
+
+    private fun loadOrderOfUser(active: Boolean) {
+        Log.i(TAG, "loadOrderOfUser: active = $active")
         handleResource(
-            data = mOrderViewModel.getOrderOfUser(),
+            data = mOrderViewModel.getOrderOfUser(active),
             lifecycleOwner = viewLifecycleOwner,
             context = requireContext(),
             isErrorInform = true,
@@ -57,7 +64,6 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
                 mOrderItemAdapter.submitList(orders)
             }
         )
-
     }
 
     private fun setupIndicator() {
@@ -78,9 +84,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
                 completeLayoutParams.height = dpToPx(requireContext(), 2)
                 completeLayoutParams.setMargins(0, dpToPx(requireContext(), 9), 0, 0)
                 mBinding?.lineComplete?.requestLayout()
-
-
-
+                loadOrderOfUser(true)
             }
         }
 
@@ -100,7 +104,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
                 completeLayoutParams.height = dpToPx(requireContext(), 4)
                 completeLayoutParams.setMargins(0, dpToPx(requireContext(), 8), 0, 0)
                 mBinding?.lineComplete?.requestLayout()
-
+                loadOrderOfUser(false)
             }
 
         }

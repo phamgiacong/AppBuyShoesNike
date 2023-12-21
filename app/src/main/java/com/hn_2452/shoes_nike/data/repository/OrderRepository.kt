@@ -10,6 +10,7 @@ import com.hn_2452.shoes_nike.utility.getStringDataByKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.http.Field
 import javax.inject.Inject
 
 class OrderRepository @Inject constructor(
@@ -19,7 +20,7 @@ class OrderRepository @Inject constructor(
 
     suspend fun createNewOrder(
         address: String,
-        offer: String,
+        offer: String?,
         orderDetails: List<String>,
         paymentMethod: Int,
         totalPrice: Long,
@@ -46,13 +47,48 @@ class OrderRepository @Inject constructor(
         }
     }
 
-    suspend fun getOrderOfUser() = withContext(Dispatchers.IO) {
+    suspend fun createNewOrderByRawData(
+        address: String,
+        offer: String?,
+        paymentMethod: Int,
+        totalPrice: Long,
+        sale: Long,
+        shoesId: String,
+        quantity: Int,
+        size: Int,
+        color: String
+    ) : Resource<Boolean> = withContext(Dispatchers.IO) {
+        val token = getStringDataByKey(mApp, TOKEN)
+        if (token.isEmpty()) {
+            return@withContext Resource.error(data = null, message = "Invalidate token")
+        }
+
+        val response = NikeService.mOrderApi.createNewOrderByRawData(
+            TOKEN_METHOD + token,
+            address,
+            offer,
+            paymentMethod,
+            totalPrice,
+            sale,
+            shoesId,
+            quantity,
+            size,
+            color
+        )
+        if (response.success) {
+            Resource.success(true)
+        } else {
+            Resource.error(message = response.message)
+        }
+    }
+
+    suspend fun getOrderOfUser(active: Boolean) = withContext(Dispatchers.IO) {
         val token = getStringDataByKey(mApp, TOKEN)
         if (token.isEmpty()) {
             return@withContext Resource.error(message = "Invalidate token")
         }
 
-        val response = NikeService.mOrderApi.getOrderOfUser(TOKEN_METHOD + token)
+        val response = NikeService.mOrderApi.getOrderOfUser(TOKEN_METHOD + token, active)
         if (response.success) {
             Resource.success(response.data)
         } else {

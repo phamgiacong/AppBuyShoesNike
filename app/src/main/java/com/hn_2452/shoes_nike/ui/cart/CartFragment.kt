@@ -3,6 +3,7 @@ package com.hn_2452.shoes_nike.ui.cart
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
         mCartViewModel.mCurrentUser.observe(viewLifecycleOwner) {
             if(it != null && it.isNotEmpty()) {
                 mBinding?.layoutNeedLogin?.visibility = View.GONE
-                mBinding?.mainLayout?.visibility = View.VISIBLE
                 setupCartOfUser()
                 setupCheckout()
             } else {
@@ -75,7 +75,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
         mCartItemAdapter.mOnSelectItem = { shoesId -> viewShoes(shoesId) }
         mCartItemAdapter.mOnDeleteItem = { cartItem -> deleteCartItem(cartItem) }
         mCartItemAdapter.mOnIncreaseQuantity =
-            { cartItemId, updatedQuantity -> increaseQuantity(cartItemId, updatedQuantity) }
+            { cartItemId, updatedQuantity ->  increaseQuantity(cartItemId, updatedQuantity) }
         mCartItemAdapter.mOnReduceQuantity =
             { cartItemId, reducedQuantity -> reduceQuantity(cartItemId, reducedQuantity) }
         mBinding?.rcvCartItem?.adapter = mCartItemAdapter
@@ -83,6 +83,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
     }
 
     private fun loadCartOfUser() {
+        Log.i(TAG, "loadCartOfUser: ")
         handleResource(
             data = mCartViewModel.getCartOfUser(),
             lifecycleOwner = viewLifecycleOwner,
@@ -91,9 +92,20 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
             onError = { stopLoading() },
             onSuccess = { cartItemList ->
                 stopLoading()
-                mCartViewModel.mAvailableToCheckout = cartItemList?.isNotEmpty() ?: false
-                mCartItemAdapter.submitList(cartItemList ?: emptyList())
-                updateTotalPrice(cartItemList)
+                if(cartItemList.isNullOrEmpty()) {
+                    mBinding?.mainLayout?.visibility = View.GONE
+                    mBinding?.noneItem?.visibility = View.VISIBLE
+                } else {
+                    if(mBinding?.noneItem?.visibility == View.VISIBLE) {
+                        mBinding?.noneItem?.visibility = View.GONE
+                    }
+                    if(mBinding?.mainLayout?.visibility == View.GONE) {
+                        mBinding?.mainLayout?.visibility = View.VISIBLE
+                    }
+                    mCartViewModel.mAvailableToCheckout = cartItemList.isNotEmpty()
+                    mCartItemAdapter.submitList(cartItemList)
+                    updateTotalPrice(cartItemList)
+                }
             },
             context = requireContext()
         )
@@ -161,6 +173,9 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
     }
 
     private fun reduceQuantity(cartItemId: String, reducedQuantity: Int): Boolean {
+        if(reducedQuantity < 1) {
+            return false
+        }
         handleResource(
             data = mCartViewModel.updateCartItem(cartItemId, reducedQuantity),
             lifecycleOwner = viewLifecycleOwner,

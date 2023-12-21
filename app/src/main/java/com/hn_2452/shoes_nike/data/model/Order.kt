@@ -9,7 +9,7 @@ data class Order(
     val userId: String,
     @SerializedName("order_details")
     val orderDetails: List<OrderDetail>,
-    val address: Address,
+    val address: Address?,
     val offer: Offer?,
     @SerializedName("order_date")
     val orderDate: Long,

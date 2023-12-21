@@ -7,7 +7,7 @@ data class Shoes(
     var _id:String,
     var name:String,
     var description: String,
-    var price: Double,
+    var price: Long,
     var type:String,
     var rate: Float,
     var sold:Int,

@@ -11,8 +11,10 @@ import androidx.fragment.app.viewModels
 import com.facebook.FacebookException
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
+import com.hn_2452.shoes_nike.TOKEN
 import com.hn_2452.shoes_nike.databinding.FragmentLoginBinding
 import com.hn_2452.shoes_nike.utility.Status
+import com.hn_2452.shoes_nike.utility.getStringDataByKey
 import com.hn_2452.shoes_nike.utility.sign_in_util.FacebookSignInComponent
 import com.hn_2452.shoes_nike.utility.sign_in_util.GoogleSignInComponent
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +49,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         setupLogin()
         navigateToRegister()
         navigateToForgetPassword()
+        moveBackWhenAuthozied()
+    }
+
+    private fun moveBackWhenAuthozied() {
+        if(getStringDataByKey(requireContext(), TOKEN).isNotEmpty()) {
+            mNavController?.popBackStack()
+        }
     }
 
     private fun navigateToForgetPassword() {
