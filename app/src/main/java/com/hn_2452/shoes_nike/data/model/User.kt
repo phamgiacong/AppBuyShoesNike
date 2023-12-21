@@ -9,10 +9,7 @@ data class User(
     @PrimaryKey(autoGenerate = false)
     @SerializedName("_id")
     var id: String,
-
     var name: String,
-    var orders: List<String> = emptyList(),
-
     @SerializedName("favorite_shoes")
     var favoriteShoes: List<String> = emptyList(),
     var email: String?,

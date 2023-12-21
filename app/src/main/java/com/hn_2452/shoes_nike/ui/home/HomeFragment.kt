@@ -33,6 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBottomBar(true)
         setupShoesTypeList()
         setupPopularShoesList()
         setupOfferList()
@@ -71,6 +72,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                     Status.SUCCESS -> {
                         result.data?.let { offerList ->
+                            Log.i(TAG, "setupOfferList: $offerList")
                             mBinding?.viewpagerOffer?.adapter = OfferAdapter(this, offerList)
                             autoRunOfferBanner(offerList.size)
                         }
@@ -164,6 +166,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 mBinding?.userBar?.visibility = View.GONE
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        setupBottomBar(false)
     }
 
 }

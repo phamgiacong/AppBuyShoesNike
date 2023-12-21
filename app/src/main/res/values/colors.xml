@@ -34,5 +34,7 @@
     <color name="button_color">#101010</color>
 
     <color name="place_holder_color">#DCDCDC</color>
+    <color name="gray">#817E7E</color>
+    <color name="link_color">#0094DD</color>
 
 </resources>

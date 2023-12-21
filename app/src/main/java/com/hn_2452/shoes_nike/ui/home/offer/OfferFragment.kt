@@ -1,7 +1,6 @@
 package com.hn_2452.shoes_nike.ui.home.offer
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,27 +23,16 @@ class OfferFragment : BaseFragment<FragmentOfferBinding>() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBottomBar(true)
         val offer = arguments?.getParcelable<Offer>("offer")
         offer?.let { offer ->
             mBinding?.apply {
-                if(offer.imageBackground != null) {
-                    root.setBackgroundColor(Color.parseColor(offer.imageBackground))
-                }
-
-                tvTitle.text = offer.title
-                tvSubtitle.text = offer.subTitle
-                if (offer.discountUnit == 1) {
-                    tvDiscount.text = "${offer.discount}%"
-                } else {
-                    tvDiscount.text = "${offer.discount} USD"
-                }
-                imvOffer.load(BASE_URL + offer.image) {
-                    error(R.drawable.shoes_placehoder)
+                imvOfferImage.load(BASE_URL + offer.image) {
+                    error(R.drawable.ic_launcher_background)
                 }
 
                 root.setOnClickListener {
-                    val action = HomeFragmentDirections.actionHomeFragmentToOfferDetailFragment()
-                    action.offer = offer
+                    val action = HomeFragmentDirections.actionHomeFragmentToOfferDetailFragment(offer)
                     mNavController?.navigate(action)
                 }
             }

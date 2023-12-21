@@ -26,6 +26,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBottomBar(true)
         setupFavoriteShoesList()
     }
 
@@ -51,6 +52,11 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        setupBottomBar(false)
     }
 
 

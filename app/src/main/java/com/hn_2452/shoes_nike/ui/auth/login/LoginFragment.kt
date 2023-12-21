@@ -42,7 +42,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBottomBar(false)
         setupGoogleSignIn()
         setupFacebookSignIn()
         setupLogin()
@@ -196,11 +195,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.onActivityResult(requestCode, resultCode, data)
         mGoogleSignInComponent.mCallbackManager?.onActivityResult(requestCode, resultCode, data)
         mFacebookSignInComponent.mCallbackManager.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        setupBottomBar(true)
     }
 
 

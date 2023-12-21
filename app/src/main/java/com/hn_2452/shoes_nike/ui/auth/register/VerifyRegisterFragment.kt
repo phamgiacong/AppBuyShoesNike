@@ -33,7 +33,6 @@ class VerifyRegisterFragment : BaseFragment<FragmentVerifyRegisterBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupLoading(mBinding?.loadingProgress)
-        setupBottomBar(false)
         startTimerForCurrentAuthCode()
         setupRegisterAccount()
     }
@@ -123,12 +122,6 @@ class VerifyRegisterFragment : BaseFragment<FragmentVerifyRegisterBinding>() {
         }
         // Start the timer
         mCountDownTimer.start()
-    }
-
-
-    override fun onStop() {
-        super.onStop()
-        setupBottomBar(true)
     }
 
     override fun onDestroy() {

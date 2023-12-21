@@ -32,7 +32,6 @@ class ForgetAccountFragment: BaseFragment<FragmentForgetAccountBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBottomBar(false)
         setupLoading(mBinding?.loadingProgress)
         setupFindByEmail()
         setupConfirmAuthCode()
@@ -153,9 +152,4 @@ class ForgetAccountFragment: BaseFragment<FragmentForgetAccountBinding>() {
         }
     }
 
-
-    override fun onStop() {
-        super.onStop()
-        setupBottomBar(true)
-    }
 }

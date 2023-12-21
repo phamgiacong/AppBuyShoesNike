@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:elevation="8dp"
         app:navigationIcon="@drawable/baseline_arrow_back"
-        app:title="Offer Detail" />
+        app:title="@string/offer_detail" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,23 +33,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
-                android:src="@drawable/shoes_placehoder" />
+                android:src="@drawable/ic_launcher_background" />
 
             <TextView
                 android:id="@+id/tvTitle"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:text="Title" />
-
-            <TextView
-                android:id="@+id/tvSubtitle"
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="sub title" />
 
             <TextView
                 android:id="@+id/tvDescription"
@@ -57,6 +49,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/lorem_ipsum" />
+
+            <TextView
+                android:id="@+id/tvSaleMore"
+                style="@style/small_bold_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:singleLine="false"
+                android:text="Giảm tối đa 50.000đ cho đơn hàng từ 250.000đ"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/line1"
+                app:layout_constraintStart_toStartOf="@+id/tvSale"
+                app:layout_constraintTop_toBottomOf="@+id/tvSale" />
 
             <TextView
                 android:id="@+id/tvAppliedTime"
@@ -73,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@color/black"
-                android:text="GET OFFER" />
+                android:text="@string/login_to_get_offer" />
 
         </LinearLayout>
 

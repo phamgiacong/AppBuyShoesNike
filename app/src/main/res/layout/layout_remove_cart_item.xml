@@ -1,87 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/custtom_layer"
-    android:orientation="vertical"
     android:gravity="center"
-    android:paddingHorizontal="17dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    android:orientation="vertical"
+    android:paddingHorizontal="17dp">
+
     <ImageView
         android:layout_width="@dimen/dimen_50dp"
         android:layout_height="@dimen/dimen_20dp"
-        android:src="@drawable/icon_remove_20px"
+        android:importantForAccessibility="no"
         android:scaleType="fitXY"
-        />
+        android:src="@drawable/icon_remove_20px" />
+
     <TextView
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remove From Cart"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary_color"
         android:layout_marginVertical="15dp"
-            
+        android:text="Xóa sản phẩm"
+        android:textColor="@color/primary_color"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#2C717171"
         android:layout_marginVertical="@dimen/dimen_10dp"
+        android:background="#2C717171" />
 
-        />
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/primary_background"
-        app:cardElevation="@dimen/dimen_1dp"
-        app:cardCornerRadius="@dimen/dimen_30dp"
-        android:layout_marginVertical="@dimen/dimen_15dp"
         android:layout_marginHorizontal="@dimen/dimen_3dp"
+        android:layout_marginVertical="@dimen/dimen_15dp"
         android:visibility="visible"
-        >
+        app:cardBackgroundColor="@color/primary_background"
+        app:cardCornerRadius="@dimen/dimen_30dp"
+        app:cardElevation="@dimen/dimen_1dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutItemCart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingVertical="@dimen/dimen_8dp"
-            android:layout_marginTop="@dimen/dimen_17dp"
-            android:layout_marginBottom="@dimen/dimen_17dp"
             android:layout_marginLeft="@dimen/dimen_17dp"
+            android:layout_marginTop="@dimen/dimen_17dp"
             android:layout_marginRight="@dimen/dimen_17dp"
-            >
+            android:layout_marginBottom="@dimen/dimen_17dp"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/dimen_8dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cavCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/dimen_30dp"
                 app:cardBackgroundColor="@color/background_silver"
+                app:cardCornerRadius="@dimen/dimen_30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintVertical_bias="0.5"
 
                 >
+
                 <ImageView
                     android:id="@+id/imgProduct"
                     android:layout_width="@dimen/dimen_100dp"
                     android:layout_height="@dimen/dimen_100dp"
-                    android:src="@drawable/ing_sneaker"
                     android:scaleType="centerInside"
-                    />
+                    android:src="@drawable/ing_sneaker" />
             </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tvNameProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dimen_32dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="Air Jordan 3 Retro "
                 android:textColor="@color/primary_text_color"
                 android:textSize="@dimen/dimen_20dp"
@@ -98,8 +97,8 @@
                 android:id="@+id/removeItem"
                 android:layout_width="@dimen/dimen_30dp"
                 android:layout_height="@dimen/dimen_30dp"
-                android:visibility="gone"
                 android:src="@drawable/icon_delete_20px"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.55"
@@ -118,45 +117,31 @@
                 app:layout_constraintHorizontal_bias="0.12"
                 app:layout_constraintStart_toEndOf="@+id/cavCart"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.47"
-                >
+                app:layout_constraintVertical_bias="0.47">
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cavColor"
                     android:layout_width="@dimen/dimen_20dp"
                     android:layout_height="@dimen/dimen_20dp"
-                    app:cardBackgroundColor="@color/background_silver"
-                    app:cardCornerRadius="@dimen/dimen_100dp"
                     android:layout_margin="@dimen/dimen_2dp"
-                    >
-                </androidx.cardview.widget.CardView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Black"
-                    android:layout_marginLeft="@dimen/dimen_8dp"
-                    android:layout_marginRight="@dimen/dimen_5dp"
-
-                    />
+                    app:cardBackgroundColor="@color/background_silver"
+                    app:cardCornerRadius="@dimen/dimen_100dp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#2C717171"
-                    android:layout_margin="@dimen/dimen_3dp"
-                    />
+                    android:layout_margin="8dp"
+                    android:background="#2C717171" />
+
                 <TextView
                     android:id="@+id/tvSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:text="Size = 41"
-                    />
+                    android:text="Size = 41" />
 
 
             </LinearLayout>
-
-
-
 
 
             <TextView
@@ -167,8 +152,8 @@
                 android:layout_marginBottom="8dp"
                 android:text="$105.00"
                 android:textColor="@color/primary_text_color"
-                android:textStyle="bold"
                 android:textSize="@dimen/dimen_21dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.08"
@@ -180,30 +165,30 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="@dimen/dimen_100dp"
                 android:layout_height="@dimen/dimen_35dp"
-                app:cardCornerRadius="30dp"
+                android:layout_margin="@dimen/dimen_2dp"
                 android:visibility="gone"
                 app:cardBackgroundColor="@color/background_silver"
+                app:cardCornerRadius="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.807"
                 app:layout_constraintStart_toEndOf="@id/tvPriceProduct"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                android:layout_margin="@dimen/dimen_2dp"
-                >
+                app:layout_constraintVertical_bias="1.0">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:orientation="horizontal"
 
                     >
+
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:padding="@dimen/dimen_5dp"
-                        android:src="@drawable/icon_add_20px"
-                        >
+                        android:src="@drawable/icon_add_20px">
 
                     </ImageView>
 
@@ -221,73 +206,70 @@
                         android:layout_height="30dp"
                         android:padding="5dp"
                         android:src="@drawable/icon_remove_20px"
-                        >
-                    </ImageView>
+                        android:importantForAccessibility="no" />
                 </LinearLayout>
 
 
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                app:cardCornerRadius="38dp"
+                android:layout_margin="2dp"
+                android:visibility="visible"
                 app:cardBackgroundColor="@color/background_silver"
+                app:cardCornerRadius="38dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.807"
                 app:layout_constraintStart_toEndOf="@id/tvPriceProduct"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                android:layout_margin="2dp"
-                android:visibility="visible"
-                >
+                app:layout_constraintVertical_bias="1.0">
+
                 <TextView
                     android:id="@+id/tvQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
                     android:gravity="center"
-                    android:text="1"
-                    />
+                    android:text="" />
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
     </androidx.cardview.widget.CardView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#2C717171"
         android:layout_marginVertical="@dimen/dimen_10dp"
-        />
+        android:background="#2C717171" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_marginBottom="30dp"
-        >
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/btnClose"
             android:layout_width="@dimen/dimen_150dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:contentPadding="10dp"
-            app:cardBackgroundColor="@color/background_silver"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="@dimen/dimen_17dp"
-            >
+            app:cardBackgroundColor="@color/background_silver"
+            app:cardCornerRadius="20dp"
+            app:contentPadding="10dp">
 
             <TextView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
-                android:textStyle="bold"
-                android:textSize="15sp"
                 android:gravity="center"
+                android:text="Hủy"
                 android:textColor="@color/primary_color"
+                android:textSize="15sp"
+                android:textStyle="bold"
 
                 />
 
@@ -307,7 +289,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Yes, Remove"
+                android:text="Xóa"
                 android:textColor="@color/primary_background"
                 android:textSize="15sp"
                 android:textStyle="bold" />
