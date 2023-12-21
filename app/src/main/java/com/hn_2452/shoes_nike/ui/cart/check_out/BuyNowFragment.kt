@@ -11,19 +11,19 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.Offer
-import com.hn_2452.shoes_nike.data.model.OrderDetail
-import com.hn_2452.shoes_nike.databinding.FragmentCheckOutBinding
+import com.hn_2452.shoes_nike.databinding.FragmentBuyNowBinding
+import com.hn_2452.shoes_nike.databinding.LayoutOrderItemBinding
 import com.hn_2452.shoes_nike.utility.handleResource
 import com.hn_2452.shoes_nike.utility.toDayString
 import com.hn_2452.shoes_nike.utility.toVND
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
+class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
 
     companion object {
         const val TAG = "Nike:CheckOutFragment: "
@@ -31,16 +31,12 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
 
     private val mCheckOutViewModel: CheckOutViewModel by activityViewModels()
 
-    private val mArg : CheckOutFragmentArgs by navArgs()
-
-    @Inject
-    lateinit var mOrderItemAdapter: OrderItemAdapter
-
+    private val mArgs : BuyNowFragmentArgs by navArgs()
 
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ) = FragmentCheckOutBinding.inflate(inflater, container, false)
+    ) = FragmentBuyNowBinding.inflate(inflater, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,20 +63,50 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i(TAG, "onViewCreated: ")
+        setupOrderItem()
         setupBackBtn()
         setupSelectAddress()
         setupAddressData()
         setupPaymentMethod()
         setupOrderButton()
-        setupOrderList()
         setupOffer()
+        getOfferOfUser()
+
+    }
+
+    private fun setupOrderItem() {
+        val orderItem = mArgs.orderItem
+        mCheckOutViewModel.mCurrentOrderDetail = orderItem
+        val orderItemBinding: LayoutOrderItemBinding = mBinding?.orderItem as LayoutOrderItemBinding
+        orderItemBinding.run {
+            imgProduct.load(orderItem.shoes.main_image) {
+                error(R.drawable.ic_launcher_background)
+            }
+
+            tvNameProduct.text = orderItem.shoes.name
+            tvPriceProduct.text = orderItem.shoes.price.toLong().toVND()
+            tvSize.text = getString(R.string.shoes_size, orderItem.size)
+            tvQuantity.text = getString(R.string.shoes_quantity, orderItem.quantity)
+            cavColor.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor(orderItem.color)))
+        }
+
+        val discount: Long = if (orderItem.shoes.discountUnit == 0) {
+            (orderItem.shoes.price * orderItem.shoes.discount / 100).toLong()
+        } else {
+            orderItem.shoes.discount
+        }
+        val price = (orderItem.quantity * (orderItem.shoes.price - discount)).toLong()
+        mBinding?.tvAmount?.text = price.toVND()
+        mBinding?.tvTotalPrice?.text = price.toVND()
+        mCheckOutViewModel.mPrice = price
+        mCheckOutViewModel.mTotalPrice = price
     }
 
     private fun setupOrderButton() {
         mBinding?.btnOrder?.setOnClickListener {
             if (mCheckOutViewModel.mCurrentPaymentMethod == 0) {
                 handleResource(
-                    data = mCheckOutViewModel.putNewOrder(),
+                    data = mCheckOutViewModel.putNewOrderByRawData(),
                     lifecycleOwner = viewLifecycleOwner,
                     context = requireContext(),
                     onSuccess = {
@@ -90,7 +116,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                             Toast.LENGTH_LONG
                         ).show()
                         mNavController?.navigate(
-                            CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
+                            BuyNowFragmentDirections.actionBuyNowFragmentToHomeFragment()
                         )
                     },
                     isErrorInform = true
@@ -188,76 +214,6 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                 mNavController?.navigate(R.id.appliedOfferFragment)
             }
         }
-    }
-
-    private fun setupOrderList() {
-        mBinding?.rcvShoesToCart?.adapter = mOrderItemAdapter
-        loadOrderItemOfUser()
-    }
-
-    private fun loadOrderItemOfUser() {
-        handleResource(
-            data = mCheckOutViewModel.getCartOfUser(),
-            lifecycleOwner = viewLifecycleOwner,
-            onLoading = { startLoading() },
-            isErrorInform = true,
-            onError = { stopLoading() },
-            onSuccess = { orderItemList ->
-                stopLoading()
-                mCheckOutViewModel.mCurrentOrderDetailList = orderItemList
-                mOrderItemAdapter.submitList(orderItemList)
-                val currentPrice = calculatePrice(orderItemList)
-                mCheckOutViewModel.mPrice = currentPrice
-                mCheckOutViewModel.mTotalPrice = currentPrice
-                mBinding?.tvAmount?.text = currentPrice.toVND()
-                mBinding?.tvTotalPrice?.text = currentPrice.toVND()
-
-                val currentOffer = mCheckOutViewModel.mCurrentOffer.value
-                if (currentOffer != null) {
-                    if (currentOffer.discountUnit == 0) {
-                        var sale = (currentPrice * currentOffer.discount / 100)
-
-                        if (currentOffer.maxDiscount != -1L && sale >= currentOffer.maxDiscount) {
-                            // so tien khuyen mai >= so tien duoc phep khuyen mai
-                            sale = currentOffer.maxDiscount
-                            mBinding?.tvSale?.text = sale.toVND()
-                        } else {
-                            // khong gioi han so tien khuyen mai
-                            // so tien < so tien duoc khuyen mai
-                            mBinding?.tvSale?.text = sale.toVND()
-                        }
-
-                        val totalPrice = currentPrice - sale
-                        mBinding?.tvTotalPrice?.text = totalPrice.toVND()
-                        mCheckOutViewModel.mTotalPrice = totalPrice
-                    } else {
-                        // tong tien =  so tien - so tien khuyen mai
-                        // so tien khuyen mai = so tien khuyen mai
-                        mBinding?.tvSale?.text = currentOffer.discount.toVND()
-                        val totalPrice = (currentPrice - currentOffer.discount)
-                        mBinding?.tvTotalPrice?.text = totalPrice.toVND()
-                        mCheckOutViewModel.mTotalPrice = totalPrice
-                    }
-                } else {
-                    getOfferOfUser()
-                }
-            },
-            context = requireContext()
-        )
-    }
-
-    private fun calculatePrice(orderItemList: List<OrderDetail>?): Long {
-        var price = 0L
-        orderItemList?.forEach {
-
-            val discount: Long = if (it.shoes.discountUnit == 0) {
-                (it.shoes.price * it.shoes.discount / 100).toLong()
-            } else {
-                it.shoes.discount
-            }
-            price += (it.quantity * (it.shoes.price - discount)).toLong()
-        }
-        return price
     }
 
     private fun setupAddressData() {

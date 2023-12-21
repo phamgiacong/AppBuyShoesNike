@@ -16,6 +16,8 @@ import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.databinding.FragmentShoesBinding
 import com.hn_2452.shoes_nike.ui.home.shoes.shoes_image.ShoesImageAdapter
 import com.hn_2452.shoes_nike.utility.Status
+import com.hn_2452.shoes_nike.utility.getOriginPrice
+import com.hn_2452.shoes_nike.utility.getPrice
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -56,7 +58,10 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     private fun setupBuyNow() {
         mBinding?.btnBuyNow?.setOnClickListener {
-
+            mShoesViewModel.buyNow().observe(viewLifecycleOwner) {
+                val action = ShoesFragmentDirections.actionShoesFragmentToBuyNowFragment(it)
+                mNavController?.navigate(action)
+            }
         }
     }
 
@@ -117,6 +122,13 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                         ShoesImageAdapter(this@ShoesFragment, shoes.images)
                     autoRunOfferBanner(shoes.images.size)
                     tvTitle.text = shoes.name
+                    tvPrice.text = getPrice(shoes)
+                    if (shoes.discount > 0) {
+                        tvOriginPrice.visibility = View.VISIBLE
+                        tvOriginPrice.text = getOriginPrice(shoes)
+                    } else {
+                        tvOriginPrice.visibility = View.GONE
+                    }
                     tvDescription.text = shoes.description
                     sold.text = "${shoes.sold} sold"
                     rate.text = "${shoes.rate}"
@@ -127,6 +139,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
             }
         }
     }
+
 
     private fun autoRunOfferBanner(size: Int) {
         val currentIndex = mBinding?.viewPagerShoesImage?.currentItem
@@ -148,19 +161,26 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
     private fun setupBtnAddOrderDetailToCart() {
         mBinding?.btnAddToCart?.setOnClickListener {
             mShoesViewModel.addOrderDetail().observe(viewLifecycleOwner) { result ->
-                when(result?.status) {
+                when (result?.status) {
                     Status.LOADING -> {
                         Log.i(TAG, "setupBtnAddToCar: loading...")
                     }
+
                     Status.SUCCESS -> {
-                        Toast.makeText(requireContext(), "Thêm sản phẩm vào giỏ thành công", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Thêm sản phẩm vào giỏ thành công",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         Log.i(TAG, "setupBtnAddToCar: success ${result.data}")
                         resetShoes()
                     }
+
                     Status.ERROR -> {
                         Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
                         Log.e(TAG, "setupBtnAddToCar: ${result.message}")
                     }
+
                     null -> {
                         Log.i(TAG, "setupBtnAddToCar: null")
                     }

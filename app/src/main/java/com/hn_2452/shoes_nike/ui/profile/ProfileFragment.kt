@@ -36,10 +36,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             mNavController?.navigate(R.id.changeInfoFragment)
         }
 
-        mBinding?.changeAddress?.setOnClickListener {
-            mNavController?.navigate(R.id.manageAddressFragment)
-        }
-
         mBinding?.settingNotification?.setOnClickListener {
             mNavController?.navigate(R.id.manageNotificationFragment)
         }

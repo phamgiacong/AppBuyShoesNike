@@ -37,6 +37,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewPagerShoesImage" />
+            <TextView
+                android:id="@+id/tvPrice"
+                style="@style/medium_bold_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/horizontal_padding"
+                android:text="200.000đ"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+            <TextView
+                android:textStyle="normal"
+                android:id="@+id/tvOriginPrice"
+                style="@style/small_bold_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/horizontal_padding"
+                android:text="100.000đ"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 
             <ImageView
                 android:id="@+id/imvFavorite"
@@ -54,12 +75,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/horizontal_padding"
+                android:layout_marginTop="16dp"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 android:text="6,234 sold"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvOriginPrice" />
 
             <ImageView
                 android:id="@+id/imageView2"

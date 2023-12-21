@@ -93,48 +93,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/changeAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/editProfile">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_address" />
-
-            <TextView
-                style="@style/medium_bold_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="24dp"
-                android:text="Quản lý địa chỉ" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/arrow_forward_ios_20px" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/settingNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="24dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/changeAddress">
+            app:layout_constraintTop_toBottomOf="@+id/editProfile">
 
             <ImageView
                 android:layout_width="wrap_content"
