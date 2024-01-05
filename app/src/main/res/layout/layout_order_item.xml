@@ -41,7 +41,7 @@
                 android:layout_width="@dimen/dimen_100dp"
                 android:layout_height="@dimen/dimen_100dp"
                 android:src="@drawable/ing_sneaker"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 />
         </androidx.cardview.widget.CardView>
 

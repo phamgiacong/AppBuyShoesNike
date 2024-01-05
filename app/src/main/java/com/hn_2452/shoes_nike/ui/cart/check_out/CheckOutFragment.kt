@@ -1,7 +1,6 @@
 package com.hn_2452.shoes_nike.ui.cart.check_out
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -12,23 +11,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.zalopaykotlin.Api.CreateOrder
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
-import com.hn_2452.shoes_nike.data.model.Offer
 import com.hn_2452.shoes_nike.data.model.OrderDetail
+import com.hn_2452.shoes_nike.data.model.UserOffer
 import com.hn_2452.shoes_nike.databinding.FragmentCheckOutBinding
-import com.hn_2452.shoes_nike.ui.home.HomeViewModel
 import com.hn_2452.shoes_nike.utility.handleResource
 import com.hn_2452.shoes_nike.utility.toDayString
 import com.hn_2452.shoes_nike.utility.toVND
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPayError
@@ -38,14 +32,15 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
-    private var totalPrice :String? = null
+    private var totalPrice: String? = null
+
     companion object {
         const val TAG = "Nike:CheckOutFragment: "
     }
 
     private val mCheckOutViewModel: CheckOutViewModel by activityViewModels()
 
-    private val mArg : CheckOutFragmentArgs by navArgs()
+    private val mArg: CheckOutFragmentArgs by navArgs()
 
     @Inject
     lateinit var mOrderItemAdapter: OrderItemAdapter
@@ -104,9 +99,10 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                     onSuccess = {
                         Toast.makeText(
                             requireContext(),
-                            "Đặt đơn hàng thành công" ,
+                            "Đặt đơn hàng thành công",
                             Toast.LENGTH_LONG
                         ).show()
+                        mCheckOutViewModel.clearData()
                         mNavController?.navigate(
                             CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
                         )
@@ -117,86 +113,95 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                 val orderApi = CreateOrder()
                 val data: JSONObject? = totalPrice?.let { it1 -> orderApi.createOrder(it1) }
                 val code = data?.getString("returncode")
-                if(code=="1"){
-                    val token =data?.getString("zptranstoken")
+                if (code == "1") {
+                    val token = data?.getString("zptranstoken")
                     token?.let { it1 ->
                         ZaloPaySDK.getInstance()
-                            .payOrder(requireActivity(), it1, "demozpdk://app", object : PayOrderListener {
-                                override fun onPaymentSucceeded(
-                                    transactionId: String,
-                                    transToken: String,
-                                    appTransID: String
-                                ) {
-                                    requireActivity().runOnUiThread(){
-                                        Log.e("TAG", "onPaymentSucceeded: ", )
+                            .payOrder(
+                                requireActivity(),
+                                it1,
+                                "demozpdk://app",
+                                object : PayOrderListener {
+                                    override fun onPaymentSucceeded(
+                                        transactionId: String,
+                                        transToken: String,
+                                        appTransID: String
+                                    ) {
+                                        requireActivity().runOnUiThread() {
+                                            Log.e("TAG", "onPaymentSucceeded: ")
+                                            AlertDialog.Builder(requireContext())
+                                                .setTitle("Payment Success")
+                                                .setMessage(
+                                                    String.format(
+                                                        "TransactionId: %s - TransToken: %s",
+                                                        transactionId,
+                                                        transToken
+                                                    )
+                                                )
+                                                .setPositiveButton(
+                                                    "OK"
+                                                ) { dialog, which ->
+                                                    handleResource(
+                                                        data = mCheckOutViewModel.putNewOrder(),
+                                                        lifecycleOwner = viewLifecycleOwner,
+                                                        context = requireContext(),
+                                                        onSuccess = {
+                                                            Toast.makeText(
+                                                                requireContext(),
+                                                                "Đặt đơn hàng thành công",
+                                                                Toast.LENGTH_LONG
+                                                            ).show()
+                                                            mNavController?.navigate(
+                                                                CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
+                                                            )
+                                                        },
+                                                        isErrorInform = true
+                                                    )
+
+                                                }
+                                                .setNegativeButton("Cancel", null).show()
+                                        }
+
+                                    }
+
+                                    override fun onPaymentCanceled(
+                                        zpTransToken: String,
+                                        appTransID: String
+                                    ) {
                                         AlertDialog.Builder(requireContext())
-                                            .setTitle("Payment Success")
+                                            .setTitle("User Cancel Payment")
                                             .setMessage(
                                                 String.format(
-                                                    "TransactionId: %s - TransToken: %s",
-                                                    transactionId,
-                                                    transToken
+                                                    "zpTransToken: %s \n",
+                                                    zpTransToken
                                                 )
                                             )
                                             .setPositiveButton(
                                                 "OK"
-                                            ) { dialog, which ->
-                                                handleResource(
-                                                    data = mCheckOutViewModel.putNewOrder(),
-                                                    lifecycleOwner = viewLifecycleOwner,
-                                                    context = requireContext(),
-                                                    onSuccess = {
-                                                        Toast.makeText(
-                                                            requireContext(),
-                                                            "Đặt đơn hàng thành công" ,
-                                                            Toast.LENGTH_LONG
-                                                        ).show()
-                                                        mNavController?.navigate(
-                                                            CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
-                                                        )
-                                                    },
-                                                    isErrorInform = true
-                                                )
-
-                                            }
+                                            ) { dialog, which -> }
                                             .setNegativeButton("Cancel", null).show()
                                     }
 
-                                }
-
-                                override fun onPaymentCanceled(
-                                    zpTransToken: String,
-                                    appTransID: String
-                                ) {
-                                    AlertDialog.Builder(requireContext())
-                                        .setTitle("User Cancel Payment")
-                                        .setMessage(String.format("zpTransToken: %s \n", zpTransToken))
-                                        .setPositiveButton(
-                                            "OK"
-                                        ) { dialog, which -> }
-                                        .setNegativeButton("Cancel", null).show()
-                                }
-
-                                override fun onPaymentError(
-                                    zaloPayError: ZaloPayError,
-                                    zpTransToken: String,
-                                    appTransID: String
-                                ) {
-                                    AlertDialog.Builder(requireContext())
-                                        .setTitle("Payment Fail")
-                                        .setMessage(
-                                            String.format(
-                                                "ZaloPayErrorCode: %s \nTransToken: %s",
-                                                zaloPayError.toString(),
-                                                zpTransToken
+                                    override fun onPaymentError(
+                                        zaloPayError: ZaloPayError,
+                                        zpTransToken: String,
+                                        appTransID: String
+                                    ) {
+                                        AlertDialog.Builder(requireContext())
+                                            .setTitle("Payment Fail")
+                                            .setMessage(
+                                                String.format(
+                                                    "ZaloPayErrorCode: %s \nTransToken: %s",
+                                                    zaloPayError.toString(),
+                                                    zpTransToken
+                                                )
                                             )
-                                        )
-                                        .setPositiveButton(
-                                            "OK"
-                                        ) { dialog, which -> }
-                                        .setNegativeButton("Cancel", null).show()
-                                }
-                            })
+                                            .setPositiveButton(
+                                                "OK"
+                                            ) { dialog, which -> }
+                                            .setNegativeButton("Cancel", null).show()
+                                    }
+                                })
                     }
                 }
 
@@ -224,40 +229,41 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
     }
 
     private fun setupOffer() {
-        mCheckOutViewModel.mCurrentOffer.observe(requireActivity()) { offer ->
-            offer?.let {
+        mCheckOutViewModel.mCurrentOffer.observe(requireActivity()) { userOffer ->
+            userOffer?.let {
                 Log.i(TAG, "setupOffer: $mBinding")
                 mBinding?.run {
                     noneOffer.visibility = View.GONE
-                    val saleString = if (offer.discountUnit == 0) {
-                        "Giảm giá ${offer.discount}%"
+                    val saleString = if (userOffer.offer.discountUnit == 0) {
+                        "Giảm giá ${userOffer.offer.discount}%"
                     } else {
-                        "Giảm giá ${offer.discount.toVND()}"
+                        "Giảm giá ${userOffer.offer.discount.toVND()}"
                     }
-                    val saleMore = if (offer.maxDiscount != -1L) {
-                        "Giảm tối đa ${offer.maxDiscount.toVND()} cho đơn hàng từ ${offer.valueToApply.toVND()}"
+
+                    val saleMore = if (userOffer.offer.maxDiscount != -1L) {
+                        "Giảm tối đa ${userOffer.offer.maxDiscount.toVND()} cho đơn hàng từ ${userOffer.offer.valueToApply.toVND()}"
                     } else {
-                        "Áp dụng cho đơn hàng từ ${offer.valueToApply.toVND()}"
+                        "Áp dụng cho đơn hàng từ ${userOffer.offer.valueToApply.toVND()}"
                     }
                     tvSalePrice.text = saleString
                     tvSaleMore.text = saleMore
-                    tvTitle.text = offer.title
-                    tvExpired.text = "Hết hạn ${offer.endTime.toDayString()}"
+                    tvTitle.text = userOffer.offer.title
+                    tvExpired.text = "Hết hạn ${userOffer.offer.endTime.toDayString()}"
                     tvDetail.setOnClickListener {
                         mNavController?.navigate(
                             CheckOutFragmentDirections.actionCheckOutFragmentToOfferDetailFragment(
-                                offer
+                                userOffer.offer
                             )
                         )
                     }
                     val currentPrice = mCheckOutViewModel.mPrice
                     if (currentPrice != -1L) {
-                        if (offer.discountUnit == 0) {
-                            var sale = (currentPrice * offer.discount / 100)
+                        if (userOffer.offer.discountUnit == 0) {
+                            var sale = (currentPrice * userOffer.offer.discount / 100)
 
-                            if (offer.maxDiscount != -1L && sale >= offer.maxDiscount) {
+                            if (userOffer.offer.maxDiscount != -1L && sale >= userOffer.offer.maxDiscount) {
                                 // so tien khuyen mai >= so tien duoc phep khuyen mai
-                                sale = offer.maxDiscount
+                                sale = userOffer.offer.maxDiscount
                                 mBinding?.tvSale?.text = sale.toVND()
                             } else {
                                 // khong gioi han so tien khuyen mai
@@ -271,8 +277,8 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                         } else {
                             // tong tien =  so tien - so tien khuyen mai
                             // so tien khuyen mai = so tien khuyen mai
-                            mBinding?.tvSale?.text = offer.discount.toVND()
-                            val totalPrice = (currentPrice - offer.discount)
+                            mBinding?.tvSale?.text = userOffer.offer.discount.toVND()
+                            val totalPrice = (currentPrice - userOffer.offer.discount)
                             mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                             mCheckOutViewModel.mTotalPrice = totalPrice
                         }
@@ -297,8 +303,10 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
     }
 
     private fun loadOrderItemOfUser() {
+        val cartItemIds: Array<String> = mArg.getCartItem()
+        val cartItemIdList = cartItemIds.toList()
         handleResource(
-            data = mCheckOutViewModel.getCartOfUser(),
+            data = mCheckOutViewModel.getCartItemOfUser(cartItemIdList),
             lifecycleOwner = viewLifecycleOwner,
             onLoading = { startLoading() },
             isErrorInform = true,
@@ -315,12 +323,12 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                 totalPrice = currentPrice.toString()
                 val currentOffer = mCheckOutViewModel.mCurrentOffer.value
                 if (currentOffer != null) {
-                    if (currentOffer.discountUnit == 0) {
-                        var sale = (currentPrice * currentOffer.discount / 100)
+                    if (currentOffer.offer.discountUnit == 0) {
+                        var sale = (currentPrice * currentOffer.offer.discount / 100)
 
-                        if (currentOffer.maxDiscount != -1L && sale >= currentOffer.maxDiscount) {
+                        if (currentOffer.offer.maxDiscount != -1L && sale >= currentOffer.offer.maxDiscount) {
                             // so tien khuyen mai >= so tien duoc phep khuyen mai
-                            sale = currentOffer.maxDiscount
+                            sale = currentOffer.offer.maxDiscount
                             mBinding?.tvSale?.text = sale.toVND()
                         } else {
                             // khong gioi han so tien khuyen mai
@@ -334,8 +342,8 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                     } else {
                         // tong tien =  so tien - so tien khuyen mai
                         // so tien khuyen mai = so tien khuyen mai
-                        mBinding?.tvSale?.text = currentOffer.discount.toVND()
-                        val totalPrice = (currentPrice - currentOffer.discount)
+                        mBinding?.tvSale?.text = currentOffer.offer.discount.toVND()
+                        val totalPrice = (currentPrice - currentOffer.offer.discount)
                         mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                         mCheckOutViewModel.mTotalPrice = totalPrice
                     }
@@ -412,11 +420,11 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
         )
     }
 
-    private fun takeASuitableOffer(offers: List<Offer>?) {
+    private fun takeASuitableOffer(offers: List<UserOffer>?) {
         offers?.run {
-            val newOffers = offers.sortedByDescending { it.maxDiscount }
+            val newOffers = offers.sortedByDescending { it.offer.maxDiscount }
             newOffers.forEach { offer ->
-                if (offer.maxDiscount <= mCheckOutViewModel.mPrice) {
+                if (!offer.used && offer.offer.valueToApply <= mCheckOutViewModel.mPrice) {
                     mCheckOutViewModel.mCurrentOffer.value = offer
                     return@forEach
                 }

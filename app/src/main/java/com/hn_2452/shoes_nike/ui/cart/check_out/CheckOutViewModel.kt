@@ -1,26 +1,33 @@
 package com.hn_2452.shoes_nike.ui.cart.check_out
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.hn_2452.shoes_nike.TOKEN
+import com.hn_2452.shoes_nike.TOKEN_METHOD
 import com.hn_2452.shoes_nike.data.model.Address
 import com.hn_2452.shoes_nike.data.model.Offer
 import com.hn_2452.shoes_nike.data.model.OrderDetail
+import com.hn_2452.shoes_nike.data.model.UserOffer
 import com.hn_2452.shoes_nike.data.repository.AddressRepository
-import com.hn_2452.shoes_nike.data.repository.AuthRepository
 import com.hn_2452.shoes_nike.data.repository.OrderDetailRepository
 import com.hn_2452.shoes_nike.data.repository.OrderRepository
+import com.hn_2452.shoes_nike.data.repository.UserOfferRepository
 import com.hn_2452.shoes_nike.utility.Resource
+import com.hn_2452.shoes_nike.utility.getStringDataByKey
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 @HiltViewModel
 class CheckOutViewModel @Inject constructor(
+    @ApplicationContext private val mContext: Context,
     private val mAddressRepository: AddressRepository,
     private val mOrderDetailRepository: OrderDetailRepository,
-    private val mAuthRepository: AuthRepository,
-    private val mOrderRepository: OrderRepository
+    private val mOrderRepository: OrderRepository,
+    private val mUserOfferRepository: UserOfferRepository
 ) : ViewModel() {
 
     var mPrice: Long = -1
@@ -28,7 +35,7 @@ class CheckOutViewModel @Inject constructor(
 
     var mCurrentAddress: MutableLiveData<Address?> = MutableLiveData()
 
-    var mCurrentOffer: MutableLiveData<Offer?> = MutableLiveData()
+    var mCurrentOffer: MutableLiveData<UserOffer?> = MutableLiveData()
 
     var mCurrentPaymentMethod = 0 // 0: cash, 1: online
 
@@ -45,10 +52,10 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
-    fun getCartOfUser() = liveData(Dispatchers.IO) {
+    fun getCartItemOfUser(cartItemIdList: List<String>) = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {
-            emit(mOrderDetailRepository.getOrderDetailOfUser())
+            emit(mOrderDetailRepository.getOrderDetailOfUser(cartItemIdList))
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message ?: "Error!!!"))
         }
@@ -57,7 +64,9 @@ class CheckOutViewModel @Inject constructor(
     fun getOfferOfUser() = liveData {
         try {
             emit(Resource.loading(null))
-            emit(mAuthRepository.getOffersOfUser())
+            emit(mUserOfferRepository.getUserOfferByUserId(
+                TOKEN_METHOD + getStringDataByKey(mContext, TOKEN))
+            )
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message!!))
         }

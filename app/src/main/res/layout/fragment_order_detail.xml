@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/foreign_background"
+    tools:context=".ui.order_detail.OrderDetailFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/baseline_arrow_back"
+        app:title="@string/order_detail"
+        app:titleTextAppearance="@style/bold_label" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvOrderItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="24dp"
+        android:maxHeight="300dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
+
+    <TextView
+        android:id="@+id/tvTotalPrice"
+        style="@style/medium_bold_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcvOrderItems" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalPrice"
+        tools:layout_editor_absoluteX="16dp">
+
+        <TextView
+            android:id="@+id/tvAddressTitle"
+            style="@style/medium_bold_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/receive_address"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_active"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout7"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout7"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddress">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/pack"
+                    app:tint="@color/primary_color" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="13dp"
+                    android:src="@drawable/tick"
+                    app:tint="@color/primary_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+
+                <ImageView
+                    android:id="@+id/line1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:paddingVertical="10dp"
+                    android:src="@drawable/line"
+                    app:tint="@color/gray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/transport"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/transport"
+                    app:tint="@color/gray" />
+
+                <ImageView
+                    android:id="@+id/transportTick"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="13dp"
+                    android:src="@drawable/tick"
+                    app:tint="@color/gray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+
+                <ImageView
+                    android:id="@+id/line2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:paddingVertical="10dp"
+                    android:src="@drawable/line"
+                    app:tint="@color/gray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/delivery"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/delivery"
+                    app:tint="@color/gray" />
+
+                <ImageView
+                    android:id="@+id/deliveryTick"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="13dp"
+                    android:src="@drawable/tick"
+                    app:tint="@color/gray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+
+                <ImageView
+                    android:id="@+id/line3"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:paddingVertical="10dp"
+                    android:src="@drawable/line"
+                    app:tint="@color/gray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/upPack"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/unpack"
+                    app:tint="@color/gray" />
+
+                <ImageView
+                    android:id="@+id/upPackTick"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="13dp"
+                    android:src="@drawable/tick"
+                    app:tint="@color/gray" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cancel_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_square_outline"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="6dp"
+            android:text="@string/action_cancel_order" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_inactive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
+        tools:layout_editor_absoluteX="16dp">
+
+        <TextView
+            style="@style/small_bold_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="4dp"
+            android:text="@string/cancel_order"
+            android:textColor="@color/text_color_red" />
+
+        <TextView
+            android:id="@+id/tvCancelReason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Lý do hủy đơn: " />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_completed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/layout_active"
+        tools:layout_editor_absoluteX="16dp">
+
+        <TextView
+            style="@style/medium_bold_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/completed" />
+
+    </LinearLayout>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progress_bar"
+        style="@style/SpinKitView.Large.Wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:elevation="1000dp"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/primary_color_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

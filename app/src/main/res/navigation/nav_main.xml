@@ -6,11 +6,6 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/myEWalletFragment"
-        android:name="com.hn_2452.shoes_nike.ui.orders.e_wallet.MyEWalletFragment"
-        android:label="fragment_my_e_wallet"
-        tools:layout="@layout/fragment_my_e_wallet" />
-    <fragment
         android:id="@+id/homeFragment"
         android:name="com.hn_2452.shoes_nike.ui.home.HomeFragment"
         android:label="HomeFragment"
@@ -23,26 +18,6 @@
             app:destination="@id/shoesFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/EReceiptFragment"
-        android:name="com.hn_2452.shoes_nike.ui.orders.e_receipt.EReceiptFragment"
-        android:label="fragment_e_receipt"
-        tools:layout="@layout/fragment_e_receipt" />
-    <fragment
-        android:id="@+id/historysFragment"
-        android:name="com.hn_2452.shoes_nike.ui.orders.historys.HistorysFragment"
-        android:label="fragment_historys"
-        tools:layout="@layout/fragment_historys" />
-    <fragment
-        android:id="@+id/topUpFragment"
-        android:name="com.hn_2452.shoes_nike.ui.orders.topup.topupprice.TopUpFragment"
-        android:label="fragment_top_up"
-        tools:layout="@layout/fragment_top_up" />
-    <fragment
-        android:id="@+id/payFragment"
-        android:name="com.hn_2452.shoes_nike.ui.orders.topup.topuppayment.PayFragment"
-        android:label="fragment_pay"
-        tools:layout="@layout/fragment_pay" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.hn_2452.shoes_nike.ui.profile.ProfileFragment"
@@ -86,7 +61,11 @@
         android:id="@+id/orderFragment"
         android:name="com.hn_2452.shoes_nike.ui.orders.OrderFragment"
         android:label="OrderFragment"
-        tools:layout="@layout/fragment_order" />
+        tools:layout="@layout/fragment_order">
+        <action
+            android:id="@+id/action_orderFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shoesFragment"
         android:name="com.hn_2452.shoes_nike.ui.home.shoes.ShoesFragment"
@@ -98,6 +77,9 @@
         <action
             android:id="@+id/action_shoesFragment_to_buyNowFragment"
             app:destination="@id/buyNowFragment" />
+        <action
+            android:id="@+id/action_shoesFragment_to_shoesReviewFragment2"
+            app:destination="@id/shoesReviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -148,10 +130,6 @@
         android:name="com.hn_2452.shoes_nike.ui.profile.change_password.ChangePasswordFragment"
         android:label="ChangePasswordFragment" />
     <fragment
-        android:id="@+id/manageAddressFragment"
-        android:name="com.hn_2452.shoes_nike.ui.profile.manage_address.ManageAddressFragment"
-        android:label="ManageAddressFragment" />
-    <fragment
         android:id="@+id/manageNotificationFragment"
         android:name="com.hn_2452.shoes_nike.ui.profile.manage_notification.ManageNotificationFragment"
         android:label="fragment_manage_notification"
@@ -169,16 +147,14 @@
         <action
             android:id="@+id/action_checkOutFragment_to_offerDetailFragment"
             app:destination="@id/offerDetailFragment" />
-        <argument
-            android:name="cartItem"
-            app:argType="com.hn_2452.shoes_nike.data.model.OrderDetail"
-            app:nullable="true"
-            android:defaultValue="@null" />
         <action
             android:id="@+id/action_checkOutFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="cartItem"
+            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -188,6 +164,9 @@
         <action
             android:id="@+id/action_cartFragment_to_shoesFragment"
             app:destination="@id/shoesFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_checkOutFragment"
+            app:destination="@id/checkOutFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAddressFragment"
@@ -214,10 +193,10 @@
             app:destination="@id/editAddressFragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_buy_now"
         android:id="@+id/buyNowFragment"
         android:name="com.hn_2452.shoes_nike.ui.cart.check_out.BuyNowFragment"
-        android:label="BuyNowFragment" >
+        android:label="BuyNowFragment"
+        tools:layout="@layout/fragment_buy_now">
         <argument
             android:name="orderItem"
             app:argType="com.hn_2452.shoes_nike.data.model.OrderDetail" />
@@ -226,6 +205,27 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.hn_2452.shoes_nike.ui.order_detail.OrderDetailFragment"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_orderDetailFragment_to_shoesFragment"
+            app:destination="@id/shoesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shoesReviewFragment"
+        android:name="com.hn_2452.shoes_nike.ui.review_shoes.ShoesReviewFragment"
+        android:label="fragment_shoes_review"
+        tools:layout="@layout/fragment_shoes_review" >
+        <argument
+            android:name="shoes_id"
+            app:argType="string" />
     </fragment>
 
 

@@ -41,9 +41,11 @@ class AppliedOfferFragment : BaseFragment<FragmentListPromoBinding>() {
                 AppliedOfferFragmentDirections.actionAppliedOfferFragmentToOfferDetailFragment(offer)
             )
         }
-        mOfferAdapter.mOnClick = { offer ->
-            mCheckOutViewModel.mCurrentOffer.value = offer
-            mNavController?.popBackStack()
+        mOfferAdapter.mOnClick = { userOffer ->
+            if(!userOffer.used && userOffer.offer.valueToApply <= mCheckOutViewModel.mPrice) {
+                mCheckOutViewModel.mCurrentOffer.value = userOffer
+                mNavController?.popBackStack()
+            }
         }
         mBinding?.rcvPromoList?.adapter = mOfferAdapter
         loadOfferList()
@@ -56,7 +58,10 @@ class AppliedOfferFragment : BaseFragment<FragmentListPromoBinding>() {
             context = requireContext(),
             onSuccess = { offers ->
                 offers?.run {
-                    mOfferAdapter.submitList(offers)
+                    val unUsedOffer = offers.filter {
+                        !it.used
+                    }
+                    mOfferAdapter.submitList(unUsedOffer)
                 }
             },
             isErrorInform = true

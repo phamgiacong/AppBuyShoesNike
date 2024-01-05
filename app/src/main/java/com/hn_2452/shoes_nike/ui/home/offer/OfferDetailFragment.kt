@@ -14,6 +14,7 @@ import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.TOKEN
 import com.hn_2452.shoes_nike.data.model.Offer
+import com.hn_2452.shoes_nike.data.model.UserOffer
 import com.hn_2452.shoes_nike.databinding.FragmentOfferDetailBinding
 import com.hn_2452.shoes_nike.utility.getStringDataByKey
 import com.hn_2452.shoes_nike.utility.handleResource
@@ -44,7 +45,7 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
         setupOfferDetail(mArgs.offer)
         getOfferOfUser()
 
-        if(getStringDataByKey(requireContext(), TOKEN).isNotEmpty()) {
+        if (getStringDataByKey(requireContext(), TOKEN).isNotEmpty()) {
             mBinding?.btnGetOffer?.text = getString(R.string.loading)
         }
 
@@ -57,8 +58,8 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
             data = mOfferViewModel.getOfferOfUser(),
             lifecycleOwner = viewLifecycleOwner,
             context = requireContext(),
-            onSuccess = { offers ->
-                if (offers != null && offers.contains(mArgs.offer)) {
+            onSuccess = { userOffers ->
+                if (userOffers != null && isHasOffer(userOffers, mArgs.offer)) {
                     informHaveReceiveOffer()
                 } else {
                     mBinding?.btnGetOffer?.text = getText(R.string.get_offer)
@@ -66,6 +67,13 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
                 }
             }
         )
+    }
+
+    private fun isHasOffer(userOffer: List<UserOffer>, offer: Offer): Boolean {
+        val res = userOffer.find {
+            it.offer.id == offer.id
+        }
+        return res != null
     }
 
     private fun findOffer(offer: Offer, offers: List<Offer>): Boolean {
@@ -95,10 +103,10 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
                     error(R.drawable.ic_launcher_background)
                 }
                 btnGetOffer.setOnClickListener {
-                    if(getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
+                    if (getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
                         mNavController?.navigate(R.id.loginFragment)
                     } else {
-                        if(mAvailableToGetOffer) {
+                        if (mAvailableToGetOffer) {
                             addOffer(offer.id)
                         }
                     }
