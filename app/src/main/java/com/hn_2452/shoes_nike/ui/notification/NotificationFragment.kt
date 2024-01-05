@@ -1,6 +1,7 @@
 package com.hn_2452.shoes_nike.ui.notification
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,15 +31,13 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
             resource?.let {
                 when (resource.status) {
                     Status.LOADING -> {
-
                     }
-
                     Status.SUCCESS -> {
+                        Log.e("TAG", "setupNotificationList: ", )
                         resource.data?.let {
-                            controller.setData(resource.data)
+                            controller.setData(it.data)
                         }
                     }
-
                     Status.ERROR -> {
 
                     }
