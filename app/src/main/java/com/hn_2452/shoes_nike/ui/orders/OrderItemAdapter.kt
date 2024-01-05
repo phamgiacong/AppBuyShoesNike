@@ -31,6 +31,7 @@ class OrderItemAdapter @Inject constructor() :
     ) : RecyclerView.ViewHolder(mBinding.root) {
 
         fun bind(order: Order) {
+            mBinding.orderDetailContainer.removeAllViews()
             order.orderDetails.forEach { orderDetail ->
                 val subOrderBinding =
                     SubOrderItemBinding.inflate(LayoutInflater.from(mBinding.root.context))

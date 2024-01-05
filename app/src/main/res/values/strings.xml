@@ -155,4 +155,10 @@
     <string name="shipping">Đang giao hàng</string>
     <string name="completed">Đã giao hàng</string>
     <string name="cancel_order">Đã bị hủy</string>
+    <string name="error_password_message">Vui lòng nhập mật khẩu từ 6 ký tự trở lên, 1 ký tự đặc biệt</string>
+    <string name="request_enter_password_message">Vui lòng nhập mật khẩu</string>
+    <string name="request_enter_a_valid_email_msg">Vui lòng nhập đúng định dạng email</string>
+    <string name="application_not_ready">Ứng dụng chưa sẵn sàng</string>
+    <string name="request_select_color">Cần chọn màu</string>
+    <string name="request_select_size">Cần chọn kích thước</string>
 </resources>

@@ -4,21 +4,32 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
 import com.hn_2452.shoes_nike.databinding.ActivityMainBinding
+import com.hn_2452.shoes_nike.ui.home.HomeViewModel
+import com.hn_2452.shoes_nike.ui.notification.TokenUserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import vn.zalopay.sdk.Environment
+import vn.zalopay.sdk.ZaloPaySDK
+
 
 @AndroidEntryPoint
 open class MainActivity : AppCompatActivity() {
-
+    private val mHomeViewModel: HomeViewModel by viewModels()
+    private val tokenUserViewModel :TokenUserViewModel by viewModels()
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { isGranted: Boolean ->
@@ -41,6 +52,11 @@ open class MainActivity : AppCompatActivity() {
         setContentView(mBinding.root)
         setupBottomNavigation()
         askNotificationPermission()
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(553, Environment.SANDBOX)
+        sendRegistrationToServer()
 
     }
 
@@ -54,6 +70,7 @@ open class MainActivity : AppCompatActivity() {
                 requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
             }
         }
+
     }
 
     private fun setupBottomNavigation() {
@@ -91,6 +108,30 @@ open class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.d("ERROR", e.toString())
         }
+    }
+    private fun sendRegistrationToServer() {
+        mHomeViewModel.mUsers.observe(this){users ->
+            if(users != null && users.isNotEmpty()){
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                        return@OnCompleteListener
+                    }
+                    val token = task.result
+                    tokenUserViewModel.sendRegistrationToServer(token,users[0].id).observe(this){
+                        if(it.data == true){
+                            Log.e("TAG", "sendRegistrationToServer: success")
+                        }
+                    }
+                })
+            }else{
+                Log.i("TAG", "updateUserInfo: user is null")
+            }
+        }
+    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        ZaloPaySDK.getInstance().onResult(intent)
     }
 
 }

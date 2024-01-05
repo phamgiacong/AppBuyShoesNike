@@ -226,12 +226,9 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvShoesToCart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <include
+                android:id="@+id/orderItem"
+                layout="@layout/layout_order_item"/>
 
             <View
                 android:layout_width="match_parent"

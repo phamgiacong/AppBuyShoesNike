@@ -34,6 +34,8 @@ class CheckOutViewModel @Inject constructor(
 
     var mCurrentOrderDetailList: List<OrderDetail>? = null
 
+    var mCurrentOrderDetail: OrderDetail? = null
+
     fun getDefaultAddress() = liveData {
         try {
             emit(Resource.loading())
@@ -61,6 +63,38 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
+    fun putNewOrderByRawData() = liveData {
+        try {
+            if (mCurrentOrderDetail == null) {
+                emit(Resource.error(data = null, message = "Không có đơn hàng"))
+                return@liveData
+            }
+
+            if (mCurrentAddress.value == null) {
+                emit(Resource.error(data = null, message = "Cần thêm địa chỉ đặt hàng"))
+                return@liveData
+            }
+
+            emit(Resource.loading(null))
+            emit(
+                mOrderRepository.createNewOrderByRawData(
+                    mCurrentAddress.value?.id ?: "",
+                    mCurrentOffer.value?.id,
+                    0,
+                    mTotalPrice,
+                    mPrice - mTotalPrice,
+                    mCurrentOrderDetail?.shoes?._id!!,
+                    mCurrentOrderDetail?.quantity!!,
+                    mCurrentOrderDetail?.size!!,
+                    mCurrentOrderDetail?.color!!
+                )
+            )
+        } catch (ex: Exception) {
+            emit(Resource.error(null, ex.message!!))
+        }
+    }
+
+
     fun putNewOrder() = liveData {
         try {
             if (mCurrentOrderDetailList.isNullOrEmpty()) {
@@ -82,7 +116,7 @@ class CheckOutViewModel @Inject constructor(
             emit(
                 mOrderRepository.createNewOrder(
                     mCurrentAddress.value?.id ?: "",
-                    mCurrentOffer.value?.id ?: "",
+                    mCurrentOffer.value?.id,
                     orderDetailList,
                     0,
                     mTotalPrice,
@@ -94,16 +128,14 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
-    fun deleteCartItem(cartItemId: String) = liveData {
-        try {
-            emit(Resource.loading())
-            emit(mOrderDetailRepository.deleteOrderDetail(cartItemId))
-        } catch (ex: Exception) {
-            emit(Resource.error(null, ex.message ?: "Error!!!"))
-        }
+    fun clearData() {
+        mPrice = -1
+        mTotalPrice = 0L
+        mCurrentAddress.value = null
+        mCurrentOffer.value = null
+        mCurrentPaymentMethod = 0 // 0: cash, 1: online
+        mCurrentOrderDetailList = null
     }
-
-
 
 
 }
