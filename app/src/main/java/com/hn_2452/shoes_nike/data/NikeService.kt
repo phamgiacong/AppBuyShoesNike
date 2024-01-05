@@ -8,15 +8,22 @@ import com.hn_2452.shoes_nike.data.api.OfferApi
 import com.hn_2452.shoes_nike.data.api.OrderApi
 import com.hn_2452.shoes_nike.data.api.OrderDetailApi
 import com.hn_2452.shoes_nike.data.api.ShoesApi
+import com.hn_2452.shoes_nike.data.api.ShoesReviewApi
 import com.hn_2452.shoes_nike.data.api.ShoesTypeApi
+import com.hn_2452.shoes_nike.data.api.UserOfferApi
 import com.hn_2452.shoes_nike.data.api.TokenApi
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 object NikeService {
+
+    private val httpLogging = HttpLoggingInterceptor().apply {
+        setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
     private val mRetrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -24,6 +31,7 @@ object NikeService {
             OkHttpClient.Builder()
                 .writeTimeout(30000, TimeUnit.MILLISECONDS)
                 .readTimeout(30000, TimeUnit.MILLISECONDS)
+                .addInterceptor(httpLogging)
                 .build()
         )
         .build()
@@ -35,6 +43,8 @@ object NikeService {
     val mAuthApi: AuthApi = mRetrofit.create(AuthApi::class.java)
     val mOrderDetailApi: OrderDetailApi = mRetrofit.create(OrderDetailApi::class.java)
     val mOrderApi: OrderApi = mRetrofit.create(OrderApi::class.java)
+    val mUserOfferApi: UserOfferApi = mRetrofit.create(UserOfferApi::class.java)
+    val mShoesReview: ShoesReviewApi = mRetrofit.create(ShoesReviewApi::class.java)
     val mTokenApi :TokenApi = mRetrofit.create(TokenApi::class.java)
     val mNotificationApi :NotificationApi = mRetrofit.create(NotificationApi::class.java)
 }

@@ -22,45 +22,8 @@ val OrderDiff = object : DiffUtil.ItemCallback<Order>() {
 }
 
 class OrderItemAdapter @Inject constructor() :
-    ListAdapter<Order, OrderItemAdapter.OrderItemAdapterViewHolder>(OrderDiff) {
+    ListAdapter<Order, OrderItemAdapterViewHolder>(OrderDiff) {
     var mOnDetail: (Order) -> Unit = {}
-
-    class OrderItemAdapterViewHolder(
-        private val mBinding: OrderItemBinding,
-        private val mOnDetail: (Order) -> Unit
-    ) : RecyclerView.ViewHolder(mBinding.root) {
-
-        fun bind(order: Order) {
-            mBinding.orderDetailContainer.removeAllViews()
-            order.orderDetails.forEach { orderDetail ->
-                val subOrderBinding =
-                    SubOrderItemBinding.inflate(LayoutInflater.from(mBinding.root.context))
-                subOrderBinding.tvShoesName.text = orderDetail.shoes.name
-                subOrderBinding.tvShoesQuantity.text =
-                    mBinding.root.context.getString(R.string.shoes_quantity, orderDetail.quantity)
-                subOrderBinding.shoesColor.setCardBackgroundColor(Color.parseColor(orderDetail.color))
-                subOrderBinding.shoesSize.text =
-                    mBinding.root.context.getString(R.string.shoes_size, orderDetail.size)
-
-                mBinding.orderDetailContainer.addView(subOrderBinding.root)
-            }
-            mBinding.tvOrderStatus.text = getStatusOfOrder(mBinding.root.context, order.status)
-            mBinding.tvTotalPrice.text = order.totalPrice.toVND()
-        }
-
-        private fun getStatusOfOrder(context: Context, status: Int): String {
-            return when (status) {
-                0 -> context.getString(R.string.packing)
-                1 -> context.getString(R.string.delevering)
-                2 -> context.getString(R.string.shipping)
-                3 -> context.getString(R.string.completed)
-                4 -> context.getString(R.string.cancel_order)
-                else -> ""
-            }
-        }
-
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         OrderItemAdapterViewHolder(
             OrderItemBinding.inflate(
@@ -73,4 +36,43 @@ class OrderItemAdapter @Inject constructor() :
 
     override fun onBindViewHolder(holder: OrderItemAdapterViewHolder, position: Int) =
         holder.bind(getItem(position))
+}
+
+class OrderItemAdapterViewHolder(
+    private val mBinding: OrderItemBinding,
+    private val mOnDetail: (Order) -> Unit
+) : RecyclerView.ViewHolder(mBinding.root) {
+
+    fun bind(order: Order) {
+        mBinding.orderDetailContainer.removeAllViews()
+        order.orderDetails.forEach { orderDetail ->
+            val subOrderBinding =
+                SubOrderItemBinding.inflate(LayoutInflater.from(mBinding.root.context))
+            subOrderBinding.tvShoesName.text = orderDetail.shoes.name
+            subOrderBinding.tvShoesQuantity.text =
+                mBinding.root.context.getString(R.string.shoes_quantity, orderDetail.quantity)
+            subOrderBinding.shoesColor.setCardBackgroundColor(Color.parseColor(orderDetail.color))
+            subOrderBinding.shoesSize.text =
+                mBinding.root.context.getString(R.string.shoes_size, orderDetail.size)
+
+            mBinding.orderDetailContainer.addView(subOrderBinding.root)
+        }
+        mBinding.tvOrderStatus.text = getStatusOfOrder(mBinding.root.context, order.status)
+        mBinding.tvTotalPrice.text = order.totalPrice.toVND()
+        mBinding.tvDetail.setOnClickListener {
+            mOnDetail(order)
+        }
+    }
+
+    private fun getStatusOfOrder(context: Context, status: Int): String {
+        return when (status) {
+            0 -> context.getString(R.string.packing)
+            1 -> context.getString(R.string.delevering)
+            2 -> context.getString(R.string.shipping)
+            3 -> context.getString(R.string.completed)
+            4 -> context.getString(R.string.cancel_order)
+            else -> ""
+        }
+    }
+
 }

@@ -31,6 +31,15 @@ interface OrderDetailApi {
         @Field("quantity") number: Int
     ): NetworkResult<Nothing>
 
+    @FormUrlEncoded
+    @POST("/order-detail/")
+    suspend fun evaluateOrderDetail(
+        @Header("Authorization") token: String,
+        @Field("order_id") orderDetailId: String,
+        @Field("star") number: Int,
+        @Field("comment") comment: String
+    ): NetworkResult<Nothing>
+
     @DELETE("/order-detail/")
     suspend fun deleteOrderDetail(
         @Header("Authorization") token: String,
@@ -41,6 +50,7 @@ interface OrderDetailApi {
     @GET("/order-detail/get-by-user-id")
     suspend fun getOrderDetailOfUser(
         @Header("Authorization") token: String,
+        @Query("order_detail_ids") orderDetailIds: String
     ): NetworkResult<List<OrderDetail>>
 
 }

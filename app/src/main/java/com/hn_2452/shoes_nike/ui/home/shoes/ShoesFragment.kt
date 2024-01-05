@@ -13,6 +13,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.hn_2452.shoes_nike.BaseFragment
+import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentShoesBinding
 import com.hn_2452.shoes_nike.ui.home.shoes.shoes_image.ShoesImageAdapter
 import com.hn_2452.shoes_nike.utility.Status
@@ -130,8 +131,17 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                         tvOriginPrice.visibility = View.GONE
                     }
                     tvDescription.text = shoes.description
-                    sold.text = "${shoes.sold} sold"
-                    rate.text = "${shoes.rate}"
+                    sold.text = getString(R.string.shoes_sold, shoes.sold)
+                    rate.text = "${shoes.rate} (${shoes.number_of_reviews} đánh giá)"
+                    tvWatchReview.setOnClickListener {
+                        if(shoes.number_of_reviews > 0) {
+                            mNavController?.navigate(
+                                ShoesFragmentDirections.actionShoesFragmentToShoesReviewFragment2(shoes._id)
+                            )
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.not_yet_review), Toast.LENGTH_SHORT).show()
+                        }
+                    }
                     setupSizeDataList()
                     setupColorDataList()
                     setupQuantity()

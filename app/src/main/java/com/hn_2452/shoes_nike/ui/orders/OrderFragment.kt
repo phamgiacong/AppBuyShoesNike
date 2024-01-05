@@ -10,6 +10,7 @@ import androidx.core.view.marginTop
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.hn_2452.shoes_nike.BaseFragment
+import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentOrderBinding
 import com.hn_2452.shoes_nike.utility.Status
 import com.hn_2452.shoes_nike.utility.dpToPx
@@ -29,10 +30,20 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
         const val ACTIVE = 0
         const val COMPLETE = 1
         const val TAG = "Nike:OrderFragment: "
+        var type = ACTIVE
     }
 
     private var mCurrentStateOrder = ACTIVE
+    private var mPass = true
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mPass = true
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -40,17 +51,44 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUser()
+        setupLoading(mBinding?.loadingProgress)
         setupBottomBar(true)
         setupIndicator()
         setupOrderList()
     }
 
-    private fun setupOrderList() {
-        mOrderItemAdapter.mOnDetail = {order ->
+    override fun onStart() {
+        super.onStart()
+        if(type == ACTIVE) {
+            mBinding?.activeLayout?.performClick()
+        } else {
+            mBinding?.completeLayout?.performClick()
+        }
+    }
 
+    private fun setupUser() {
+        mOrderViewModel.mCurrentUser.observe(viewLifecycleOwner) {
+            if (it != null && it.isNotEmpty()) {
+                mBinding?.mainLayout?.visibility = View.VISIBLE
+                mBinding?.layoutNeedLogin?.visibility = View.GONE
+            } else {
+                mBinding?.mainLayout?.visibility = View.GONE
+                mBinding?.layoutNeedLogin?.visibility = View.VISIBLE
+                mBinding?.btnSignIn?.setOnClickListener {
+                    mNavController?.navigate(R.id.loginFragment)
+                }
+            }
+        }
+    }
+
+    private fun setupOrderList() {
+        mOrderItemAdapter.mOnDetail = { order ->
+           mNavController?.navigate(
+               OrderFragmentDirections.actionOrderFragmentToOrderDetailFragment(order.id)
+           )
         }
         mBinding?.rcvCartItem?.adapter = mOrderItemAdapter
-        loadOrderOfUser(true)
     }
 
     private fun loadOrderOfUser(active: Boolean) {
@@ -59,9 +97,19 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
             data = mOrderViewModel.getOrderOfUser(active),
             lifecycleOwner = viewLifecycleOwner,
             context = requireContext(),
-            isErrorInform = true,
+            isErrorInform = false,
+            onLoading = {startLoading()},
+            onError = {stopLoading()},
             onSuccess = { orders ->
-                mOrderItemAdapter.submitList(orders)
+                stopLoading()
+                if(orders.isNullOrEmpty()) {
+                    mOrderItemAdapter.submitList(emptyList())
+                    mBinding?.tvNoneOrder?.visibility = View.VISIBLE
+                } else {
+                    mBinding?.tvNoneOrder?.visibility = View.GONE
+                    mBinding?.mainLayout?.visibility = View.VISIBLE
+                    mOrderItemAdapter.submitList(orders)
+                }
             }
         )
     }
@@ -69,8 +117,10 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
     private fun setupIndicator() {
         mCurrentStateOrder = ACTIVE
         mBinding?.activeLayout?.setOnClickListener {
-            if(mCurrentStateOrder == COMPLETE) {
+            if(mCurrentStateOrder == COMPLETE || mPass) {
+                mPass = false
                 mCurrentStateOrder = ACTIVE
+                type = ACTIVE
                 mBinding?.tvActive?.setTextColor(Color.BLACK)
                 mBinding?.lineActive?.setBackgroundColor(Color.BLACK)
                 val layoutParams = mBinding?.lineActive?.layoutParams as ViewGroup.MarginLayoutParams
@@ -89,8 +139,10 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
         }
 
         mBinding?.completeLayout?.setOnClickListener {
-            if(mCurrentStateOrder == ACTIVE) {
+            if(mCurrentStateOrder == ACTIVE || mPass) {
+                mPass = false
                 mCurrentStateOrder = COMPLETE
+                type = COMPLETE
                 mBinding?.tvActive?.setTextColor(Color.LTGRAY)
                 mBinding?.lineActive?.setBackgroundColor(Color.LTGRAY)
                 val layoutParams = mBinding?.lineActive?.layoutParams as ViewGroup.MarginLayoutParams
