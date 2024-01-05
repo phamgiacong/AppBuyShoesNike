@@ -1,6 +1,7 @@
 package com.hn_2452.shoes_nike.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.hn_2452.shoes_nike.TOKEN
 import com.hn_2452.shoes_nike.TOKEN_METHOD
 import com.hn_2452.shoes_nike.data.NikeService
@@ -31,7 +32,9 @@ class OrderDetailRepository @Inject constructor(
 
     suspend fun getOrderDetailOfUser() = withContext(Dispatchers.IO) {
         val token = getStringDataByKey(mApp, TOKEN)
+        Log.e("TAG", "getOrderDetailOfUser: $token ", )
         val response = NikeService.mOrderDetailApi.getOrderDetailOfUser(TOKEN_METHOD + token)
+
         if (response.success) {
             Resource.success(response.data)
         } else {

@@ -6,5 +6,6 @@ data class Notification(
     val content: String,
     val type: Int,
     val link: String,
-    val seen: Boolean
+    val seen: Boolean,
+    val time:Long
 )

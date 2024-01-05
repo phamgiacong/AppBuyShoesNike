@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <queries>
         <package android:name="com.facebook.katana" />
     </queries>
@@ -28,14 +28,22 @@
         <activity
             android:windowSoftInputMode="adjustPan"
             android:name=".MainActivity"
-            android:exported="false" />
+            android:launchMode="singleTask"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="demozpdk" android:host="app"/>
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.splash_activity.SplashActivity"
-            android:exported="true">
-
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
