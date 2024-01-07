@@ -14,7 +14,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
-import com.hn_2452.shoes_nike.data.model.Offer
+import com.hn_2452.shoes_nike.data.model.UserOffer
 import com.hn_2452.shoes_nike.databinding.FragmentBuyNowBinding
 import com.hn_2452.shoes_nike.databinding.LayoutOrderItemBinding
 import com.hn_2452.shoes_nike.utility.handleResource
@@ -115,6 +115,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                             "Đặt đơn hàng thành công",
                             Toast.LENGTH_LONG
                         ).show()
+                        mCheckOutViewModel.clearData()
                         mNavController?.navigate(
                             BuyNowFragmentDirections.actionBuyNowFragmentToHomeFragment()
                         )
@@ -146,43 +147,43 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
     }
 
     private fun setupOffer() {
-        mCheckOutViewModel.mCurrentOffer.observe(requireActivity()) { offer ->
-            offer?.let {
+        mCheckOutViewModel.mCurrentOffer.observe(requireActivity()) { userOffer ->
+            userOffer?.let {
                 Log.i(TAG, "setupOffer: $mBinding")
                 mBinding?.run {
                     noneOffer.visibility = View.GONE
-                    val saleString = if (offer.discountUnit == 0) {
-                        "Giảm giá ${offer.discount}%"
+                    val saleString = if (userOffer.offer.discountUnit == 0) {
+                        "Giảm giá ${userOffer.offer.discount}%"
                     } else {
-                        "Giảm giá ${offer.discount.toVND()}"
+                        "Giảm giá ${userOffer.offer.discount.toVND()}"
                     }
 
-                    val saleMore = if (offer.maxDiscount != -1L) {
-                        "Giảm tối đa ${offer.maxDiscount.toVND()} cho đơn hàng từ ${offer.valueToApply.toVND()}"
+                    val saleMore = if (userOffer.offer.maxDiscount != -1L) {
+                        "Giảm tối đa ${userOffer.offer.maxDiscount.toVND()} cho đơn hàng từ ${userOffer.offer.valueToApply.toVND()}"
                     } else {
-                        "Áp dụng cho đơn hàng từ ${offer.valueToApply.toVND()}"
+                        "Áp dụng cho đơn hàng từ ${userOffer.offer.valueToApply.toVND()}"
                     }
 
                     tvSalePrice.text = saleString
                     tvSaleMore.text = saleMore
-                    tvTitle.text = offer.title
-                    tvExpired.text = "Hết hạn ${offer.endTime.toDayString()}"
+                    tvTitle.text = userOffer.offer.title
+                    tvExpired.text = "Hết hạn ${userOffer.offer.endTime.toDayString()}"
                     tvDetail.setOnClickListener {
                         mNavController?.navigate(
                             CheckOutFragmentDirections.actionCheckOutFragmentToOfferDetailFragment(
-                                offer
+                                userOffer.offer
                             )
                         )
                     }
 
                     val currentPrice = mCheckOutViewModel.mPrice
                     if (currentPrice != -1L) {
-                        if (offer.discountUnit == 0) {
-                            var sale = (currentPrice * offer.discount / 100)
+                        if (userOffer.offer.discountUnit == 0) {
+                            var sale = (currentPrice * userOffer.offer.discount / 100)
 
-                            if (offer.maxDiscount != -1L && sale >= offer.maxDiscount) {
+                            if (userOffer.offer.maxDiscount != -1L && sale >= userOffer.offer.maxDiscount) {
                                 // so tien khuyen mai >= so tien duoc phep khuyen mai
-                                sale = offer.maxDiscount
+                                sale = userOffer.offer.maxDiscount
                                 mBinding?.tvSale?.text = sale.toVND()
                             } else {
                                 // khong gioi han so tien khuyen mai
@@ -196,8 +197,8 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                         } else {
                             // tong tien =  so tien - so tien khuyen mai
                             // so tien khuyen mai = so tien khuyen mai
-                            mBinding?.tvSale?.text = offer.discount.toVND()
-                            val totalPrice = (currentPrice - offer.discount)
+                            mBinding?.tvSale?.text = userOffer.offer.discount.toVND()
+                            val totalPrice = (currentPrice - userOffer.offer.discount)
                             mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                             mCheckOutViewModel.mTotalPrice = totalPrice
                         }
@@ -267,12 +268,12 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
         )
     }
 
-    private fun takeASuitableOffer(offers: List<Offer>?) {
-        offers?.run {
-            val newOffers = offers.sortedByDescending { it.maxDiscount }
-            newOffers.forEach { offer ->
-                if (offer.maxDiscount <= mCheckOutViewModel.mPrice) {
-                    mCheckOutViewModel.mCurrentOffer.value = offer
+    private fun takeASuitableOffer(userOffers: List<UserOffer>?) {
+        userOffers?.run {
+            val newOffers = userOffers.sortedByDescending { it.offer.maxDiscount }
+            newOffers.forEach { userOffer ->
+                if (!userOffer.used && userOffer.offer.valueToApply <= mCheckOutViewModel.mPrice) {
+                    mCheckOutViewModel.mCurrentOffer.value = userOffer
                     return@forEach
                 }
             }
@@ -285,6 +286,11 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
             mCheckOutViewModel.clearData()
             mNavController?.popBackStack()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCheckOutViewModel.clearData()
     }
 
 

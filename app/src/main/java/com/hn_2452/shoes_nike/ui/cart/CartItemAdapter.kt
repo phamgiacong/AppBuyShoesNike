@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
+import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.OrderDetail
 import com.hn_2452.shoes_nike.databinding.ItemCartBinding
@@ -31,6 +32,9 @@ class CartItemAdapter @Inject constructor() :
     var mOnDeleteItem: (cartItem: OrderDetail) -> Unit = {}
     var mOnIncreaseQuantity: (cartItemId: String, updatedQuantity: Int) -> Boolean = { _, _ -> false}
     var mOnReduceQuantity: (cartItemId: String, reducedQuantity: Int) -> Boolean = { _, _ -> false}
+    var mOnCheck: (OrderDetail, Boolean) -> Unit = {_, _ ->}
+
+    var mPreviousOrderDetailIds : List<String>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CartItemAdapterHolder(
             ItemCartBinding.inflate(
@@ -41,7 +45,9 @@ class CartItemAdapter @Inject constructor() :
             mOnSelectItem,
             mOnDeleteItem,
             mOnIncreaseQuantity,
-            mOnReduceQuantity
+            mOnReduceQuantity,
+            mOnCheck,
+            mPreviousOrderDetailIds
         )
 
     override fun onBindViewHolder(holder: CartItemAdapterHolder, position: Int) =
@@ -54,13 +60,15 @@ class CartItemAdapterHolder(
     private val mOnSelectItem: (shoesId: String) -> Unit,
     private val mOnDeleteItem: (cartItem: OrderDetail) -> Unit,
     private val mOnIncreaseQuantity: (cartId: String, increasedQuantity: Int) -> Boolean,
-    private val mOnReduceQuantity: (cartId: String, reducedQuantity: Int) -> Boolean
+    private val mOnReduceQuantity: (cartId: String, reducedQuantity: Int) -> Boolean,
+    private val mOnCheck: (OrderDetail, Boolean) -> Unit,
+    private val mPreviousOrderDetailIds: List<String>?
 ) : ViewHolder(mBinding.root) {
 
     fun bind(cartItem: OrderDetail) {
         with(mBinding) {
-            imgProduct.load(cartItem.shoes.main_image) {
-                error(R.drawable.ic_launcher_background)
+            imgProduct.load( BASE_URL + cartItem.shoes.main_image) {
+                error(R.drawable.image_broken)
             }
 
             tvNameProduct.text = cartItem.shoes.name
@@ -90,6 +98,16 @@ class CartItemAdapterHolder(
                 if(result) {
                     tvQuantity.text = increasedQuantity.toString()
                 }
+            }
+
+            if(mPreviousOrderDetailIds == null) {
+                checkBox.isChecked = true
+            } else {
+                checkBox.isChecked = mPreviousOrderDetailIds.contains(cartItem.id)
+            }
+
+            checkBox.setOnClickListener {
+                mOnCheck(cartItem, checkBox.isChecked)
             }
 
         }

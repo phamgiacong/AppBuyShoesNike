@@ -30,11 +30,9 @@ class OrderDetailRepository @Inject constructor(
             }
         }
 
-    suspend fun getOrderDetailOfUser() = withContext(Dispatchers.IO) {
+    suspend fun getOrderDetailOfUser(ids: List<String>) = withContext(Dispatchers.IO) {
         val token = getStringDataByKey(mApp, TOKEN)
-        Log.e("TAG", "getOrderDetailOfUser: $token ", )
-        val response = NikeService.mOrderDetailApi.getOrderDetailOfUser(TOKEN_METHOD + token)
-
+        val response = NikeService.mOrderDetailApi.getOrderDetailOfUser(TOKEN_METHOD + token, ids.toString())
         if (response.success) {
             Resource.success(response.data)
         } else {
@@ -55,6 +53,15 @@ class OrderDetailRepository @Inject constructor(
     suspend fun deleteOrderDetail(id: String) = withContext(Dispatchers.IO) {
         val token = getStringDataByKey(mApp, TOKEN)
         val response = NikeService.mOrderDetailApi.deleteOrderDetail(TOKEN_METHOD + token, id)
+        if (response.success) {
+            Resource.success(true)
+        } else {
+            Resource.error(message = response.message)
+        }
+    }
+
+    suspend fun evaluateOrder(token: String, id: String, star: Int, comment: String) = withContext(Dispatchers.IO) {
+        val response = NikeService.mOrderDetailApi.evaluateOrderDetail(token, id, star, comment)
         if (response.success) {
             Resource.success(true)
         } else {

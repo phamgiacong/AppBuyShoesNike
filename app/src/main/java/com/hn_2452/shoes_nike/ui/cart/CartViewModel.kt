@@ -18,12 +18,13 @@ class CartViewModel @Inject constructor(
 
     var mCurrentUser = mNikeDatabase.userDao().getUsers()
 
-    var mAvailableToCheckout: Boolean = false
+    var mSelectedCartItemIdList : MutableList<String>? = null
+    var mCartItemList: MutableList<OrderDetail> = mutableListOf()
 
     fun getCartOfUser() = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {
-            emit(mOrderDetailRepository.getOrderDetailOfUser())
+            emit(mOrderDetailRepository.getOrderDetailOfUser(emptyList()))
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message ?: "Error!!!"))
         }

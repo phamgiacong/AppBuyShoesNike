@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import com.hn_2452.shoes_nike.data.NetworkResult
 import com.hn_2452.shoes_nike.ui.cart.CartFragment
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
@@ -56,5 +57,13 @@ fun <T> handleResource(
                 }
             }
         }
+    }
+}
+
+fun <T> parseResult(res: NetworkResult<T>) : Resource<T> {
+    return if(res.success) {
+        Resource.success(res.data)
+    } else {
+        Resource.error(message = res.message)
     }
 }

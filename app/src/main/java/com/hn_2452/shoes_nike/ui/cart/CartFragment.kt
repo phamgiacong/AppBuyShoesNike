@@ -45,7 +45,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
 
     private fun setupUser() {
         mCartViewModel.mCurrentUser.observe(viewLifecycleOwner) {
-            if(it != null && it.isNotEmpty()) {
+            if (it != null && it.isNotEmpty()) {
                 mBinding?.layoutNeedLogin?.visibility = View.GONE
                 setupCartOfUser()
                 setupCheckout()
@@ -61,8 +61,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
 
     private fun setupCheckout() {
         mBinding?.btnCheckOut?.setOnClickListener {
-            if(mCartViewModel.mAvailableToCheckout) {
-                mNavController?.navigate(R.id.checkOutFragment)
+            if (mCartViewModel.mSelectedCartItemIdList?.isNotEmpty() == true) {
+                mNavController?.navigate(
+                    CartFragmentDirections.actionCartFragmentToCheckOutFragment(mCartViewModel.mSelectedCartItemIdList!!.toTypedArray())
+                )
             }
         }
     }
@@ -71,15 +73,30 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
         super.onStop()
         setupBottomBar(false)
     }
+
     private fun setupCartOfUser() {
         mCartItemAdapter.mOnSelectItem = { shoesId -> viewShoes(shoesId) }
-        mCartItemAdapter.mOnDeleteItem = { cartItem -> deleteCartItem(cartItem) }
+        mCartItemAdapter.mOnDeleteItem = { cartItem -> showDeleteCartItemPopup(cartItem) }
         mCartItemAdapter.mOnIncreaseQuantity =
-            { cartItemId, updatedQuantity ->  increaseQuantity(cartItemId, updatedQuantity) }
+            { cartItemId, updatedQuantity -> increaseQuantity(cartItemId, updatedQuantity) }
         mCartItemAdapter.mOnReduceQuantity =
             { cartItemId, reducedQuantity -> reduceQuantity(cartItemId, reducedQuantity) }
+        mCartItemAdapter.mOnCheck = { cartItem, checked ->
+            handleSelectItem(cartItem, checked)
+        }
         mBinding?.rcvCartItem?.adapter = mCartItemAdapter
         loadCartOfUser()
+    }
+
+    private fun handleSelectItem(cartItem: OrderDetail, selected: Boolean) {
+        if (selected) {
+            if (mCartViewModel.mSelectedCartItemIdList?.contains(cartItem.id) == false) {
+                mCartViewModel.mSelectedCartItemIdList?.add(cartItem.id)
+            }
+        } else {
+            mCartViewModel.mSelectedCartItemIdList?.remove(cartItem.id)
+        }
+        updateTotalPrice(getSelectedCartItemList())
     }
 
     private fun loadCartOfUser() {
@@ -88,33 +105,55 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
             data = mCartViewModel.getCartOfUser(),
             lifecycleOwner = viewLifecycleOwner,
             onLoading = { startLoading() },
-            isErrorInform = true,
+            isErrorInform = false,
             onError = { stopLoading() },
             onSuccess = { cartItemList ->
                 stopLoading()
-                if(cartItemList.isNullOrEmpty()) {
+                mCartViewModel.mCartItemList = cartItemList?.toMutableList() ?: mutableListOf()
+                if (cartItemList.isNullOrEmpty()) {
                     mBinding?.mainLayout?.visibility = View.GONE
                     mBinding?.noneItem?.visibility = View.VISIBLE
                 } else {
-                    if(mBinding?.noneItem?.visibility == View.VISIBLE) {
+                    if (mBinding?.noneItem?.visibility == View.VISIBLE) {
                         mBinding?.noneItem?.visibility = View.GONE
                     }
-                    if(mBinding?.mainLayout?.visibility == View.GONE) {
+                    if (mBinding?.mainLayout?.visibility == View.GONE) {
                         mBinding?.mainLayout?.visibility = View.VISIBLE
                     }
-                    mCartViewModel.mAvailableToCheckout = cartItemList.isNotEmpty()
+
+                    if (mCartViewModel.mSelectedCartItemIdList == null) {
+                        val selectedCartItemIds = mutableListOf<String>()
+                        mCartViewModel.mCartItemList.forEach {
+                            selectedCartItemIds.add(it.id)
+                        }
+                        mCartViewModel.mSelectedCartItemIdList = selectedCartItemIds
+                        updateTotalPrice(getSelectedCartItemList())
+                    } else {
+                        mCartItemAdapter.mPreviousOrderDetailIds = mCartViewModel.mSelectedCartItemIdList!!
+                        updateTotalPrice(getSelectedCartItemList())
+                    }
                     mCartItemAdapter.submitList(cartItemList)
-                    updateTotalPrice(cartItemList)
                 }
             },
             context = requireContext()
         )
     }
 
+    private fun getSelectedCartItemList() : List<OrderDetail> {
+        val selectedCartItemList = mCartViewModel.mCartItemList.filter {
+            mCartViewModel.mSelectedCartItemIdList?.contains(it.id) ?: false
+        }
+        return selectedCartItemList
+    }
+
     private fun updateTotalPrice(cartItemList: List<OrderDetail>?) {
         var price = 0L
         cartItemList?.forEach { item ->
-            price += item.quantity * item.shoes.price.toLong()
+            price += if (item.shoes.discountUnit == 0) {
+                item.quantity * (item.shoes.price - (item.shoes.price * item.shoes.discount / 100))
+            } else {
+                item.quantity * (item.shoes.price - item.shoes.discount)
+            }
         }
         mBinding?.tvPrice?.text = price.toVND()
     }
@@ -126,7 +165,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
         )
     }
 
-    private fun deleteCartItem(cartItem: OrderDetail) {
+    private fun showDeleteCartItemPopup(cartItem: OrderDetail) {
         val binding =
             LayoutRemoveCartItemBinding.inflate(LayoutInflater.from(requireContext()), null, false)
         val bottomSheet = BottomSheetDialog(requireContext())
@@ -145,18 +184,21 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
 
             btnClose.setOnClickListener { bottomSheet.dismiss() }
             btnRemove.setOnClickListener {
-                deleteCartItem(cartItem.id)
+                deleteCartItem(cartItem)
                 bottomSheet.dismiss()
             }
         }
         bottomSheet.show()
     }
 
-    private fun deleteCartItem(cartItem: String) {
+    private fun deleteCartItem(cartItem: OrderDetail) {
         handleResource(
-            data = mCartViewModel.deleteCartItem(cartItem),
+            data = mCartViewModel.deleteCartItem(cartItem.id),
             lifecycleOwner = viewLifecycleOwner,
-            onSuccess = { loadCartOfUser() },
+            onSuccess = {
+                handleSelectItem(cartItem, false)
+                loadCartOfUser()
+            },
             context = requireContext()
         )
     }
@@ -173,7 +215,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
     }
 
     private fun reduceQuantity(cartItemId: String, reducedQuantity: Int): Boolean {
-        if(reducedQuantity < 1) {
+        if (reducedQuantity < 1) {
             return false
         }
         handleResource(
@@ -183,6 +225,12 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
             context = requireContext()
         )
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "onDestroy: ")
+        mCartViewModel.mSelectedCartItemIdList = null
     }
 
 

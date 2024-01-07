@@ -47,10 +47,18 @@ interface OrderApi {
         @Query("active") active: Boolean
     ): NetworkResult<List<Order>>
 
+    @GET("/order/getById")
+    suspend fun getOrderById(
+        @Header("Authorization") token: String,
+        @Query("id") id: String
+    ) : NetworkResult<Order>
+
+    @FormUrlEncoded
     @PUT("/order/cancelOrder")
     suspend fun cancelOrder(
         @Header("Authorization") token: String,
-        @Field("id") id: String
+        @Field("id") id: String,
+        @Field("cancel_reason") reason: String
     ): NetworkResult<Nothing>
 
 }

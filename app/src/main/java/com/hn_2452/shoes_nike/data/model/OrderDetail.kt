@@ -15,6 +15,12 @@ data class OrderDetail(
     val shoes: Shoes,
     val quantity: Int = -1,
     val color: String = "",
-    val size: Int = -1
+    val size: Int = -1,
+    val ordered: Boolean = false,
+    val evaluated: Int = 3, // 0: yet, 1: not yet, 2: pending, 3: not able
+    val star: Float = 0F,
+    val comment: String = "",
+    @SerializedName("evaluate_time")
+    val evaluateTime: Long = -1
 ) : Parcelable
 

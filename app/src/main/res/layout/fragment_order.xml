@@ -66,13 +66,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:textColor="#FFCCCCCC"
                     android:id="@+id/tvComplete"
                     style="@style/medium_bold_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/complete"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="#FFCCCCCC" />
 
                 <View
                     android:id="@+id/lineComplete"
@@ -97,20 +97,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
-
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/loadingProgress"
-            style="@style/SpinKitView.Circle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            app:SpinKit_Color="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -143,7 +129,21 @@
 
     </LinearLayout>
 
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/loadingProgress"
+        style="@style/SpinKitView.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
+        android:id="@+id/tvNoneOrder"
         style="@style/bold_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
