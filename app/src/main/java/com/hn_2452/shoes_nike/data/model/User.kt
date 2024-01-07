@@ -20,12 +20,16 @@ data class User(
     var accountId: String?,
     var state: Int, // 0: inactive, 1: active, 2: block
     var avatar: String?,
-    var offers: List<String> = emptyList(),
-
     @SerializedName("created_date")
     var createdDate: Long,
 
     @SerializedName("phone_number")
-    var phoneNumber: String? = null
+    val phoneNumber: String? = null,
+    @SerializedName("full_name")
+    val fullName: String? = null,
+    @SerializedName("birth_day")
+    val birthDay: Long? = null,
+    @SerializedName("gender")
+    val gender: Int? = null
 )
 

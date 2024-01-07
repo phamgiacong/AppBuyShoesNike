@@ -104,7 +104,7 @@
     <string name="enter_current_password">Nhập mật khẩu hiện tại</string>
     <string name="edit_profile">Cập nhật thông tin</string>
     <string name="update_info">Cập nhật thông tin</string>
-    <string name="buy_now">Mua Ngay</string>
+    <string name="buy_now">Mua ngay</string>
     <string name="add_to_cart">Thêm vào giỏ</string>
     <string name="my_cart">Giỏ hàng của tôi</string>
     <string name="checkout">Thanh toán</string>
@@ -189,4 +189,10 @@
     <string name="shoes_rate_and_shoes_reviewers">%d ( %d đánh giá )</string>
     <string name="not_yet_review">Chưa có người đánh giá giày này</string>
     <string name="shoes_review">Đánh giá giày</string>
+
+    <string-array name="genders_array">
+        <item>Chưa xác định giới tính</item>
+        <item>Nam</item>
+        <item>Nữ</item>
+    </string-array>
 </resources>

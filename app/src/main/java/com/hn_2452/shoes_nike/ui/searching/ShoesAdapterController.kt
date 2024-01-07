@@ -1,6 +1,7 @@
 package com.hn_2452.shoes_nike.ui.searching
 
 import android.annotation.SuppressLint
+import android.view.View
 import coil.load
 import com.airbnb.epoxy.TypedEpoxyController
 import com.hn_2452.shoes_nike.BASE_URL
@@ -8,6 +9,8 @@ import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.Shoes
 import com.hn_2452.shoes_nike.databinding.LayoutShoesItemBinding
 import com.hn_2452.shoes_nike.utility.ViewBindingModel
+import com.hn_2452.shoes_nike.utility.getOriginPrice
+import com.hn_2452.shoes_nike.utility.getPrice
 import com.hn_2452.shoes_nike.utility.toVND
 import javax.inject.Inject
 
@@ -39,7 +42,13 @@ class ShoesAdapterController @Inject constructor() : TypedEpoxyController<List<S
             imvShoesImage.load(BASE_URL + shoes.main_image)
             tvShoesName.text = shoes.name
             tvShoesRate.text = shoes.rate.toString()
-            tvShoesPrice.text = shoes.price.toLong().toVND()
+            tvShoesPrice.text = getPrice(shoes)
+            if(shoes.discount > 0) {
+                tvShoesOriginPrice.visibility = View.VISIBLE
+                tvShoesOriginPrice.text = getOriginPrice(shoes)
+            } else {
+                tvShoesOriginPrice.visibility = View.GONE
+            }
             tvShoesSold.text = "${shoes.sold} đã bán"
             root.setOnClickListener {
                 onClick(shoes)

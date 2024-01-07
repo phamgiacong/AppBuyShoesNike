@@ -1,6 +1,9 @@
 package com.hn_2452.shoes_nike.ui.home.shoes
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,11 +17,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
+import com.hn_2452.shoes_nike.TOKEN
 import com.hn_2452.shoes_nike.databinding.FragmentShoesBinding
 import com.hn_2452.shoes_nike.ui.home.shoes.shoes_image.ShoesImageAdapter
 import com.hn_2452.shoes_nike.utility.Status
 import com.hn_2452.shoes_nike.utility.getOriginPrice
 import com.hn_2452.shoes_nike.utility.getPrice
+import com.hn_2452.shoes_nike.utility.getStringDataByKey
+import com.hn_2452.shoes_nike.utility.handleResource
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -55,6 +61,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         setupAddToFavorite()
         setupBtnAddOrderDetailToCart()
         setupBuyNow()
+        loadFavoriteShoesState()
     }
 
     private fun setupBuyNow() {
@@ -81,8 +88,56 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     private fun setupAddToFavorite() {
         mBinding?.imvFavorite?.setOnClickListener {
-            // Todo: add favorite shoes
+            if (getStringDataByKey(requireContext(), TOKEN).isNotEmpty()) {
+                handleResource(
+                    data = mShoesViewModel.addFavoriteShoes(mArgs.shoesId),
+                    lifecycleOwner = viewLifecycleOwner,
+                    context = requireContext(),
+                    onSuccess = {
+                        if(it == true) {
+                            Toast.makeText(requireContext(), "Thêm thành công giày vào mục ưu thích", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(requireContext(), "Xóa thành công giày vào mục ưu thích", Toast.LENGTH_SHORT).show()
+                        }
+                        loadFavoriteShoesState()
+                    },
+                    isErrorInform = true
+                )
+            } else {
+                AlertDialog.Builder(requireContext())
+                    .setMessage("Bạn cần đăng nhập trước khi lưu giày vào yêu thích")
+                    .setPositiveButton(
+                        "Đăng nhập"
+                    ) { dialog, _ ->
+                        mNavController?.navigate(R.id.loginFragment)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(getString(R.string.close)) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
+            }
         }
+    }
+
+    private fun loadFavoriteShoesState() {
+        val token = getStringDataByKey(requireContext(), TOKEN)
+        if(token.isNotEmpty()) {
+            handleResource(
+                data = mShoesViewModel.checkFavoriteShoes(mArgs.shoesId),
+                lifecycleOwner = viewLifecycleOwner,
+                context = requireContext(),
+                onSuccess = {
+                    if(it == true) {
+                        mBinding?.imvFavorite?.imageTintList = ColorStateList.valueOf(Color.RED)
+                    } else {
+                        mBinding?.imvFavorite?.imageTintList = ColorStateList.valueOf(Color.BLACK)
+                    }
+                }
+            )
+        }
+
     }
 
 
@@ -119,6 +174,22 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         mShoesViewModel.mCurrentShoes.observe(viewLifecycleOwner) { shoes ->
             shoes?.let {
                 mBinding?.run {
+                    when(shoes.state) {
+                        0 -> {
+                            mBinding?.tvNote?.text = "Sản phẩm ngừng kinh doanh"
+                            mBinding?.tvNote?.visibility = View.VISIBLE
+                        }
+                        1 -> {
+                            mBinding?.btnAddToCart?.visibility = View.VISIBLE
+                            mBinding?.btnBuyNow?.visibility = View.VISIBLE
+                        }
+                        2 -> {
+                            mBinding?.tvNote?.text = "Sản phẩm đang hết hàng"
+                            mBinding?.tvNote?.visibility = View.VISIBLE
+                        }
+                    }
+
+
                     viewPagerShoesImage.adapter =
                         ShoesImageAdapter(this@ShoesFragment, shoes.images)
                     autoRunOfferBanner(shoes.images.size)
@@ -134,12 +205,18 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                     sold.text = getString(R.string.shoes_sold, shoes.sold)
                     rate.text = "${shoes.rate} (${shoes.number_of_reviews} đánh giá)"
                     tvWatchReview.setOnClickListener {
-                        if(shoes.number_of_reviews > 0) {
+                        if (shoes.number_of_reviews > 0) {
                             mNavController?.navigate(
-                                ShoesFragmentDirections.actionShoesFragmentToShoesReviewFragment2(shoes._id)
+                                ShoesFragmentDirections.actionShoesFragmentToShoesReviewFragment2(
+                                    shoes._id
+                                )
                             )
                         } else {
-                            Toast.makeText(requireContext(), getString(R.string.not_yet_review), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.not_yet_review),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                     setupSizeDataList()

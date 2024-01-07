@@ -28,7 +28,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/ic_launcher_background"
+                    android:src="@drawable/user_placeholder"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
@@ -124,16 +124,6 @@
                     android:text="@string/special_offers"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvMoreSpecialOffer"
-                    style="@style/small_bold_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/see_all"
-                    app:layout_constraintBottom_toBottomOf="@id/tvSpecialOffer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvSpecialOffer" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewpager_offer"

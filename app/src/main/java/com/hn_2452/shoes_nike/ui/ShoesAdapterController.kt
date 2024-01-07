@@ -1,8 +1,6 @@
-package com.hn_2452.shoes_nike.ui.home
+package com.hn_2452.shoes_nike.ui
 
 import android.annotation.SuppressLint
-import android.text.SpannableString
-import android.text.style.StrikethroughSpan
 import android.view.View
 import coil.load
 import com.airbnb.epoxy.TypedEpoxyController
@@ -13,7 +11,6 @@ import com.hn_2452.shoes_nike.databinding.LayoutShoesItemBinding
 import com.hn_2452.shoes_nike.utility.ViewBindingModel
 import com.hn_2452.shoes_nike.utility.getOriginPrice
 import com.hn_2452.shoes_nike.utility.getPrice
-import com.hn_2452.shoes_nike.utility.toVND
 
 class ShoesAdapterController(private val onClick: (shoes: Shoes) -> Unit) : TypedEpoxyController<List<Shoes>>() {
     override fun buildModels(data: List<Shoes>?) {
@@ -34,6 +31,7 @@ class ShoesAdapterController(private val onClick: (shoes: Shoes) -> Unit) : Type
         @SuppressLint("SetTextI18n")
         override fun LayoutShoesItemBinding.bind() {
             imvShoesImage.load(BASE_URL + shoes.main_image)
+
             tvShoesName.text = shoes.name
             tvShoesRate.text = shoes.rate.toString()
             tvShoesPrice.text = getPrice(shoes)

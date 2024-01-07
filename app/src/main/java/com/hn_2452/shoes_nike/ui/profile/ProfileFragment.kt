@@ -74,7 +74,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         mProfileFragmentViewModel.mUsers.observe(viewLifecycleOwner) { users ->
             if(users != null && users.isNotEmpty()) {
                 mBinding?.imvUser?.load(users[0].avatar) {
-                    error(R.drawable.ic_launcher_background)
+                    error(R.drawable.user_placeholder)
                 }
                 mBinding?.tvUserName?.text = users[0].name
                 if(users[0].phoneNumber != null) {

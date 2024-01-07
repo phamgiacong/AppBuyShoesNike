@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.databinding.FragmentFavoriteBinding
-import com.hn_2452.shoes_nike.ui.home.ShoesAdapterController
+import com.hn_2452.shoes_nike.ui.ShoesAdapterController
 import com.hn_2452.shoes_nike.utility.Status
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,34 +19,44 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         private const val TAG = "Nike:FavoriteFragment: "
     }
 
-    private val mFavoriteViewModel : FavoriteViewModel by viewModels()
+    private val mFavoriteViewModel: FavoriteViewModel by viewModels()
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentFavoriteBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupLoading(mBinding?.loadingProgress)
+        setupToolbar(mBinding?.toolBar)
         setupBottomBar(true)
         setupFavoriteShoesList()
     }
 
     private fun setupFavoriteShoesList() {
         val controller = ShoesAdapterController {
-
+            val action = FavoriteFragmentDirections.actionFavoriteFragmentToShoesFragment(it._id)
+            mNavController?.navigate(action)
         }
         mBinding?.rcvFavoriteShoes?.setController(controller)
         mFavoriteViewModel.loadFavoriteShoesList().observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result.status) {
                     Status.LOADING -> {
-
+                        startLoading()
                     }
 
                     Status.SUCCESS -> {
-                        controller.setData(result.data)
+                        stopLoading()
+                        if (result.data.isNullOrEmpty()) {
+                            mBinding?.noneShoes?.visibility = View.VISIBLE
+                        } else {
+                            mBinding?.noneShoes?.visibility = View.GONE
+                        }
+                        controller.setData(result.data ?: emptyList())
                     }
 
                     Status.ERROR -> {
+                        stopLoading()
                         Log.e(TAG, "setupFavoriteShoesList: ${result.message}")
                     }
                 }

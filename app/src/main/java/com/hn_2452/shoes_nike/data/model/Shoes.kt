@@ -23,5 +23,7 @@ data class Shoes(
     val discount: Long,
     @SerializedName("discount_unit")
     val discountUnit: Int,  // 0: %, 1: vnđ,
-    val number_of_reviews: Long = 0L
+    val number_of_reviews: Long = 0L,
+    @SerializedName("final_price")
+    val finalPrice: Long
 ):Serializable
