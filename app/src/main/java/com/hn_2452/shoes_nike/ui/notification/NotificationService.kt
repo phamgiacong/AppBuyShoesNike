@@ -6,11 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hn_2452.shoes_nike.BASE_URL
+import com.hn_2452.shoes_nike.MainActivity
 import com.hn_2452.shoes_nike.NikeShoesApplication
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.ui.splash_activity.SplashActivity
@@ -35,14 +37,22 @@ class NotificationService: FirebaseMessagingService() {
                 val notification : RemoteMessage.Notification? =  message.notification
                 val strTitle : String? = notification?.title
                 val strBody :String? = notification?.body
-                sendNotification(strTitle,strBody,bitmap)
+                val data : Map<String,String> = message.data
+                val id :String? = data.get("id")
+                val type:String? = data.get("type")
+                sendNotification(strTitle,strBody,bitmap,id,type)
             }catch (e:Exception){
             }
         }
     }
-    private fun sendNotification(title:String? , body:String?,bitmap: Bitmap?){
-        Log.e(TAG, "sendNotification: ")
-            val intent  = Intent(this,SplashActivity::class.java)
+    private fun sendNotification(title:String? , body:String?,bitmap: Bitmap?,id:String? , type:String?){
+        val bundle=Bundle()
+        bundle.putString("id",id)
+        bundle.putString("type",type)
+
+        Log.e(TAG, "sendNotification: $type")
+        val intent  = Intent(this,MainActivity::class.java)
+        intent.putExtras(bundle)
         val pendingIntent  = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_IMMUTABLE)
          val notificationBuilder = NotificationCompat.Builder(this,NikeShoesApplication.CHANEL_ID)
              .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
