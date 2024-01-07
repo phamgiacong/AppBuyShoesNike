@@ -65,4 +65,13 @@ class ShoesRepository @Inject constructor() {
             return@withContext Resource.error(null, shoesData.message)
         }
     }
+
+    suspend fun getShoesByType(typeId: String): Resource<List<Shoes>> = withContext(Dispatchers.IO) {
+        val shoesData = NikeService.mShoesApi.getShoesByType(typeId)
+        if (shoesData.success) {
+            return@withContext Resource.success(shoesData.data)
+        } else {
+            return@withContext Resource.error(null, shoesData.message)
+        }
+    }
 }

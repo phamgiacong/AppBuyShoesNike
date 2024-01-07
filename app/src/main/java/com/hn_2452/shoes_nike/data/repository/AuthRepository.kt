@@ -13,6 +13,9 @@ import com.hn_2452.shoes_nike.utility.saveStringDataByKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.http.Part
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -129,13 +132,13 @@ class AuthRepository @Inject constructor(
             }
         }
 
-    suspend fun getOffersOfUser() = withContext(Dispatchers.IO) {
+    suspend fun getFavoriteShoesOfUser() = withContext(Dispatchers.IO) {
         val token = getStringDataByKey(mApp, TOKEN)
         if (token.isEmpty()) {
             return@withContext Resource.error(data = null, message = "token is empty")
         }
 
-        val response = NikeService.mAuthApi.getOfferOfUser(TOKEN_METHOD + token)
+        val response = NikeService.mAuthApi.getFavoriteOfUser(TOKEN_METHOD + token)
         if (response.success) {
             Resource.success(response.data)
         } else {
@@ -143,11 +146,48 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun addOffer(id: String) = withContext(Dispatchers.IO) {
+    suspend fun addFavoriteShoes(id: String) = withContext(Dispatchers.IO) {
         val token = TOKEN_METHOD + getStringDataByKey(mApp, TOKEN)
-        val response = NikeService.mAuthApi.addOffer(token, id)
+        val response = NikeService.mAuthApi.addFavoriteShoes(token, id)
         if (response.success) {
-            Resource.success(true)
+            Resource.success(response.data)
+        } else {
+            Resource.error(message = response.message)
+        }
+    }
+
+    suspend fun checkFavoriteShoes(id: String) = withContext(Dispatchers.IO) {
+        val token = TOKEN_METHOD + getStringDataByKey(mApp, TOKEN)
+        val response = NikeService.mAuthApi.checkFavoriteOfUser(token, id)
+        if (response.success) {
+            Resource.success(response.data)
+        } else {
+            Resource.error(message = response.message)
+        }
+    }
+
+    suspend fun getUserInfo() = withContext(Dispatchers.IO) {
+        val token = TOKEN_METHOD + getStringDataByKey(mApp, TOKEN)
+        val response = NikeService.mAuthApi.getUserInfo(token)
+        if (response.success) {
+            Resource.success(response.data)
+        } else {
+            Resource.error(message = response.message)
+        }
+    }
+
+    suspend fun uploadUserInfo(
+        image: MultipartBody.Part,
+        name: RequestBody?,
+        fullName: RequestBody?,
+        birthDay: RequestBody?,
+        gender: RequestBody?,
+        phoneNumber: RequestBody?
+    ) = withContext(Dispatchers.IO) {
+        val token = TOKEN_METHOD + getStringDataByKey(mApp, TOKEN)
+        val response = NikeService.mAuthApi.updateUserInfo(token, image, name, fullName, birthDay, gender, phoneNumber)
+        if (response.success) {
+            Resource.success(response.data)
         } else {
             Resource.error(message = response.message)
         }
