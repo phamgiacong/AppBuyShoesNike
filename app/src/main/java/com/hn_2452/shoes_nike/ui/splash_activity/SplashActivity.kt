@@ -30,10 +30,12 @@ class SplashActivity : AppCompatActivity() {
 
     private val SPLASH_DURATION: Long = 1500
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
+        val receivedBundle = intent.extras
+        Log.e("TAG", "onCreate: ${receivedBundle?.getString("type")}", )
         val token = getStringDataByKey(this, TOKEN)
         Log.i(TAG, "token: $token")
         if (token.isNotEmpty()) {
@@ -46,23 +48,23 @@ class SplashActivity : AppCompatActivity() {
 
                         Status.SUCCESS -> {
                             Log.i(TAG, "autoLogin: success")
-                            startMainActivity()
+                            startMainActivity(receivedBundle)
                         }
 
                         Status.ERROR -> {
                             Log.e(TAG, "autoLogin: ${result.message}")
-                            startMainActivity()
+                            startMainActivity(receivedBundle)
                         }
 
                         null -> {
                             Log.e(TAG, "autoLogin: result is null")
-                            startMainActivity()
+                            startMainActivity(receivedBundle)
                         }
                     }
                 }
         } else {
             if (getBooleanDataByKey(this, WELCOME_KEY)) {
-                startMainActivity()
+                startMainActivity(receivedBundle)
             } else {
                 // Delay và chuyển đến WelcomeActivity
                 Handler(Looper.getMainLooper()).postDelayed({
@@ -75,11 +77,19 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun startMainActivity() {
+    private fun startMainActivity(bundle: Bundle?) {
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(bundle==null){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+
         }, 1000L)
     }
 }

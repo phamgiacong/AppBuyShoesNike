@@ -37,7 +37,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         mBinding?.settingNotification?.setOnClickListener {
-            mNavController?.navigate(R.id.manageNotificationFragment)
+            mNavController?.navigate(R.id.notificationsFragment)
         }
 
         mBinding?.managePayment?.setOnClickListener {

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_shoesFragment"
             app:destination="@id/shoesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
     </fragment>
 
     <fragment
@@ -226,6 +229,19 @@
         <argument
             android:name="shoes_id"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.hn_2452.shoes_nike.ui.notification.NotificationsFragment"
+        android:label="NotificationsFragment"
+        tools:layout="@layout/fragment_notification"
+        >
+        <action
+            android:id="@+id/action_notificationsFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_offerDetailFragment"
+            app:destination="@id/offerDetailFragment" />
     </fragment>
 
 

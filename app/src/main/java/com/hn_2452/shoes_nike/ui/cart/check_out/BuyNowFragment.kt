@@ -1,5 +1,6 @@
 package com.hn_2452.shoes_nike.ui.cart.check_out
 
+import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.example.zalopaykotlin.Api.CreateOrder
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.UserOffer
@@ -21,10 +23,14 @@ import com.hn_2452.shoes_nike.utility.handleResource
 import com.hn_2452.shoes_nike.utility.toDayString
 import com.hn_2452.shoes_nike.utility.toVND
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
+import vn.zalopay.sdk.ZaloPayError
+import vn.zalopay.sdk.ZaloPaySDK
+import vn.zalopay.sdk.listeners.PayOrderListener
 
 @AndroidEntryPoint
 class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
-
+    private var strPrice :String?=null
     companion object {
         const val TAG = "Nike:CheckOutFragment: "
     }
@@ -123,7 +129,101 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                     isErrorInform = true
                 )
             } else {
-                // todo: online payment
+                val orderApi = CreateOrder()
+                val data: JSONObject? = strPrice?.let { it1 -> orderApi.createOrder(it1) }
+                val code = data?.getString("returncode")
+                if (code == "1") {
+                    val token = data?.getString("zptranstoken")
+                    token?.let { it1 ->
+                        ZaloPaySDK.getInstance()
+                            .payOrder(
+                                requireActivity(),
+                                it1,
+                                "demozpdk://app",
+                                object : PayOrderListener {
+                                    override fun onPaymentSucceeded(
+                                        transactionId: String,
+                                        transToken: String,
+                                        appTransID: String
+                                    ) {
+                                        requireActivity().runOnUiThread() {
+                                            Log.e("TAG", "onPaymentSucceeded: ")
+                                            AlertDialog.Builder(requireContext())
+                                                .setTitle("Payment Success")
+                                                .setMessage(
+                                                    String.format(
+                                                        "TransactionId: %s - TransToken: %s",
+                                                        transactionId,
+                                                        transToken
+                                                    )
+                                                )
+                                                .setPositiveButton(
+                                                    "OK"
+                                                ) { dialog, which ->
+                                                    handleResource(
+                                                        data = mCheckOutViewModel.putNewOrder(),
+                                                        lifecycleOwner = viewLifecycleOwner,
+                                                        context = requireContext(),
+                                                        onSuccess = {
+                                                            Toast.makeText(
+                                                                requireContext(),
+                                                                "Đặt đơn hàng thành công",
+                                                                Toast.LENGTH_LONG
+                                                            ).show()
+                                                            mNavController?.navigate(
+                                                                CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
+                                                            )
+                                                        },
+                                                        isErrorInform = true
+                                                    )
+
+                                                }
+                                                .setNegativeButton("Cancel", null).show()
+                                        }
+
+                                    }
+
+                                    override fun onPaymentCanceled(
+                                        zpTransToken: String,
+                                        appTransID: String
+                                    ) {
+                                        AlertDialog.Builder(requireContext())
+                                            .setTitle("User Cancel Payment")
+                                            .setMessage(
+                                                String.format(
+                                                    "zpTransToken: %s \n",
+                                                    zpTransToken
+                                                )
+                                            )
+                                            .setPositiveButton(
+                                                "OK"
+                                            ) { dialog, which -> }
+                                            .setNegativeButton("Cancel", null).show()
+                                    }
+
+                                    override fun onPaymentError(
+                                        zaloPayError: ZaloPayError,
+                                        zpTransToken: String,
+                                        appTransID: String
+                                    ) {
+                                        AlertDialog.Builder(requireContext())
+                                            .setTitle("Payment Fail")
+                                            .setMessage(
+                                                String.format(
+                                                    "ZaloPayErrorCode: %s \nTransToken: %s",
+                                                    zaloPayError.toString(),
+                                                    zpTransToken
+                                                )
+                                            )
+                                            .setPositiveButton(
+                                                "OK"
+                                            ) { dialog, which -> }
+                                            .setNegativeButton("Cancel", null).show()
+                                    }
+                                })
+                    }
+                }
+
             }
         }
     }
@@ -194,6 +294,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                             val totalPrice = currentPrice - sale
                             mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                             mCheckOutViewModel.mTotalPrice = totalPrice
+                            strPrice=totalPrice.toString()
                         } else {
                             // tong tien =  so tien - so tien khuyen mai
                             // so tien khuyen mai = so tien khuyen mai
@@ -201,6 +302,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                             val totalPrice = (currentPrice - userOffer.offer.discount)
                             mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                             mCheckOutViewModel.mTotalPrice = totalPrice
+                            strPrice= totalPrice.toString()
                         }
                     }
 
