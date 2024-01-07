@@ -6,7 +6,6 @@ import android.text.style.StrikethroughSpan
 import com.hn_2452.shoes_nike.data.model.Shoes
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
-import java.time.LocalTime
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -25,6 +24,16 @@ fun Long.toDayString(): String {
     return format.format(date)
 }
 
+fun String.toTime(): Long {
+    val format = SimpleDateFormat("dd-MM-yyyy", Locale.US)
+    val date = format.parse(this)
+    if (date != null) {
+        return date.time
+    } else {
+        return -1L
+    }
+}
+
 fun Long.toTimeString(): String {
     val seconds = this / 1000
     val minutes = (seconds % 3600) / 60
@@ -33,11 +42,11 @@ fun Long.toTimeString(): String {
 }
 
 fun Long?.toVND(): String {
-    if(this == null) return ""
+    if (this == null) return ""
     return NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(this)
 }
 
-fun String.isNotEmail() : Boolean {
+fun String.isNotEmail(): Boolean {
     val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
     return !this.matches(emailRegex.toRegex())
 }
@@ -61,7 +70,7 @@ fun getTimeOfDay(): String {
 }
 
 fun getPrice(shoes: Shoes): CharSequence {
-    return if(shoes.discountUnit == 0) {
+    return if (shoes.discountUnit == 0) {
         val price = shoes.price - (shoes.price * shoes.discount / 100)
         price.toVND()
     } else {
@@ -70,7 +79,7 @@ fun getPrice(shoes: Shoes): CharSequence {
     }
 }
 
-fun getOriginPrice(shoes: Shoes) : SpannableString {
+fun getOriginPrice(shoes: Shoes): SpannableString {
     val price = shoes.price
     val priceString = SpannableString(price.toVND())
     priceString.setSpan(StrikethroughSpan(), 0, priceString.length, 0)

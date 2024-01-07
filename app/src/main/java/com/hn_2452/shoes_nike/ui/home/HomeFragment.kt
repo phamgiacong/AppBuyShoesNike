@@ -13,6 +13,7 @@ import coil.load
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentHomeBinding
+import com.hn_2452.shoes_nike.ui.ShoesAdapterController
 import com.hn_2452.shoes_nike.ui.home.offer.OfferAdapter
 import com.hn_2452.shoes_nike.utility.Status
 import com.hn_2452.shoes_nike.utility.getTimeOfDay
@@ -105,7 +106,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupShoesTypeList() {
-        val controller = ShoesTypeAdapterController()
+        val controller = ShoesTypeAdapterController {
+            mNavController?.navigate(
+                HomeFragmentDirections.actionHomeFragmentToShoesByTypeFragment(it.name, it.id)
+            )
+        }
         mBinding?.rcvShoesType?.setController(controller)
         mHomeViewModel.getShoesType().observe(viewLifecycleOwner) { result ->
             result?.let {
@@ -156,7 +161,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         mHomeViewModel.mUsers.observe(viewLifecycleOwner) { users ->
             if(users != null && users.isNotEmpty()) {
                 mBinding?.imvUser?.load(users[0].avatar) {
-                    error(R.drawable.ic_launcher_background)
+                    error(R.drawable.user_placeholder)
                 }
                 mBinding?.tvUserName?.text = users[0].name
                 mBinding?.tvHello?.text = getTimeOfDay()

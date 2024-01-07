@@ -12,7 +12,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/baseline_arrow_back"
-        app:title="@string/favorite"
+        app:title="Giày"
         app:titleTextAppearance="@style/bold_label" />
 
     <com.airbnb.epoxy.EpoxyRecyclerView
@@ -30,13 +30,13 @@
         app:spanCount="2" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/noneShoes"
         style="@style/bold_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="false"
-        android:text="Chưa có sản phẩm nào trong mục yêu thích"
+        android:visibility="gone"
+        android:text="Hiện tại chưa có giày nào thuộc loại này"
         android:textAlignment="center"
         android:layout_marginHorizontal="24dp"
         app:layout_constraintBottom_toBottomOf="parent"

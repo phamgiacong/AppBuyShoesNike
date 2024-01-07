@@ -23,13 +23,14 @@
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/user_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
     <ImageView
+        android:id="@+id/edtAvatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_editavatar"
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_verified"
             android:drawablePadding="12dp"
-            android:hint="Tên đăng nhập"
+            android:hint="Tên tài khoản"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -141,6 +142,19 @@
         app:layout_constraintEnd_toEndOf="@+id/gender"
         app:layout_constraintStart_toStartOf="@+id/gender"
         app:layout_constraintTop_toBottomOf="@+id/gender" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/loadingProgress"
+        style="@style/SpinKitView.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

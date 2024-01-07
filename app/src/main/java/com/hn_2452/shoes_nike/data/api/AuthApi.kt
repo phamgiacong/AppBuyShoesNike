@@ -2,12 +2,21 @@ package com.hn_2452.shoes_nike.data.api
 
 import com.hn_2452.shoes_nike.data.NetworkResult
 import com.hn_2452.shoes_nike.data.model.Offer
+import com.hn_2452.shoes_nike.data.model.Shoes
+import com.hn_2452.shoes_nike.data.model.User
 import com.hn_2452.shoes_nike.data.network_result.LoginResult
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface AuthApi {
 
@@ -69,17 +78,42 @@ interface AuthApi {
         @Field("new_password") newPassword: String
     ): NetworkResult<Nothing>
 
-
-    @GET("user/offers")
-    suspend fun getOfferOfUser(
+    @GET("user/getUserInfo")
+    suspend fun getUserInfo(
         @Header("Authorization") token: String
-    ) : NetworkResult<List<Offer>>
+    ) : NetworkResult<User>
+
+    @Multipart
+    @PUT("user/updateInfo")
+    suspend fun updateUserInfo(
+        @Header("Authorization") token: String,
+        @Part("image") image: MultipartBody.Part,
+        @Part("name") name: RequestBody?,
+        @Part("full_name") fullName: RequestBody?,
+        @Part("birthday") birthDay: RequestBody?,
+        @Part("gender") gender: RequestBody?,
+        @Part("phone_number") phoneNumber: RequestBody?
+     ) : NetworkResult<Boolean>
+
+
+    @GET("user/getFavoriteShoes")
+    suspend fun getFavoriteOfUser(
+        @Header("Authorization") token: String
+    ) : NetworkResult<List<Shoes>>
+
+    @GET("user/checkFavoriteShoes")
+    suspend fun checkFavoriteOfUser(
+        @Header("Authorization") token: String,
+        @Query("id") id: String
+    ) : NetworkResult<Boolean>
 
     @FormUrlEncoded
-    @POST("user/offer")
-    suspend fun addOffer(
+    @POST("user/addFavoriteShoes")
+    suspend fun addFavoriteShoes(
         @Header("Authorization") token: String,
         @Field("id") id: String
-    ) : NetworkResult<Nothing>
+    ) : NetworkResult<Boolean>
+
+
 
 }

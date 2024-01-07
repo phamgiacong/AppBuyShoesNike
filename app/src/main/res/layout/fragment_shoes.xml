@@ -10,6 +10,7 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollIndicators="none"
         android:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -236,16 +237,28 @@
             </LinearLayout>
 
             <TextView
-                style="@style/medium_bold_label"
-                android:layout_marginTop="24dp"
-                android:layout_marginHorizontal="16dp"
                 android:id="@+id/tvWatchReview"
+                style="@style/medium_bold_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/watch_review"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_quantity" />
+
+            <TextView
+                android:id="@+id/tvNote"
+                style="@style/medium_bold_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvWatchReview" />
 
             <View
                 android:id="@+id/view"
@@ -253,9 +266,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/horizontal_padding"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toTopOf="@id/btnAddToCart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvWatchReview" />
+                app:layout_constraintTop_toBottomOf="@+id/tvNote" />
 
 
             <Button
@@ -263,13 +278,13 @@
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/horizontal_padding"
-                android:layout_marginTop="32dp"
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="@color/black"
                 android:drawableStart="@drawable/ic_cart"
                 android:drawableTintMode="add"
                 android:elevation="4dp"
                 android:text="@string/add_to_cart"
+                android:visibility="gone"
                 app:drawableTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnBuyNow"
@@ -282,6 +297,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:text="@string/buy_now"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btnAddToCart"
                 app:layout_constraintTop_toTopOf="@+id/btnAddToCart" />
