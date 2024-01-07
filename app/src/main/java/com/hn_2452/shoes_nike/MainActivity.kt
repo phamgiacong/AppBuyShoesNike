@@ -19,11 +19,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.hn_2452.shoes_nike.databinding.ActivityMainBinding
+import com.hn_2452.shoes_nike.ui.home.HomeFragmentDirections
 import com.hn_2452.shoes_nike.ui.home.HomeViewModel
 import com.hn_2452.shoes_nike.ui.notification.TokenUserViewModel
+import com.hn_2452.shoes_nike.ui.orders.OrderFragmentDirections
+import com.hn_2452.shoes_nike.ui.splash_activity.SplashActivity
+import com.hn_2452.shoes_nike.ui.splash_activity.SplashActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPaySDK
+import kotlin.math.log
 
 
 @AndroidEntryPoint
@@ -49,8 +54,11 @@ open class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _mBinding = ActivityMainBinding.inflate(layoutInflater)
+        val receivedBundle = intent.extras
+        val id = receivedBundle?.getString("id")
+        val type = receivedBundle?.getString("type")
         setContentView(mBinding.root)
-        setupBottomNavigation()
+        setupBottomNavigation(id, type)
         askNotificationPermission()
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -73,13 +81,16 @@ open class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupBottomNavigation() {
+    private fun setupBottomNavigation(id:String? ,type:String?) {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         findViewById<BottomNavigationView>(R.id.bottom_nav).setupWithNavController(
             navController
         )
+        if(type=="1"||type=="2"){
+            id?.let { navController.navigate(HomeFragmentDirections.actionHomeFragmentToOrderDetailFragment(id)) }
+        }
     }
 
     fun setupBottomNavigation(show: Boolean) {

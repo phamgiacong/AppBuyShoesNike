@@ -6,8 +6,9 @@ import androidx.lifecycle.liveData
 import com.hn_2452.shoes_nike.data.model.Notification
 import com.hn_2452.shoes_nike.data.repository.NotificationRepository
 import com.hn_2452.shoes_nike.utility.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-
+@HiltViewModel
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository
 
@@ -16,6 +17,22 @@ class NotificationViewModel @Inject constructor(
         emit(Resource.loading(null))
         try {
             emit(Resource.success(notificationRepository.getAllNotification()))
+        } catch (ex: Exception) {
+            emit(Resource.error(null, ex.message!!))
+        }
+    }
+    fun getNotificationOfUser(id:String)= liveData {
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(notificationRepository.getNotificationOfUser(id)))
+        } catch (ex: Exception) {
+            emit(Resource.error(null, ex.message!!))
+        }
+    }
+    fun getNotificationOffer() = liveData {
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(notificationRepository.getNotificationOffer()))
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message!!))
         }

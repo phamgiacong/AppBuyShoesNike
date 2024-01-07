@@ -14,16 +14,79 @@
         app:navigationIcon="@drawable/baseline_arrow_back"
         app:title="Notification"
         app:titleTextAppearance="@style/title_bold" />
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-    <com.airbnb.epoxy.EpoxyRecyclerView
+        <LinearLayout
+            android:id="@+id/donHangLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDonHang"
+                style="@style/medium_bold_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đơn hàng"
+                android:textAlignment="center" />
+
+            <View
+                android:id="@+id/lineDonHang"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/khuyenMaiLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvKhuyenMai"
+                style="@style/medium_bold_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="khuyến mãi"
+                android:textAlignment="center"
+                android:textColor="#FFCCCCCC" />
+
+            <View
+                android:id="@+id/lineKhuyenMai"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="9dp"
+                android:background="#FFCCCCCC" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvNotification"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/dimen_8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
