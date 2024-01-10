@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/baseline_arrow_back"
         app:title="@string/order_detail"
-        app:titleTextAppearance="@style/bold_label" />
+        app:titleTextAppearance="@style/medium_bold_label" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvOrderItems"

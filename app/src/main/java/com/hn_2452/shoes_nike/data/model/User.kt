@@ -27,7 +27,7 @@ data class User(
     val phoneNumber: String? = null,
     @SerializedName("full_name")
     val fullName: String? = null,
-    @SerializedName("birth_day")
+    @SerializedName("birthday")
     val birthDay: Long? = null,
     @SerializedName("gender")
     val gender: Int? = null

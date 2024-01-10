@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/background_secondary_color"
     android:layout_height="match_parent">
 
 
@@ -11,11 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollIndicators="none"
+        android:scrollbars="none"
         android:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <androidx.viewpager2.widget.ViewPager2
@@ -123,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/horizontal_padding"
                 android:layout_marginTop="16dp"
-                android:text="Description"
+                android:text="@string/description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -145,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/horizontal_padding"
                 android:layout_marginTop="16dp"
-                android:text="Size"
+                android:text="@string/size"
                 app:layout_constraintEnd_toStartOf="@+id/tvColorTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
@@ -168,7 +170,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/horizontal_padding"
-                android:text="Color"
+                android:text="@string/color"
                 app:layout_constraintBottom_toBottomOf="@+id/tvSizeTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvSizeTitle"
@@ -193,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/horizontal_padding"
                 android:layout_marginTop="32dp"
-                android:text="Quantity"
+                android:text="@string/quantity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rcvSize" />
 
@@ -277,14 +279,11 @@
                 android:id="@+id/btnAddToCart"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/horizontal_padding"
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="@color/black"
-                android:drawableStart="@drawable/ic_cart"
-                android:drawableTintMode="add"
                 android:elevation="4dp"
                 android:text="@string/add_to_cart"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:drawableTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnBuyNow"
@@ -297,7 +296,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:text="@string/buy_now"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btnAddToCart"
                 app:layout_constraintTop_toTopOf="@+id/btnAddToCart" />

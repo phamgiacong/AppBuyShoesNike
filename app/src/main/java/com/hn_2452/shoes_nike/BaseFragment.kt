@@ -1,5 +1,6 @@
 package com.hn_2452.shoes_nike
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.viewbinding.ViewBinding
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.FadingCircle
 import com.google.android.material.appbar.MaterialToolbar
+import com.hn_2452.shoes_nike.utility.getStringDataByKey
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
@@ -73,6 +75,32 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     fun stopLoading() {
         mLoadingProgressBar?.visibility = View.GONE
+    }
+
+    protected fun showLoginRequestPopup() {
+        AlertDialog.Builder(requireContext())
+            .setMessage("Bạn cần đăng nhập trước khi lưu giày vào yêu thích")
+            .setPositiveButton(
+                "Đăng nhập"
+            ) { dialog, _ ->
+                mNavController?.navigate(R.id.loginFragment)
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.close)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    protected fun showLoginRequestLayout(mainLayout: ViewGroup?,  needLoginLayout: ViewGroup?) {
+        if(getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
+            mainLayout?.visibility = View.GONE
+            needLoginLayout?.visibility = View.VISIBLE
+        } else {
+            needLoginLayout?.visibility = View.GONE
+            mainLayout?.visibility = View.VISIBLE
+        }
     }
 
 }

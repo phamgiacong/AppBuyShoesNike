@@ -28,5 +28,6 @@ class WelcomeActivity : AppCompatActivity() {
     fun startAppAction() {
         saveBooleanDataByKey(this, WELCOME_KEY, true)
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

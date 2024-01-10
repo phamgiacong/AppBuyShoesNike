@@ -99,7 +99,7 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
                 tvDescription.text = offer.description
                 tvAppliedTime.text =
                     "Áp dụng từ ${offer.startTime.toDayString()} đến ${offer.endTime.toDayString()}"
-                imvOffer.load(BASE_URL + offer.image) {
+                imvOffer.load(offer.image) {
                     error(R.drawable.ic_launcher_background)
                 }
                 btnGetOffer.setOnClickListener {

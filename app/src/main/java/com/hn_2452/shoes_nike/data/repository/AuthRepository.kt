@@ -116,15 +116,17 @@ class AuthRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             val response = NikeService.mAuthApi.autoLogin(AUTH_METHOD + token)
             if (response.success) {
+                mNikeDatabase.userDao().deleteUser()
+                mNikeDatabase.userDao().addUser(response.data)
                 Resource.success(true)
             } else {
                 Resource.error(message = response.message)
             }
         }
 
-    suspend fun changePassword(currentPassword: String, newPassword: String) =
+    suspend fun changePassword(token: String, currentPassword: String, newPassword: String) =
         withContext(Dispatchers.IO) {
-            val response = NikeService.mAuthApi.changePassword(currentPassword, newPassword)
+            val response = NikeService.mAuthApi.changePassword(token, currentPassword, newPassword)
             if (response.success) {
                 Resource.success(true)
             } else {
@@ -177,15 +179,14 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun uploadUserInfo(
-        image: MultipartBody.Part,
-        name: RequestBody?,
-        fullName: RequestBody?,
-        birthDay: RequestBody?,
-        gender: RequestBody?,
-        phoneNumber: RequestBody?
+        image: String?,
+        fullName: String?,
+        birthDay: String?,
+        gender: String?,
+        phoneNumber: String?
     ) = withContext(Dispatchers.IO) {
         val token = TOKEN_METHOD + getStringDataByKey(mApp, TOKEN)
-        val response = NikeService.mAuthApi.updateUserInfo(token, image, name, fullName, birthDay, gender, phoneNumber)
+        val response = NikeService.mAuthApi.updateUserInfo(token, image, fullName, birthDay, gender, phoneNumber)
         if (response.success) {
             Resource.success(response.data)
         } else {

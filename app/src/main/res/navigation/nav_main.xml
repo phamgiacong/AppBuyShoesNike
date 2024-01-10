@@ -54,10 +54,10 @@
             app:argType="com.hn_2452.shoes_nike.data.model.Offer" />
     </fragment>
     <fragment
-        android:id="@+id/notificationFragment"
-        android:name="com.hn_2452.shoes_nike.ui.notification.NotificationFragment"
+        android:id="@+id/notificationSettingFragment"
+        android:name="com.hn_2452.shoes_nike.ui.profile.manage_notification.ManageNotificationFragment"
         android:label="NotificationFragment"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_notification_setting" />
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.hn_2452.shoes_nike.ui.favorite.FavoriteFragment"

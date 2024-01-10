@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import coil.load
+import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentHomeBinding
@@ -31,6 +32,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentHomeBinding.inflate(inflater, container, false)
 
+    override fun onStart() {
+        super.onStart()
+        setupBottomBar(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,7 +64,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setupNavigateToNotificationScreen() {
         mBinding?.imvNotification?.setOnClickListener {
-            mNavController?.navigate(R.id.notificationFragment)
+            mNavController?.navigate(R.id.notificationsFragment)
         }
     }
 
@@ -160,10 +165,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         mBinding?.userBar?.visibility = View.GONE
         mHomeViewModel.mUsers.observe(viewLifecycleOwner) { users ->
             if(users != null && users.isNotEmpty()) {
-                mBinding?.imvUser?.load(users[0].avatar) {
+                val user = users[0]
+                mBinding?.imvUser?.load(user.avatar) {
                     error(R.drawable.user_placeholder)
                 }
-                mBinding?.tvUserName?.text = users[0].name
+
+                if(user.fullName.isNullOrEmpty()) {
+                    mBinding?.tvUserName?.text = user.name
+                } else {
+                    mBinding?.tvUserName?.text = user.fullName
+                }
+
                 mBinding?.tvHello?.text = getTimeOfDay()
                 mBinding?.userBar?.visibility = View.VISIBLE
             } else {

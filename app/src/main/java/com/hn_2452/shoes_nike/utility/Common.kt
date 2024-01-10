@@ -26,12 +26,15 @@ fun Long.toDayString(): String {
 
 fun String.toTime(): Long {
     val format = SimpleDateFormat("dd-MM-yyyy", Locale.US)
-    val date = format.parse(this)
-    if (date != null) {
-        return date.time
+    if(this.isEmpty()) {
+        return -1
     } else {
-        return -1L
+        val date = format.parse(this)
+        if (date != null) {
+            return date.time
+        }
     }
+    return -1L
 }
 
 fun Long.toTimeString(): String {

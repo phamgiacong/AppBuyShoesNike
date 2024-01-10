@@ -88,6 +88,7 @@ class NotificationService: FirebaseMessagingService() {
         sendRegistrationToServer(token)
     }
     private fun sendRegistrationToServer(token: String) {
+
     }
 
 }

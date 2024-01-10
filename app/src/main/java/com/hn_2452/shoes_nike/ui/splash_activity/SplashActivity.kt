@@ -9,6 +9,10 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.hn_2452.shoes_nike.MainActivity
+import com.hn_2452.shoes_nike.NEW_SHOES_NOTIFY
+import com.hn_2452.shoes_nike.OFFER_NOTIFY
+import com.hn_2452.shoes_nike.ORDER_NOTIFY
+import com.hn_2452.shoes_nike.OTHER_NOTIFY
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.TOKEN
 import com.hn_2452.shoes_nike.WELCOME_KEY
@@ -16,6 +20,7 @@ import com.hn_2452.shoes_nike.ui.welcome.WelcomeActivity
 import com.hn_2452.shoes_nike.utility.Status
 import com.hn_2452.shoes_nike.utility.getBooleanDataByKey
 import com.hn_2452.shoes_nike.utility.getStringDataByKey
+import com.hn_2452.shoes_nike.utility.saveBooleanDataByKey
 import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("CustomSplashScreen")
@@ -28,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
 
     private val mSplashActivityViewModel: SplashActivityViewModel by viewModels()
 
-    private val SPLASH_DURATION: Long = 1500
+    private val SPLASH_DURATION: Long = 1000
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,12 +71,13 @@ class SplashActivity : AppCompatActivity() {
             if (getBooleanDataByKey(this, WELCOME_KEY)) {
                 startMainActivity(receivedBundle)
             } else {
-                // Delay và chuyển đến WelcomeActivity
-                Handler(Looper.getMainLooper()).postDelayed({
-                    val intent = Intent(this, WelcomeActivity::class.java)
-                    startActivity(intent)
-                    finish() // Đóng SplashActivity để ngăn ngừa quay lại
-                }, SPLASH_DURATION)
+                saveBooleanDataByKey(this, NEW_SHOES_NOTIFY, true)
+                saveBooleanDataByKey(this, ORDER_NOTIFY, true)
+                saveBooleanDataByKey(this, OFFER_NOTIFY, true)
+                saveBooleanDataByKey(this, OTHER_NOTIFY, true)
+                val intent = Intent(this, WelcomeActivity::class.java)
+                startActivity(intent)
+                finish()
             }
 
         }
@@ -90,6 +96,6 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             }
 
-        }, 1000L)
+        }, SPLASH_DURATION)
     }
 }

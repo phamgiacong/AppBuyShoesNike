@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.hn_2452.shoes_nike.BaseFragment
+import com.hn_2452.shoes_nike.TOKEN
 import com.hn_2452.shoes_nike.databinding.FragmentFavoriteBinding
 import com.hn_2452.shoes_nike.ui.ShoesAdapterController
 import com.hn_2452.shoes_nike.utility.Status
+import com.hn_2452.shoes_nike.utility.getStringDataByKey
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,8 +26,13 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentFavoriteBinding.inflate(inflater, container, false)
 
+    override fun onStart() {
+        super.onStart()
+        setupBottomBar(true)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showLoginRequestLayout(mBinding?.mainLayout, mBinding?.layoutNeedLogin)
         setupLoading(mBinding?.loadingProgress)
         setupToolbar(mBinding?.toolBar)
         setupBottomBar(true)

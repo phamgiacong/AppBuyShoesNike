@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/foreign_background"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
         android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
 
@@ -16,6 +16,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
             android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
             android:src="@drawable/user_placeholder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +35,6 @@
             app:layout_constraintTop_toBottomOf="@+id/imvUser" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tvPhoneNumber"
             style="@style/small_bold_label"
             android:layout_width="0dp"
@@ -44,6 +44,7 @@
             android:textAlignment="center"
             android:textFontWeight="100"
             android:textStyle="normal"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/tvUserName"
             app:layout_constraintStart_toStartOf="@+id/tvUserName"
             app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
@@ -77,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="24dp"
-                android:text="Thay đổi thông tin" />
+                android:text="@string/change_info" />
 
             <Space
                 android:layout_width="0dp"
@@ -147,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="24dp"
-                android:text="Thanh toán" />
+                android:text="@string/payment" />
 
             <Space
                 android:layout_width="0dp"
@@ -155,6 +156,7 @@
                 android:layout_weight="1" />
 
             <ImageView
+                android:id="@+id/bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -170,6 +172,7 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="24dp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/managePayment">
 
             <ImageView
@@ -183,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="24dp"
-                android:text="Thay đổi mật khẩu" />
+                android:text="@string/change_password_" />
 
             <Space
                 android:layout_width="0dp"
@@ -218,7 +221,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="24dp"
-                android:text="Đăng xuất"
+                android:text="@string/log_out"
                 android:textColor="#FF7272" />
 
         </LinearLayout>
@@ -236,7 +239,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thông tin của bạn chưa khả dụng"
+            android:text="@string/you_infomation_is_not_available"
             android:textAlignment="center"
             android:textSize="20sp" />
 
@@ -247,7 +250,7 @@
             android:layout_marginTop="8dp"
             android:background="@color/black"
             android:paddingHorizontal="8dp"
-            android:text="Đăng nhập Ngay"
+            android:text="@string/login_now"
             android:textColor="@color/white" />
 
     </LinearLayout>
