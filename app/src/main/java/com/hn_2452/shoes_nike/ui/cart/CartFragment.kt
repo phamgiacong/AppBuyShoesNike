@@ -35,6 +35,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentCartBinding.inflate(inflater, container, false)
 
+    override fun onStart() {
+        super.onStart()
+        setupBottomBar(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

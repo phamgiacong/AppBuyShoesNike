@@ -60,6 +60,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>() {
 
     override fun onStart() {
         super.onStart()
+        setupBottomBar(true)
         if(type == ACTIVE) {
             mBinding?.activeLayout?.performClick()
         } else {

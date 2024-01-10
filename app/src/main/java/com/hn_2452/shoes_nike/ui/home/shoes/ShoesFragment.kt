@@ -66,6 +66,10 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     private fun setupBuyNow() {
         mBinding?.btnBuyNow?.setOnClickListener {
+            if(getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
+                showLoginRequestPopup()
+                return@setOnClickListener
+            }
             mShoesViewModel.buyNow().observe(viewLifecycleOwner) {
                 val action = ShoesFragmentDirections.actionShoesFragmentToBuyNowFragment(it)
                 mNavController?.navigate(action)
@@ -88,36 +92,24 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     private fun setupAddToFavorite() {
         mBinding?.imvFavorite?.setOnClickListener {
-            if (getStringDataByKey(requireContext(), TOKEN).isNotEmpty()) {
-                handleResource(
-                    data = mShoesViewModel.addFavoriteShoes(mArgs.shoesId),
-                    lifecycleOwner = viewLifecycleOwner,
-                    context = requireContext(),
-                    onSuccess = {
-                        if(it == true) {
-                            Toast.makeText(requireContext(), "Thêm thành công giày vào mục ưu thích", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(requireContext(), "Xóa thành công giày vào mục ưu thích", Toast.LENGTH_SHORT).show()
-                        }
-                        loadFavoriteShoesState()
-                    },
-                    isErrorInform = true
-                )
-            } else {
-                AlertDialog.Builder(requireContext())
-                    .setMessage("Bạn cần đăng nhập trước khi lưu giày vào yêu thích")
-                    .setPositiveButton(
-                        "Đăng nhập"
-                    ) { dialog, _ ->
-                        mNavController?.navigate(R.id.loginFragment)
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(getString(R.string.close)) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
+            if(getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
+                showLoginRequestPopup()
+                return@setOnClickListener
             }
+            handleResource(
+                data = mShoesViewModel.addFavoriteShoes(mArgs.shoesId),
+                lifecycleOwner = viewLifecycleOwner,
+                context = requireContext(),
+                onSuccess = {
+                    if(it == true) {
+                        Toast.makeText(requireContext(), "Thêm thành công giày vào mục ưu thích", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Xóa thành công giày vào mục ưu thích", Toast.LENGTH_SHORT).show()
+                    }
+                    loadFavoriteShoesState()
+                },
+                isErrorInform = true
+            )
         }
     }
 
@@ -247,6 +239,10 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     private fun setupBtnAddOrderDetailToCart() {
         mBinding?.btnAddToCart?.setOnClickListener {
+            if(getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
+                showLoginRequestPopup()
+                return@setOnClickListener
+            }
             mShoesViewModel.addOrderDetail().observe(viewLifecycleOwner) { result ->
                 when (result?.status) {
                     Status.LOADING -> {

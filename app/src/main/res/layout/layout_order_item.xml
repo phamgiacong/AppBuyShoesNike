@@ -1,78 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/primary_background"
-    app:cardElevation="@dimen/dimen_2dp"
-    app:cardCornerRadius="@dimen/dimen_30dp"
-    android:layout_marginVertical="@dimen/dimen_15dp"
-    android:layout_marginHorizontal="@dimen/dimen_3dp"
+    android:layout_marginVertical="16dp"
     android:visibility="visible"
-    >
+    app:cardCornerRadius="12dp"
+    android:layout_marginHorizontal="2dp"
+    app:cardBackgroundColor="@color/primary_background"
+    app:cardElevation="@dimen/dimen_2dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutItemCart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingVertical="@dimen/dimen_8dp"
-        android:layout_marginTop="@dimen/dimen_17dp"
-        android:layout_marginBottom="@dimen/dimen_17dp"
-        android:layout_marginLeft="@dimen/dimen_17dp"
-        android:layout_marginRight="@dimen/dimen_17dp"
-        >
+        android:padding="10dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cavCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/dimen_30dp"
             app:cardBackgroundColor="@color/background_silver"
+            app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent">
 
-            >
             <ImageView
                 android:id="@+id/imgProduct"
-                android:layout_width="@dimen/dimen_100dp"
-                android:layout_height="@dimen/dimen_100dp"
-                android:src="@drawable/ing_sneaker"
-                android:scaleType="centerCrop"
-                />
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tvNameProduct"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="@dimen/dimen_32dp"
-            android:text="Air Jordan 3 Retro "
-            android:textColor="@color/primary_text_color"
-            android:textSize="@dimen/dimen_20dp"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:ellipsize="end"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp"
+            style="@style/medium_bold_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.17"
             app:layout_constraintStart_toEndOf="@+id/cavCart"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/linearLayout9"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tvNameProduct"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.47">
+            app:layout_constraintTop_toBottomOf="@+id/tvNameProduct">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cavColor"
@@ -84,76 +69,66 @@
 
             <View
                 android:layout_width="1dp"
+                android:layout_marginVertical="6dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="8dp"
-                android:background="@color/foreign_text_color" />
+                android:background="@color/background_border" />
 
             <TextView
                 android:id="@+id/tvSize"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Size = 41" />
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>
 
 
-
         <TextView
             android:id="@+id/tvPriceProduct"
+            style="@style/small_bold_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="$105.00"
-            android:textColor="@color/primary_text_color"
-            android:textStyle="bold"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintEnd_toStartOf="@+id/cavEditQuantity"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/cavCart"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1" />
-
+            app:layout_constraintStart_toStartOf="@+id/linearLayout9"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout9"
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cavEditQuantity"
-            android:layout_width="@dimen/dimen_100dp"
-            android:layout_height="@dimen/dimen_35dp"
-            app:cardCornerRadius="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:visibility="visible"
             app:cardBackgroundColor="@color/background_silver"
+            app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.807"
             app:layout_constraintStart_toEndOf="@id/tvPriceProduct"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            android:layout_margin="@dimen/dimen_2dp"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+
+            <TextView
+                android:id="@+id/tvQuantity"
+                style="@style/small_bold_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-
-                >
-
-                <TextView
-                    android:id="@+id/tvQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:gravity="center"
-                    android:text="Số lượng: 100" />
-
-            </LinearLayout>
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="2dp"
+                android:text="Số lượng: 100"
+                android:textStyle="normal" />
 
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </androidx.cardview.widget.CardView>

@@ -27,7 +27,7 @@ class OfferFragment : BaseFragment<FragmentOfferBinding>() {
         val offer = arguments?.getParcelable<Offer>("offer")
         offer?.let { offer ->
             mBinding?.apply {
-                imvOfferImage.load(BASE_URL + offer.image) {
+                imvOfferImage.load(offer.image) {
                     error(R.drawable.ic_launcher_background)
                 }
 

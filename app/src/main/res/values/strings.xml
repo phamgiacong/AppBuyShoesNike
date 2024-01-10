@@ -5,25 +5,25 @@
     <string name="order">Đơn hàng</string>
     <string name="favorite">Yêu thích</string>
     <string name="profile">Cá nhân</string>
-    <string name="transaction_history">Lịch sử giao dịch</string>
+    <string name="transaction_history" translatable="false">Lịch sử giao dịch</string>
     <string name="see_all">Xem tất cả</string>
-    <string name="air_jordan_3_retro">Air Jordan 3 Retro</string>
-    <string name="dec_15_2024">Dec 15, 2024</string>
-    <string name="_10_am">10 AM</string>
-    <string name="_105">$105</string>
+    <string name="air_jordan_3_retro" translatable="false">Air Jordan 3 Retro</string>
+    <string name="dec_15_2024" translatable="false">Dec 15, 2024</string>
+    <string name="_10_am" translatable="false">10 AM</string>
+    <string name="_105" translatable="false">$105</string>
     <string name="orders">Đặt hàng</string>
     <string name="title_activity_account_setup">Tạo tài khoản</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="previous">Về trước</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="previous" translatable="false">Về trước</string>
     <array name="gender">
         <item>Tất cả</item>
         <item>Nam</item>
         <item>Nữ</item>
     </array>
 
-    <string name="lorem_ipsum">
+    <string name="lorem_ipsum" translatable="false">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
         dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
@@ -32,24 +32,24 @@
     </string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="ten_app">Shoea</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="ten_app" translatable="false">Shoea</string>
     <string name="welcome_to">Chào mừng tới</string>
     <string name="get_started">Bắt đầu</string>
-    <string name="text_welcome1">Chúng tôi cung cấp sản phẩm tốt nhất cho bạn.</string>
-    <string name="text_welcome2">Sử thỏa mãn của bạn là ưu tiên số một của chúng tôi.</string>
-    <string name="text_welcome3">Hãy tạo nên thời trang của bạn với Shoea ngay nào!</string>
-    <string name="title_login">Đăng nhập</string>
-    <string name="no_account">Bạn chưa có tài khoản? </string>
-    <string name="button_signin">Đăng nhập</string>
-    <string name="button_signup">Đăng ký</string>
-    <string name="continue_with">hoặc tiếp tục với</string>
-    <string name="forgot_pass">Quên mật khẩu?</string>
-    <string name="remember">Nhớ tôi</string>
-    <string name="txtemail">Email</string>
-    <string name="txtpass">Mật khẩu</string>
-    <string name="title_create">Tạo tài khoản</string>
-    <string name="have_account">Bạn đã có tài khoản? </string>
+    <string name="text_welcome1" translatable="false">Chúng tôi cung cấp sản phẩm tốt nhất cho bạn.</string>
+    <string name="text_welcome2" translatable="false">Sử thỏa mãn của bạn là ưu tiên số một của chúng tôi.</string>
+    <string name="text_welcome3" translatable="false">Hãy tạo nên thời trang của bạn với Shoea ngay nào!</string>
+    <string name="title_login" translatable="false">Đăng nhập</string>
+    <string name="no_account" translatable="false">Bạn chưa có tài khoản? </string>
+    <string name="button_signin" translatable="false">Đăng nhập</string>
+    <string name="button_signup" translatable="false">Đăng ký</string>
+    <string name="continue_with" translatable="false">hoặc tiếp tục với</string>
+    <string name="forgot_pass" translatable="false">Quên mật khẩu?</string>
+    <string name="remember" translatable="false">Nhớ tôi</string>
+    <string name="txtemail" translatable="false">Email</string>
+    <string name="txtpass" translatable="false">Mật khẩu</string>
+    <string name="title_create" translatable="false">Tạo tài khoản</string>
+    <string name="have_account" translatable="false">Bạn đã có tài khoản? </string>
     <string name="good_morning">Chào buổi sáng</string>
     <string name="special_offers">Ưu đãi đặc biệt</string>
     <string name="shoes_type">Loại giày</string>
@@ -66,129 +66,146 @@
     <string name="apply">Áp dụng</string>
     <string name="clear_all">Xóa tất cả</string>
     <string name="result">Kết quả</string>
-    <string name="popular_sort_title">Sắp xếp: Phổ biến</string>
-    <string name="recent_sort_title">Sắp xếp: Gần đây</string>
-    <string name="popular">Phổ biến</string>
-    <string name="sort_and_filter">Sắp xếp và Bộ lọc</string>
-    <string name="default_notification_channel_id">default_notification_channel_id</string>
-    <string name="for_get_password">Quên mật khẩu?</string>
-    <string name="sign_in_with">Đăng nhập với</string>
-    <string name="have_not_account">Bạn chưa có tài khoản?</string>
-    <string name="sign_up">Đăng ký</string>
-    <string name="sign_in">Đăng nhập</string>
-    <string name="password">Nhập mật khẩu</string>
-    <string name="user_name">Nhập tên đăng nhập</string>
-    <string name="email">Nhập email</string>
-    <string name="confirm_password">Nhập lại mật khẩu</string>
-    <string name="policy">Để đăng ký bạn cần chấp nhận điều khoản của chúng tôi</string>
-    <string name="sign_up_cap">Đăng ký</string>
+    <string name="popular_sort_title" translatable="false">Sắp xếp: Phổ biến</string>
+    <string name="recent_sort_title" translatable="false">Sắp xếp: Gần đây</string>
+    <string name="popular" translatable="false">Phổ biến</string>
+    <string name="sort_and_filter" translatable="false">Sắp xếp và Bộ lọc</string>
+    <string name="default_notification_channel_id" translatable="false">default_notification_channel_id</string>
+    <string name="for_get_password" translatable="false">Quên mật khẩu?</string>
+    <string name="sign_in_with" translatable="false">Đăng nhập với</string>
+    <string name="have_not_account" translatable="false">Bạn chưa có tài khoản?</string>
+    <string name="sign_up" translatable="false">Đăng ký</string>
+    <string name="sign_in" translatable="false">Đăng nhập</string>
+    <string name="password" translatable="false">Nhập mật khẩu</string>
+    <string name="user_name" translatable="false">Nhập tên đăng nhập</string>
+    <string name="email" translatable="false">Nhập email</string>
+    <string name="confirm_password" translatable="false">Nhập lại mật khẩu</string>
+    <string name="policy" translatable="false">Để đăng ký bạn cần chấp nhận điều khoản của chúng tôi</string>
+    <string name="sign_up_cap" translatable="false">Đăng ký</string>
 
     <array name="price">
         <item>50000</item>
         <item>10000000</item>
     </array>
 
-    <string name="facebook_app_id">323475530544352</string>
-    <string name="fb_login_protocol_scheme">fb323475530544352</string>
-    <string name="facebook_client_token">fe12091d22e29620a1509a9219f797b2</string>
-    <string name="policy_title">Điều khoản</string>
-    <string name="forget_account">Quên tài khoản</string>
-    <string name="search">Tìm kiếm</string>
-    <string name="code">Nhập mã để đăng ký</string>
-    <string name="confirm">Xác nhận</string>
-    <string name="continue_">Tiếp tục</string>
-    <string name="auth_code">Nhập mã để xác nhận</string>
-    <string name="new_password">Nhập mật khẩu mới</string>
-    <string name="re_new_password">Nhập lại mật khẩu mới</string>
-    <string name="change_password">Đổi mật khẩu</string>
-    <string name="enter_current_password">Nhập mật khẩu hiện tại</string>
-    <string name="edit_profile">Cập nhật thông tin</string>
-    <string name="update_info">Cập nhật thông tin</string>
-    <string name="buy_now">Mua ngay</string>
-    <string name="add_to_cart">Thêm vào giỏ</string>
-    <string name="my_cart">Giỏ hàng của tôi</string>
-    <string name="checkout">Thanh toán</string>
-    <string name="total_price">Tổng số tiền</string>
-    <string name="receive_address">Nơi nhận hàng</string>
-    <string name="transport_type">Phương thức vận chuyển</string>
-    <string name="apply_offer">Áp dụng khuyến mãi</string>
-    <string name="transport_fee">Tiền vận chuyển</string>
-    <string name="discount_price">Giảm giá</string>
-    <string name="price">Số tiền</string>
-    <string name="add_new_address">Thêm địa chỉ giao hàng</string>
-    <string name="edit">Chỉnh sửa</string>
-    <string name="delete">Xóa</string>
-    <string name="add_address">Thêm địa chỉ giao hàng</string>
-    <string name="name">Tên người nhận</string>
-    <string name="phone_number">Số điện thoại</string>
-    <string name="office">Văn phòng</string>
-    <string name="house">Nhà riêng</string>
-    <string name="save">Lưu</string>
-    <string name="mark_default_address">Làm địa chỉ mặc định</string>
-    <string name="edit_address">Chỉnh sửa địa chỉ giao hàng</string>
-    <string name="delete_address">Xóa địa chỉ này</string>
-    <string name="delete_address_message">Bạn có chắc chắn muốn xóa địa chỉ này?</string>
-    <string name="delete_address_success_message">Xóa địa chỉ thành công</string>
-    <string name="cancel">Hủy</string>
-    <string name="voucher">Mã giảm giá</string>
-    <string name="detail">Chi tiết</string>
-    <string name="none_available_offer">Không có khuyến mãi nào khả dụng.</string>
-    <string name="payment_method">Phương thức thanh toán</string>
-    <string name="have_receive">Đã nhận</string>
-    <string name="get_offer">Thu thập khuyến mãi này</string>
-    <string name="login_to_get_offer">Đăng nhập để nhận khuyến mãi này</string>
-    <string name="offer_detail">Chi tiết khuyến mãi</string>
-    <string name="loading">....</string>
-    <string name="select_offer">Chọn khuyến mãi</string>
-    <string name="none_address">Chưa chỉ định địa chỉ giao hàng</string>
-    <string name="select_address">Chọn địa chỉ</string>
-    <string name="cash_payment">Thanh toán bằng tiền mặt</string>
-    <string name="online_payment">Thanh toán qua Zalo pay</string>
-    <string name="login_now">Đăng nhập Ngay</string>
-    <string name="my_order">Đơn hàng của tôi</string>
-    <string name="active">Hoạt động</string>
-    <string name="complete">Hoàn thành</string>
-    <string name="shoes_quantity">Số lượng: %d</string>
-    <string name="shoes_size">Cỡ: %d</string>
-    <string name="packing">Đang đóng gói</string>
-    <string name="delevering">Đang vận chuyển</string>
-    <string name="shipping">Đang giao hàng</string>
-    <string name="completed">Đã giao hàng</string>
-    <string name="cancel_order">Đã bị hủy</string>
-    <string name="error_password_message">Vui lòng nhập mật khẩu từ 6 ký tự trở lên, 1 ký tự đặc biệt</string>
-    <string name="request_enter_password_message">Vui lòng nhập mật khẩu</string>
-    <string name="request_enter_a_valid_email_msg">Vui lòng nhập đúng định dạng email</string>
-    <string name="application_not_ready">Ứng dụng chưa sẵn sàng</string>
-    <string name="request_select_color">Cần chọn màu</string>
-    <string name="request_select_size">Cần chọn kích thước</string>
-    <string name="order_detail">Chi tiết đơn hàng</string>
-    <string name="address">Địa chỉ</string>
-    <string name="action_cancel_order">Hủy đơn</string>
-    <string name="leave_a_comment">Để lại đánh giá</string>
-    <string name="order_detail_address">"Địa chỉ: %s"</string>
-    <string name="order_detail_total_price">Tổng giá: %s</string>
-    <string name="cancel_reason">Lý do hủy đơn: %s</string>
-    <string name="cancel_order_message">Bạn có chắc chắn muốn hủy đơn hàng này?</string>
-    <string name="cancel_order_action">Hủy đơn</string>
-    <string name="close">Đóng</string>
-    <string name="cancel_order_success">Hủy đơn hàng thành công!</string>
-    <string name="cancel_order_title">Hủy đơn hàng</string>
-    <string name="not_required">(Không bắt buộc)</string>
-    <string name="wrong_tịme">Thời gian giao hàng quá lâu</string>
-    <string name="wrong_intent">Thay đổi ý</string>
-    <string name="wrong_address">Thay đổi địa chỉ</string>
-    <string name="wrong_order">Trùng đơn hàng</string>
-    <string name="wrong_other">Lý do khác</string>
-    <string name="request_select_cancel_reason">Vui lòng chọn lý do hủy đơn.</string>
-    <string name="evaluate_order">Đánh giá đơn hàng</string>
-    <string name="your_comment">Bình luận của bạn</string>
-    <string name="submit">Xác nhận</string>
-    <string name="please_enter_your_comment">Vui lòng nhập bình luận của bạn!</string>
-    <string name="shoes_sold">%d đã bán</string>
-    <string name="watch_review">Xem đánh giá</string>
-    <string name="shoes_rate_and_shoes_reviewers">%d ( %d đánh giá )</string>
-    <string name="not_yet_review">Chưa có người đánh giá giày này</string>
-    <string name="shoes_review">Đánh giá giày</string>
+    <string name="facebook_app_id" translatable="false">323475530544352</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb323475530544352</string>
+    <string name="facebook_client_token" translatable="false">fe12091d22e29620a1509a9219f797b2</string>
+    <string name="policy_title" translatable="false">Điều khoản</string>
+    <string name="forget_account" translatable="false">Quên tài khoản</string>
+    <string name="search" translatable="false">Tìm kiếm</string>
+    <string name="code" translatable="false">Nhập mã để đăng ký</string>
+    <string name="confirm" translatable="false">Xác nhận</string>
+    <string name="continue_" translatable="false">Tiếp tục</string>
+    <string name="auth_code" translatable="false">Nhập mã để xác nhận</string>
+    <string name="new_password" translatable="false">Nhập mật khẩu mới</string>
+    <string name="re_new_password" translatable="false">Nhập lại mật khẩu mới</string>
+    <string name="change_password" translatable="false">Đổi mật khẩu</string>
+    <string name="enter_current_password" translatable="false">Nhập mật khẩu hiện tại</string>
+    <string name="edit_profile" translatable="false">Cập nhật thông tin</string>
+    <string name="update_info" translatable="false">Cập nhật thông tin</string>
+    <string name="buy_now" translatable="false">Mua ngay</string>
+    <string name="add_to_cart" translatable="false">Thêm vào giỏ</string>
+    <string name="my_cart" translatable="false">Giỏ hàng của tôi</string>
+    <string name="checkout" translatable="false">Thanh toán</string>
+    <string name="total_price" translatable="false">Tổng số tiền</string>
+    <string name="receive_address" translatable="false">Nơi nhận hàng</string>
+    <string name="transport_type" translatable="false">Phương thức vận chuyển</string>
+    <string name="apply_offer" translatable="false">Áp dụng khuyến mãi</string>
+    <string name="transport_fee" translatable="false">Tiền vận chuyển</string>
+    <string name="discount_price" translatable="false">Giảm giá</string>
+    <string name="price" translatable="false">Số tiền</string>
+    <string name="add_new_address" translatable="false">Thêm địa chỉ giao hàng</string>
+    <string name="edit" translatable="false">Chỉnh sửa</string>
+    <string name="delete" translatable="false">Xóa</string>
+    <string name="add_address" translatable="false">Thêm địa chỉ giao hàng</string>
+    <string name="name" translatable="false">Tên người nhận</string>
+    <string name="phone_number" translatable="false">Số điện thoại</string>
+    <string name="office" translatable="false">Văn phòng</string>
+    <string name="house" translatable="false">Nhà riêng</string>
+    <string name="save" translatable="false">Lưu</string>
+    <string name="mark_default_address" translatable="false">Làm địa chỉ mặc định</string>
+    <string name="edit_address" translatable="false">Chỉnh sửa địa chỉ giao hàng</string>
+    <string name="delete_address" translatable="false">Xóa địa chỉ này</string>
+    <string name="delete_address_message" translatable="false">Bạn có chắc chắn muốn xóa địa chỉ này?</string>
+    <string name="delete_address_success_message" translatable="false">Xóa địa chỉ thành công</string>
+    <string name="cancel" translatable="false">Hủy</string>
+    <string name="voucher" translatable="false">Mã giảm giá</string>
+    <string name="detail" translatable="false">Chi tiết</string>
+    <string name="none_available_offer" translatable="false">Không có khuyến mãi nào khả dụng.</string>
+    <string name="payment_method" translatable="false">Phương thức thanh toán</string>
+    <string name="have_receive" translatable="false">Đã nhận</string>
+    <string name="get_offer" translatable="false">Thu thập khuyến mãi này</string>
+    <string name="login_to_get_offer" translatable="false">Đăng nhập để nhận khuyến mãi này</string>
+    <string name="offer_detail" translatable="false">Chi tiết khuyến mãi</string>
+    <string name="loading" translatable="false">....</string>
+    <string name="select_offer" translatable="false">Chọn khuyến mãi</string>
+    <string name="none_address" translatable="false">Chưa chỉ định địa chỉ giao hàng</string>
+    <string name="select_address" translatable="false">Chọn địa chỉ</string>
+    <string name="cash_payment" translatable="false">Thanh toán bằng tiền mặt</string>
+    <string name="online_payment" translatable="false">Thanh toán qua Zalo pay</string>
+    <string name="login_now" translatable="false">Đăng nhập Ngay</string>
+    <string name="my_order" translatable="false">Đơn hàng của tôi</string>
+    <string name="active" translatable="false">Hoạt động</string>
+    <string name="complete" translatable="false">Hoàn thành</string>
+    <string name="shoes_quantity" translatable="false">Số lượng: %d</string>
+    <string name="shoes_size" translatable="false">Cỡ: %d</string>
+    <string name="packing" translatable="false">Đang đóng gói</string>
+    <string name="delevering" translatable="false">Đang vận chuyển</string>
+    <string name="shipping" translatable="false">Đang giao hàng</string>
+    <string name="completed" translatable="false">Đã giao hàng</string>
+    <string name="cancel_order" translatable="false">Đã bị hủy</string>
+    <string name="error_password_message" translatable="false">Vui lòng nhập mật khẩu từ 6 ký tự trở lên, 1 ký tự đặc biệt</string>
+    <string name="request_enter_password_message" translatable="false">Vui lòng nhập mật khẩu</string>
+    <string name="request_enter_a_valid_email_msg" translatable="false">Vui lòng nhập đúng định dạng email</string>
+    <string name="application_not_ready" translatable="false">Ứng dụng chưa sẵn sàng</string>
+    <string name="request_select_color" translatable="false">Cần chọn màu</string>
+    <string name="request_select_size" translatable="false">Cần chọn kích thước</string>
+    <string name="order_detail" translatable="false">Chi tiết đơn hàng</string>
+    <string name="address" translatable="false">Địa chỉ</string>
+    <string name="action_cancel_order" translatable="false">Hủy đơn</string>
+    <string name="leave_a_comment" translatable="false">Để lại đánh giá</string>
+    <string name="order_detail_address" translatable="false">"Địa chỉ: %s"</string>
+    <string name="order_detail_total_price" translatable="false">Tổng giá: %s</string>
+    <string name="cancel_reason" translatable="false">Lý do hủy đơn: %s</string>
+    <string name="cancel_order_message" translatable="false">Bạn có chắc chắn muốn hủy đơn hàng này?</string>
+    <string name="cancel_order_action" translatable="false">Hủy đơn</string>
+    <string name="close" translatable="false">Đóng</string>
+    <string name="cancel_order_success" translatable="false">Hủy đơn hàng thành công!</string>
+    <string name="cancel_order_title" translatable="false">Hủy đơn hàng</string>
+    <string name="not_required" translatable="false">(Không bắt buộc)</string>
+    <string name="wrong_tịme" translatable="false">Thời gian giao hàng quá lâu</string>
+    <string name="wrong_intent" translatable="false">Thay đổi ý</string>
+    <string name="wrong_address" translatable="false">Thay đổi địa chỉ</string>
+    <string name="wrong_order" translatable="false">Trùng đơn hàng</string>
+    <string name="wrong_other" translatable="false">Lý do khác</string>
+    <string name="request_select_cancel_reason" translatable="false">Vui lòng chọn lý do hủy đơn.</string>
+    <string name="evaluate_order" translatable="false">Đánh giá đơn hàng</string>
+    <string name="your_comment" translatable="false">Bình luận của bạn</string>
+    <string name="submit" translatable="false">Xác nhận</string>
+    <string name="please_enter_your_comment" translatable="false">Vui lòng nhập bình luận của bạn!</string>
+    <string name="shoes_sold" translatable="false">%d đã bán</string>
+    <string name="watch_review" translatable="false">Xem đánh giá</string>
+    <string name="shoes_rate_and_shoes_reviewers" translatable="false">%d ( %d đánh giá )</string>
+    <string name="not_yet_review" translatable="false">Chưa có người đánh giá giày này</string>
+    <string name="shoes_review" translatable="false">Đánh giá giày</string>
+    <string name="change_info" translatable="false">Thay đổi thông tin</string>
+    <string name="you_infomation_is_not_available" translatable="false">Thông tin của bạn chưa khả dụng</string>
+    <string name="sale" translatable="false">khuyến mãi</string>
+    <string name="notification" translatable="false">Thông báo</string>
+    <string name="notification_setting" translatable="false">Cài đặt thông báo</string>
+    <string name="notification_about_order" translatable="false">Thông báo về đơn hàng</string>
+    <string name="notification_about_general" translatable="false">Thông báo về giày mới về</string>
+    <string name="notification_about_offer" translatable="false">Thông báo về khuyến mãi</string>
+    <string name="notification_other" translatable="false">Thông báo khác</string>
+    <string name="log_out" translatable="false">Đăng xuất</string>
+    <string name="change_password_" translatable="false">Thay đổi mật khẩu</string>
+    <string name="payment" translatable="false">Thanh toán</string>
+    <string name="size">Cỡ</string>
+    <string name="color">Màu</string>
+    <string name="quantity">Số lượng</string>
+    <string name="description">Mô tả</string>
+    <string name="shoes_favorite">Sản phẩm yêu thích</string>
 
     <string-array name="genders_array">
         <item>Chưa xác định giới tính</item>

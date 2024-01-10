@@ -5,11 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.databinding.FragmentChangePasswordBinding
 import com.hn_2452.shoes_nike.utility.Status
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
 
     companion object {
@@ -45,6 +48,7 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
                     Status.SUCCESS -> {
                         Log.i(TAG, "setupChangePassword: success ${result.data}")
                         stopLoading()
+                        Toast.makeText(requireContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show()
                         mNavController?.popBackStack()
                     }
                     Status.ERROR -> {

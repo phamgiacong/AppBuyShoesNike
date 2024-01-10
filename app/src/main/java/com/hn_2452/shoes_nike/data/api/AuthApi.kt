@@ -1,13 +1,11 @@
 package com.hn_2452.shoes_nike.data.api
 
 import com.hn_2452.shoes_nike.data.NetworkResult
-import com.hn_2452.shoes_nike.data.model.Offer
 import com.hn_2452.shoes_nike.data.model.Shoes
 import com.hn_2452.shoes_nike.data.model.User
 import com.hn_2452.shoes_nike.data.network_result.LoginResult
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -61,7 +59,7 @@ interface AuthApi {
     @POST("user/auto-login")
     suspend fun autoLogin(
         @Header("Authorization") token: String
-    ): NetworkResult<Nothing>
+    ): NetworkResult<User>
 
     @FormUrlEncoded
     @POST("user/change-pass-by-code")
@@ -72,8 +70,9 @@ interface AuthApi {
     ): NetworkResult<Nothing>
 
     @FormUrlEncoded
-    @POST("user/change-password")
+    @PUT("user/changePassword")
     suspend fun changePassword(
+        @Header("Authorization") token: String,
         @Field("current_password") currentPassword: String,
         @Field("new_password") newPassword: String
     ): NetworkResult<Nothing>
@@ -83,16 +82,15 @@ interface AuthApi {
         @Header("Authorization") token: String
     ) : NetworkResult<User>
 
-    @Multipart
-    @PUT("user/updateInfo")
+    @FormUrlEncoded
+    @PUT("user/updateUserInfo")
     suspend fun updateUserInfo(
         @Header("Authorization") token: String,
-        @Part("image") image: MultipartBody.Part,
-        @Part("name") name: RequestBody?,
-        @Part("full_name") fullName: RequestBody?,
-        @Part("birthday") birthDay: RequestBody?,
-        @Part("gender") gender: RequestBody?,
-        @Part("phone_number") phoneNumber: RequestBody?
+        @Field("avatar") avatar: String?,
+        @Field("full_name") fullName: String?,
+        @Field("birthday") birthDay: String?,
+        @Field("gender") gender: String?,
+        @Field("phone_number") phoneNumber: String?
      ) : NetworkResult<Boolean>
 
 

@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -15,23 +15,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.viewModels
 import coil.load
-import com.hn_2452.shoes_nike.BASE_URL
+import com.google.firebase.storage.FirebaseStorage
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentChangeInfoBinding
-import com.hn_2452.shoes_nike.utility.getTimeOfDay
 import com.hn_2452.shoes_nike.utility.handleResource
 import com.hn_2452.shoes_nike.utility.toDayString
 import com.hn_2452.shoes_nike.utility.toTime
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.parse
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.IOException
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.util.Calendar
 
@@ -40,12 +35,20 @@ import java.util.Calendar
 class ChangeInfoFragment : BaseFragment<FragmentChangeInfoBinding>() {
 
     private val mViewModel: ChangeInfoViewModel by viewModels()
-    lateinit var mImage:  MultipartBody.Part
+
+    private var mNewAvatar: String? = null
+    private var mCurrentAvatar: String? = null
+    private var mChangeAvatarFlag = false
 
 
     companion object {
         const val TAG = "Nike:ChangeInfoFragment: "
         private const val PICK_IMAGE_REQUEST = 1
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setupBottomBar(false)
     }
 
     override fun getViewBinding(
@@ -81,82 +84,125 @@ class ChangeInfoFragment : BaseFragment<FragmentChangeInfoBinding>() {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
             val selectedImageUri = data.data
             selectedImageUri?.let {
-                createRequestBody(selectedImageUri)
-                val inputStream: InputStream = requireActivity().contentResolver.openInputStream(selectedImageUri) ?: return
+                val inputStream: InputStream =
+                    requireActivity().contentResolver.openInputStream(selectedImageUri) ?: return
                 val bitmap = BitmapFactory.decodeStream(inputStream)
+                mChangeAvatarFlag = true
                 mBinding?.imvUser?.setImageBitmap(bitmap)
             }
         }
     }
 
-    private fun createRequestBody(imageUri: Uri?) {
-        try {
-            imageUri ?: return
-            val inputStream: InputStream =
-                requireActivity().contentResolver.openInputStream(imageUri) ?: return
-            // Convert InputStream to byte array
-            val bytes = ByteArray(inputStream.available())
-            inputStream.read(bytes)
-            inputStream.close()
+    private fun setupUploadUserInfo() {
+        mBinding?.btnUpdate?.setOnClickListener {
+            var fullName: String? = mBinding?.edtFullName?.editText?.text?.trim().toString()
+            var birthDay: String? = mBinding?.edtBirthday?.editText?.text?.trim().toString()
+            var phoneNumber: String? = mBinding?.edtPhoneNumber?.editText?.text?.trim().toString()
+            val genderPosition = mBinding?.gender?.selectedItemPosition
 
-            // Create RequestBody
-            val requestBody: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), bytes)
-            mImage = MultipartBody.Part.createFormData("image", "image.jpg", requestBody)
+            if (fullName?.isEmpty() == true) {
+                fullName = null
+            }
 
-        } catch (e: IOException) {
-            e.printStackTrace()
+            if (birthDay?.isEmpty() == true) {
+                birthDay = null
+            }
+
+            if (phoneNumber?.isEmpty() == true) {
+                phoneNumber = null
+            }
+
+            if (mChangeAvatarFlag) {
+                startLoading()
+                val baos = ByteArrayOutputStream()
+                mBinding?.imvUser?.drawToBitmap()?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val avatarRef =
+                    FirebaseStorage.getInstance().reference.child("avatar/" + "avatar-${System.currentTimeMillis()}")
+                avatarRef.putBytes(baos.toByteArray())
+                    .addOnCompleteListener { task ->
+                        mCurrentAvatar?.let {
+                            try {
+                                FirebaseStorage.getInstance().getReferenceFromUrl(it).delete()
+                                    .addOnCompleteListener {
+                                        Log.i(TAG, "setupUploadUserInfo: delete success")
+                                    }
+                                    .addOnFailureListener {
+                                        Log.e(TAG, "setupUploadUserInfo: ${it.message}")
+                                    }
+                            } catch (ex: Exception) {
+                                Log.e(TAG, "setupUploadUserInfo: ${ex.message}")
+                            }
+                        }
+                        avatarRef.downloadUrl
+                            .addOnCompleteListener {
+                                mNewAvatar = it.result.toString()
+                                updateInfo(
+                                    mNewAvatar,
+                                    fullName,
+                                    birthDay?.toTime()?.toString(),
+                                    genderPosition ?: 0,
+                                    phoneNumber
+                                )
+                            }.addOnFailureListener {
+                                Log.e(TAG, "setupUploadUserInfo: ${it.message}", )
+                            }
+                    }
+                    .addOnFailureListener {
+                        Log.e(TAG, "onActivityResult: ${it.message}")
+                    }
+            } else {
+                updateInfo(
+                    null,
+                    fullName,
+                    birthDay?.toTime()?.toString(),
+                    genderPosition ?: 0,
+                    phoneNumber
+                )
+            }
+
+
         }
     }
 
-    private fun setupUploadUserInfo() {
-        val userName = mBinding?.edtUserName?.editText?.text.toString()
-        val fullName = mBinding?.edtFullName?.editText?.text.toString()
-        val birthDay = mBinding?.edtBirthday?.editText?.text.toString()
-        val phoneNumber = mBinding?.edtPhoneNumber?.editText?.text.toString()
-        val genderPosition = mBinding?.gender?.selectedItemPosition
-
-
-        val nameReq : RequestBody? = if(userName.isNotEmpty()) {
-            userName.toRequestBody()
-        } else {
-            null
-        }
-
-        val fullNameReq : RequestBody? = if(fullName.isNotEmpty()) {
-            fullName.toRequestBody()
-        } else {
-            null
-        }
-
-        val birthDayReq: RequestBody? = if(birthDay.toTime() != -1L) {
-           birthDay.toTime().toString().toRequestBody()
-        } else {
-            null
-        }
-
-        val phoneNumberReq : RequestBody? = if(phoneNumber.isNotEmpty()) {
-            phoneNumber.toRequestBody()
-        } else {
-            null
-        }
-
-        val genderReq: RequestBody = genderPosition.toString().toRequestBody()
-
+    private fun updateInfo(
+        avatar: String?,
+        fullName: String?,
+        birthDay: String?,
+        genderPosition: Int,
+        phoneNumber: String?
+    ) {
         handleResource(
-            data = mViewModel.updateUser(mImage, nameReq, fullNameReq, birthDayReq, phoneNumberReq, genderReq),
+            data = mViewModel.updateUser(
+                avatar,
+                fullName,
+                birthDay,
+                genderPosition.toString(),
+                phoneNumber
+            ),
             lifecycleOwner = viewLifecycleOwner,
             context = requireContext(),
             onSuccess = {
-                if(it == true) {
-                    Toast.makeText(requireContext(), "Cập nhật thành công thông tin", Toast.LENGTH_SHORT).show()
+                stopLoading()
+                if (it == true) {
+                    mChangeAvatarFlag = false
+                    Toast.makeText(
+                        requireContext(),
+                        "Cập nhật thành công thông tin",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     loadUserData()
                 } else {
-                    Log.e(TAG, "setupUploadUserInfo: update success",)
+                    Log.e(TAG, "setupUploadUserInfo: update success")
                 }
             },
-            isErrorInform = true
-        )
+            isErrorInform = true,
+            onLoading = {
 
+            },
+            onError = {
+                stopLoading()
+            }
+        )
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -176,9 +222,8 @@ class ChangeInfoFragment : BaseFragment<FragmentChangeInfoBinding>() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            { _, year, month, dayOfMonth -> // Handle the selected date
-                Calendar.getInstance().set(year, month + 1, dayOfMonth)
-                val selectedDate = Calendar.getInstance().time.time.toDayString()
+            { _, _year, _month, dayOfMonth -> // Handle the selected date
+                val selectedDate = getTimeInMillis(dayOfMonth, _month, _year).toDayString()
                 mBinding?.edtBirthday?.editText?.setText(selectedDate)
             },
             year, month, day
@@ -202,17 +247,11 @@ class ChangeInfoFragment : BaseFragment<FragmentChangeInfoBinding>() {
             onSuccess = { user ->
                 stopLoading()
                 user?.let {
-
-                    if (user.accountType == 0) {
-                        mBinding?.imvUser?.load(BASE_URL + user.avatar) {
-                            error(R.drawable.user_placeholder)
-                        }
-                    } else {
-                        mBinding?.imvUser?.load(user.avatar) {
-                            error(R.drawable.user_placeholder)
-                        }
+                    mViewModel.updateUser(user)
+                    mCurrentAvatar = user.avatar
+                    mBinding?.imvUser?.load(user.avatar) {
+                        error(R.drawable.user_placeholder)
                     }
-
                     mBinding?.edtUserName?.editText?.setText(user.name)
                     mBinding?.edtFullName?.editText?.setText(user.fullName)
                     mBinding?.edtPhoneNumber?.editText?.setText(user.phoneNumber)
@@ -244,6 +283,23 @@ class ChangeInfoFragment : BaseFragment<FragmentChangeInfoBinding>() {
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mBinding?.gender?.adapter = adapter
+    }
+
+    fun getTimeInMillis(dayOfMonth: Int, month: Int, year: Int): Long {
+        // Month is 0-based in Calendar, so subtract 1
+        val calendar = Calendar.getInstance()
+        calendar[Calendar.YEAR] = year
+        calendar[Calendar.MONTH] = month
+        calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+
+        // Set the time to midnight (00:00:00) for the specified date
+        calendar[Calendar.HOUR_OF_DAY] = 0
+        calendar[Calendar.MINUTE] = 0
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MILLISECOND] = 0
+
+        // Get the timestamp in milliseconds
+        return calendar.getTimeInMillis()
     }
 
 

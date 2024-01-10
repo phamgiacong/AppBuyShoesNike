@@ -100,7 +100,9 @@ dependencies {
     // flex box layout
     implementation("com.google.android:flexbox:2.0.1")
 
+    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-storage")
 
     // Facebook SDK
     implementation("com.facebook.android:facebook-android-sdk:[4,5)")

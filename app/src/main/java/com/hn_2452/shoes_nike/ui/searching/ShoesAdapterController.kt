@@ -39,7 +39,7 @@ class ShoesAdapterController @Inject constructor() : TypedEpoxyController<List<S
     ) : ViewBindingModel<LayoutShoesItemBinding>(R.layout.layout_shoes_item) {
         @SuppressLint("SetTextI18n")
         override fun LayoutShoesItemBinding.bind() {
-            imvShoesImage.load(BASE_URL + shoes.main_image)
+            imvShoesImage.load(shoes.main_image)
             tvShoesName.text = shoes.name
             tvShoesRate.text = shoes.rate.toString()
             tvShoesPrice.text = getPrice(shoes)

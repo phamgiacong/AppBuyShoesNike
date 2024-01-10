@@ -23,8 +23,8 @@
         <CheckBox
            android:checked="true"
             android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/background_silver"
-            app:cardCornerRadius="@dimen/dimen_30dp"
+            app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/checkBox"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,16 +51,11 @@
 
         <TextView
             android:id="@+id/tvNameProduct"
+            style="@style/small_bold_label"
             android:layout_width="0dp"
             android:layout_height="@dimen/dimen_32dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="Air Jordan 3 Retro "
-            android:textColor="@color/primary_text_color"
-            android:textSize="@dimen/dimen_20dp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/removeItem"
             app:layout_constraintStart_toEndOf="@+id/cavCart"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,7 +65,7 @@
             android:id="@+id/removeItem"
             android:layout_width="@dimen/dimen_30dp"
             android:layout_height="@dimen/dimen_30dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/icon_delete_20px"
             app:layout_constraintBottom_toBottomOf="@+id/tvNameProduct"
             app:layout_constraintEnd_toEndOf="parent"
@@ -116,14 +111,12 @@
 
         <TextView
             android:id="@+id/tvPriceProduct"
-            style="@style/medium_bold_label"
+            style="@style/small_bold_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="6dp"
             android:text="$105.00"
-            android:textColor="@color/primary_text_color"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/cavEditQuantity"
             app:layout_constraintStart_toStartOf="@+id/linearLayout5"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
@@ -135,9 +128,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="$105.00"
-            android:textColor="@color/primary_text_color"
-            android:textSize="16sp"
             android:textStyle="normal"
+            android:textColor="#9E9E9E"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tvPriceProduct"
             app:layout_constraintStart_toStartOf="@+id/tvPriceProduct"
@@ -146,12 +138,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cavEditQuantity"
-            android:layout_width="@dimen/dimen_100dp"
-            android:layout_height="@dimen/dimen_35dp"
-            android:layout_margin="@dimen/dimen_2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="visible"
             app:cardBackgroundColor="@color/background_silver"
-            app:cardCornerRadius="30dp"
+            app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvOriginPrice"
             app:layout_constraintEnd_toEndOf="@+id/removeItem"
             app:layout_constraintTop_toTopOf="@+id/tvPriceProduct">
@@ -160,24 +151,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="horizontal"
-
-                >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/btnReduce"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:padding="@dimen/dimen_5dp"
+                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="6dp"
                     android:src="@drawable/icon_remove_20px">
 
                 </ImageView>
 
                 <TextView
                     android:id="@+id/tvQuantity"
-                    android:layout_width="19dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
+                    android:layout_marginHorizontal="3dp"
                     android:gravity="center"
                     android:text="1" />
 
@@ -186,8 +176,9 @@
                     android:id="@+id/btnAugment"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:padding="5dp"
-                    android:src="@drawable/icon_add_20px"></ImageView>
+                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="6dp"
+                    android:src="@drawable/icon_add_20px" />
             </LinearLayout>
 
 

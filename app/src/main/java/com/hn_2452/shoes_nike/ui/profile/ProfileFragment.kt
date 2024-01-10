@@ -2,18 +2,23 @@ package com.hn_2452.shoes_nike.ui.profile
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.viewModels
 import coil.load
+import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
@@ -27,6 +32,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentProfileBinding.inflate(inflater, container, false)
 
+    override fun onStart() {
+        super.onStart()
+        setupBottomBar(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -37,11 +47,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         mBinding?.settingNotification?.setOnClickListener {
-            mNavController?.navigate(R.id.notificationsFragment)
+            mNavController?.navigate(R.id.notificationSettingFragment)
         }
 
         mBinding?.managePayment?.setOnClickListener {
-            mNavController?.navigate(R.id.managePaymentFragment)
+            Toast.makeText(requireContext(), "Chức năng hiện đang phát triển", Toast.LENGTH_SHORT).show()
         }
 
         mBinding?.security?.setOnClickListener {
@@ -73,12 +83,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private fun setupUserInfo() {
         mProfileFragmentViewModel.mUsers.observe(viewLifecycleOwner) { users ->
             if(users != null && users.isNotEmpty()) {
-                mBinding?.imvUser?.load(users[0].avatar) {
+                val user = users[0]
+
+                if(user.accountType != 0) {
+                    mBinding?.security?.visibility = View.GONE
+                }  else {
+                    mBinding?.security?.visibility = View.VISIBLE
+                }
+
+                mBinding?.imvUser?.load(user.avatar) {
                     error(R.drawable.user_placeholder)
                 }
-                mBinding?.tvUserName?.text = users[0].name
-                if(users[0].phoneNumber != null) {
-                    mBinding?.tvPhoneNumber?.text = users[0].phoneNumber
+
+                mBinding?.tvUserName?.text = user.name
+                if(user.phoneNumber != null) {
+                    mBinding?.tvPhoneNumber?.text = user.phoneNumber
                     mBinding?.tvPhoneNumber?.visibility = View.VISIBLE
                 } else {
                     mBinding?.tvPhoneNumber?.visibility = View.GONE

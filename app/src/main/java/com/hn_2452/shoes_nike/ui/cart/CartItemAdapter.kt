@@ -67,7 +67,7 @@ class CartItemAdapterHolder(
 
     fun bind(cartItem: OrderDetail) {
         with(mBinding) {
-            imgProduct.load( BASE_URL + cartItem.shoes.main_image) {
+            imgProduct.load( cartItem.shoes.main_image) {
                 error(R.drawable.image_broken)
             }
 

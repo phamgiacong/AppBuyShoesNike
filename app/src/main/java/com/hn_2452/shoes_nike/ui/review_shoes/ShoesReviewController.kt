@@ -20,7 +20,7 @@ class ShoesReviewController : TypedEpoxyController<List<ShoesReview>>() {
             tvPostingTime.text = getTime(shoesReview.postingTime)
             tvStar.text = "${shoesReview.rate} sao"
             tvUserName.text = shoesReview.user.name
-            imvUser.load(BASE_URL + shoesReview.user.avatar) {
+            imvUser.load(shoesReview.user.avatar) {
                 error(R.drawable.ic_launcher_background)
             }
         }
