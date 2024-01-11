@@ -23,18 +23,18 @@ class ShoesViewModel @Inject constructor(
     @ApplicationContext private val mContext: Context,
     private val mShoesRepository: ShoesRepository,
     private val mAuthRepository: AuthRepository,
-    private val mOrderDetailRepository: OrderDetailRepository,
-    mNikeDatabase: NikeDatabase
+    private val mOrderDetailRepository: OrderDetailRepository
 ) : ViewModel() {
 
-    private val _mCurrentShoes = MutableLiveData<Shoes>()
-    val mCurrentShoes: LiveData<Shoes> = _mCurrentShoes
+    var mNeedToLoadOldData = false
+
+    private val _mCurrentShoes = MutableLiveData<Shoes>(null)
+    val mCurrentShoes: LiveData<Shoes?> = _mCurrentShoes
 
     var mSelectedColor: String? = null
     var mSelectedSize: Int = -1
     var mSelectedNumber: Int = 1
 
-    val mUsers = mNikeDatabase.userDao().getUsers()
 
 
     fun getShoesById(id: String) = liveData {

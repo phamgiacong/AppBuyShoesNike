@@ -16,6 +16,7 @@ import com.hn_2452.shoes_nike.data.repository.OrderRepository
 import com.hn_2452.shoes_nike.data.repository.UserOfferRepository
 import com.hn_2452.shoes_nike.utility.Resource
 import com.hn_2452.shoes_nike.utility.getStringDataByKey
+import com.hn_2452.shoes_nike.utility.handleEx
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +44,7 @@ class CheckOutViewModel @Inject constructor(
 
     var mCurrentOrderDetail: OrderDetail? = null
 
-    fun getDefaultAddress() = liveData {
+    fun getDefaultAddress() = liveData(handleEx(mContext)) {
         try {
             emit(Resource.loading())
             emit(mAddressRepository.getDefaultAddressOfUser())
@@ -52,7 +53,7 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
-    fun getCartItemOfUser(cartItemIdList: List<String>) = liveData(Dispatchers.IO) {
+    fun getCartItemOfUser(cartItemIdList: List<String>) = liveData(Dispatchers.IO + handleEx(mContext)) {
         emit(Resource.loading(null))
         try {
             emit(mOrderDetailRepository.getOrderDetailOfUser(cartItemIdList))
@@ -61,7 +62,7 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
-    fun getOfferOfUser() = liveData {
+    fun getOfferOfUser() = liveData(handleEx(mContext)) {
         try {
             emit(Resource.loading(null))
             emit(mUserOfferRepository.getUserOfferByUserId(
@@ -72,7 +73,7 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
-    fun putNewOrderByRawData() = liveData {
+    fun putNewOrderByRawData() = liveData(handleEx(mContext)) {
         try {
             if (mCurrentOrderDetail == null) {
                 emit(Resource.error(data = null, message = "Không có đơn hàng"))
@@ -104,7 +105,7 @@ class CheckOutViewModel @Inject constructor(
     }
 
 
-    fun putNewOrder() = liveData {
+    fun putNewOrder() = liveData(handleEx(mContext)) {
         try {
             if (mCurrentOrderDetailList.isNullOrEmpty()) {
                 emit(Resource.error(data = null, message = "Không có đơn hàng"))

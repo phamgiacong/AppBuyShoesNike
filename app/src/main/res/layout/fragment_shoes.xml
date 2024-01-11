@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/background_secondary_color"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_secondary_color">
 
 
     <ScrollView
@@ -31,13 +31,15 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                style="@style/bold_label"
-                android:layout_width="match_parent"
+                style="@style/medium_bold_label"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/horizontal_padding"
+                android:layout_marginStart="17dp"
+                android:layout_marginEnd="8dp"
+                android:paddingVertical="@dimen/horizontal_padding"
                 android:text="Air Jordan 3 Retro"
                 android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imvFavorite"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewPagerShoesImage" />
 
@@ -68,10 +70,10 @@
                 android:id="@+id/imvFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/horizontal_padding"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_favorite_border"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
-                app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewPagerShoesImage" />
 
             <TextView

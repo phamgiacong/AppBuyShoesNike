@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/baseline_arrow_back"
         app:title="@string/notification"
-        app:titleTextAppearance="@style/title_bold" />
+        app:titleTextAppearance="@style/medium_bold_label" />
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"

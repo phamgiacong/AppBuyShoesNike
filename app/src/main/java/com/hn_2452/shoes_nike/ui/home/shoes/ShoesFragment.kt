@@ -1,7 +1,6 @@
 package com.hn_2452.shoes_nike.ui.home.shoes
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -13,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
@@ -36,7 +35,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         private const val TAG = "Nike:ShoesFragment: "
     }
 
-    private val mShoesViewModel: ShoesViewModel by viewModels()
+    private val mShoesViewModel: ShoesViewModel by activityViewModels()
 
     private val mArgs: ShoesFragmentArgs by navArgs()
 
@@ -51,6 +50,19 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         container: ViewGroup?
     ) = FragmentShoesBinding.inflate(inflater, container, false)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mShoesViewModel.mNeedToLoadOldData = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mShoesViewModel.mSelectedSize = -1
+        mShoesViewModel.mSelectedColor = null
+        mShoesViewModel.mSelectedNumber = 1
+        mShoesViewModel.mNeedToLoadOldData = false
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPlaceHolderLayout()
@@ -62,14 +74,21 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         setupBtnAddOrderDetailToCart()
         setupBuyNow()
         loadFavoriteShoesState()
+
+        setupSizeDataList()
+        setupColorDataList()
+        setupQuantity()
+
+
     }
 
     private fun setupBuyNow() {
         mBinding?.btnBuyNow?.setOnClickListener {
-            if(getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
+            if (getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
                 showLoginRequestPopup()
                 return@setOnClickListener
             }
+            mShoesViewModel.mNeedToLoadOldData = true
             mShoesViewModel.buyNow().observe(viewLifecycleOwner) {
                 val action = ShoesFragmentDirections.actionShoesFragmentToBuyNowFragment(it)
                 mNavController?.navigate(action)
@@ -92,7 +111,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     private fun setupAddToFavorite() {
         mBinding?.imvFavorite?.setOnClickListener {
-            if(getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
+            if (getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
                 showLoginRequestPopup()
                 return@setOnClickListener
             }
@@ -101,10 +120,18 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                 lifecycleOwner = viewLifecycleOwner,
                 context = requireContext(),
                 onSuccess = {
-                    if(it == true) {
-                        Toast.makeText(requireContext(), "Thêm thành công giày vào mục ưu thích", Toast.LENGTH_SHORT).show()
+                    if (it == true) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Thêm thành công giày vào mục ưu thích",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        Toast.makeText(requireContext(), "Xóa thành công giày vào mục ưu thích", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Xóa thành công giày vào mục ưu thích",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     loadFavoriteShoesState()
                 },
@@ -115,13 +142,13 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     private fun loadFavoriteShoesState() {
         val token = getStringDataByKey(requireContext(), TOKEN)
-        if(token.isNotEmpty()) {
+        if (token.isNotEmpty()) {
             handleResource(
                 data = mShoesViewModel.checkFavoriteShoes(mArgs.shoesId),
                 lifecycleOwner = viewLifecycleOwner,
                 context = requireContext(),
                 onSuccess = {
-                    if(it == true) {
+                    if (it == true) {
                         mBinding?.imvFavorite?.imageTintList = ColorStateList.valueOf(Color.RED)
                     } else {
                         mBinding?.imvFavorite?.imageTintList = ColorStateList.valueOf(Color.BLACK)
@@ -135,6 +162,11 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     @SuppressLint("SetTextI18n")
     private fun setupShoesData(shoesId: String) {
+        if (mShoesViewModel.mNeedToLoadOldData) {
+            stopPlaceHolderLayout()
+            return
+        }
+
         mShoesViewModel.getShoesById(shoesId).observe(viewLifecycleOwner) {
             it?.let {
                 when (it.status) {
@@ -160,24 +192,31 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                 }
             }
         }
+
     }
 
     private fun setupCurrentShoes() {
         mShoesViewModel.mCurrentShoes.observe(viewLifecycleOwner) { shoes ->
             shoes?.let {
                 mBinding?.run {
-                    when(shoes.state) {
+                    when (shoes.state) {
                         0 -> {
                             mBinding?.tvNote?.text = "Sản phẩm ngừng kinh doanh"
                             mBinding?.tvNote?.visibility = View.VISIBLE
+                            mBinding?.btnAddToCart?.visibility = View.GONE
+                            mBinding?.btnBuyNow?.visibility = View.GONE
                         }
+
                         1 -> {
                             mBinding?.btnAddToCart?.visibility = View.VISIBLE
                             mBinding?.btnBuyNow?.visibility = View.VISIBLE
                         }
+
                         2 -> {
                             mBinding?.tvNote?.text = "Sản phẩm đang hết hàng"
                             mBinding?.tvNote?.visibility = View.VISIBLE
+                            mBinding?.btnAddToCart?.isEnabled = false
+                            mBinding?.btnBuyNow?.isEnabled = false
                         }
                     }
 
@@ -211,9 +250,6 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                             ).show()
                         }
                     }
-                    setupSizeDataList()
-                    setupColorDataList()
-                    setupQuantity()
                 }
             }
         }
@@ -239,7 +275,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     private fun setupBtnAddOrderDetailToCart() {
         mBinding?.btnAddToCart?.setOnClickListener {
-            if(getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
+            if (getStringDataByKey(requireContext(), TOKEN).isEmpty()) {
                 showLoginRequestPopup()
                 return@setOnClickListener
             }
@@ -311,6 +347,10 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
             }
         }
 
+        if (mShoesViewModel.mNeedToLoadOldData) {
+            mBinding?.editQuantity?.text = mShoesViewModel.mSelectedNumber.toString()
+        }
+
         mBinding?.editQuantity?.doAfterTextChanged {
             mShoesViewModel.mSelectedNumber = it.toString().toInt()
         }
@@ -332,11 +372,24 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                     }
                     mColorAdapter.setData(updatedColorDataList)
                 }
-                val colorDataList = mutableListOf<Pair<String, Boolean>>()
-                shoes.available_colors.forEach {
-                    colorDataList.add(Pair(it, false))
+
+                if (mShoesViewModel.mNeedToLoadOldData) {
+                    val updatedColorDataList = mutableListOf<Pair<String, Boolean>>()
+                    shoes.available_colors.forEach {
+                        if (mShoesViewModel.mSelectedColor == it) {
+                            updatedColorDataList.add(Pair(it, true))
+                        } else {
+                            updatedColorDataList.add(Pair(it, false))
+                        }
+                    }
+                    mColorAdapter.setData(updatedColorDataList)
+                } else {
+                    val colorDataList = mutableListOf<Pair<String, Boolean>>()
+                    shoes.available_colors.forEach {
+                        colorDataList.add(Pair(it, false))
+                    }
+                    mColorAdapter.setData(colorDataList)
                 }
-                mColorAdapter.setData(colorDataList)
                 mBinding?.rcvColor?.adapter = mColorAdapter
             }
         }
@@ -349,7 +402,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
             mSizeAdapter.setOnClickListener { size ->
                 mShoesViewModel.mSelectedSize = size
                 val newSizeDataList = mutableListOf<Pair<Int, Boolean>>()
-                shoes.available_sizes.forEach {
+                shoes?.available_sizes?.forEach {
                     if (it == size) {
                         newSizeDataList.add(Pair(it, true))
                     } else {
@@ -359,11 +412,23 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                 mSizeAdapter.setData(newSizeDataList)
             }
 
-            val sizeDataList = mutableListOf<Pair<Int, Boolean>>()
-            shoes.available_sizes.forEach {
-                sizeDataList.add(Pair(it, false))
+            if (mShoesViewModel.mNeedToLoadOldData) {
+                val newSizeDataList = mutableListOf<Pair<Int, Boolean>>()
+                shoes?.available_sizes?.forEach {
+                    if (it == mShoesViewModel.mSelectedSize) {
+                        newSizeDataList.add(Pair(it, true))
+                    } else {
+                        newSizeDataList.add(Pair(it, false))
+                    }
+                }
+                mSizeAdapter.setData(newSizeDataList)
+            } else {
+                val sizeDataList = mutableListOf<Pair<Int, Boolean>>()
+                shoes?.available_sizes?.forEach {
+                    sizeDataList.add(Pair(it, false))
+                }
+                mSizeAdapter.setData(sizeDataList)
             }
-            mSizeAdapter.setData(sizeDataList)
             mBinding?.rcvSize?.adapter = mSizeAdapter
         }
 

@@ -42,6 +42,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mBinding?.constraintLayout4?.visibility = View.GONE
         setupUser()
         setupBottomBar(true)
         setupLoading(mBinding?.loadingProgress)
@@ -115,9 +116,12 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
                 stopLoading()
                 mCartViewModel.mCartItemList = cartItemList?.toMutableList() ?: mutableListOf()
                 if (cartItemList.isNullOrEmpty()) {
-                    mBinding?.mainLayout?.visibility = View.GONE
+                    mBinding?.rcvCartItem?.visibility = View.GONE
+                    mBinding?.constraintLayout4?.visibility = View.GONE
                     mBinding?.noneItem?.visibility = View.VISIBLE
                 } else {
+                    mBinding?.rcvCartItem?.visibility = View.VISIBLE
+                    mBinding?.constraintLayout4?.visibility = View.VISIBLE
                     if (mBinding?.noneItem?.visibility == View.VISIBLE) {
                         mBinding?.noneItem?.visibility = View.GONE
                     }
@@ -177,11 +181,12 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
 
         with(binding) {
             imgProduct.load(cartItem.shoes.main_image) {
-                error(R.drawable.ic_launcher_background)
+                error(R.color.background_secondary_color)
+                placeholder(R.color.background_secondary_color)
             }
 
             tvNameProduct.text = cartItem.shoes.name
-            tvPriceProduct.text = cartItem.shoes.price.toLong().toVND()
+            tvPriceProduct.text = cartItem.shoes.price.toVND()
             tvSize.text = "Cỡ: ${cartItem.size}"
             tvQuantity.text = cartItem.quantity.toString()
             cavColor.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor(cartItem.color)))

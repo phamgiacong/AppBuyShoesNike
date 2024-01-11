@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:background="@drawable/bg_shoes_image"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@color/background_secondary_color"
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/tvShoesName"
-        style="@style/bold_label"
+        style="@style/medium_bold_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_vertical_padding"
@@ -74,7 +74,7 @@
 
     <TextView
         android:id="@+id/tvShoesPrice"
-        style="@style/bold_label"
+        style="@style/small_bold_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_vertical_padding"

@@ -11,11 +11,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.MainActivity
 import com.hn_2452.shoes_nike.NikeShoesApplication
 import com.hn_2452.shoes_nike.R
-import com.hn_2452.shoes_nike.ui.splash_activity.SplashActivity
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -29,7 +27,7 @@ class NotificationService: FirebaseMessagingService() {
         if(message.notification!=null){
             var bitmap: Bitmap?= null
             try {
-               bitmap = getBitmapfromUrl(BASE_URL+message.notification!!.imageUrl.toString())
+               bitmap = getBitmapfromUrl(message.notification!!.imageUrl.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -3,8 +3,6 @@ package com.hn_2452.shoes_nike.ui.splash_activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -33,14 +31,12 @@ class SplashActivity : AppCompatActivity() {
 
     private val mSplashActivityViewModel: SplashActivityViewModel by viewModels()
 
-    private val SPLASH_DURATION: Long = 1000
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         val receivedBundle = intent.extras
-        Log.e("TAG", "onCreate: ${receivedBundle?.getString("type")}", )
+        Log.e("TAG", "onCreate: ${receivedBundle?.getString("type")}")
         val token = getStringDataByKey(this, TOKEN)
         Log.i(TAG, "token: $token")
         if (token.isNotEmpty()) {
@@ -53,20 +49,18 @@ class SplashActivity : AppCompatActivity() {
 
                         Status.SUCCESS -> {
                             Log.i(TAG, "autoLogin: success")
-                            startMainActivity(receivedBundle)
                         }
 
                         Status.ERROR -> {
                             Log.e(TAG, "autoLogin: ${result.message}")
-                            startMainActivity(receivedBundle)
                         }
 
                         null -> {
                             Log.e(TAG, "autoLogin: result is null")
-                            startMainActivity(receivedBundle)
                         }
                     }
                 }
+            startMainActivity(receivedBundle)
         } else {
             if (getBooleanDataByKey(this, WELCOME_KEY)) {
                 startMainActivity(receivedBundle)
@@ -84,18 +78,15 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity(bundle: Bundle?) {
-        Handler(Looper.getMainLooper()).postDelayed({
-            if(bundle==null){
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            }else{
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtras(bundle)
-                startActivity(intent)
-                finish()
-            }
-
-        }, SPLASH_DURATION)
+        if (bundle == null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtras(bundle)
+            startActivity(intent)
+            finish()
+        }
     }
 }

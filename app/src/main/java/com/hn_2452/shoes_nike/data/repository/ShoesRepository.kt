@@ -39,8 +39,8 @@ class ShoesRepository @Inject constructor() {
         val map = mutableMapOf<String, String>()
         map["name"] = name
 
-        if (sortAndFilter.type != DEFAULT_SHOES_ID) {
-            map["type"] = sortAndFilter.type
+        if (sortAndFilter.type.id != DEFAULT_SHOES_ID) {
+            map["type"] = sortAndFilter.type.id
         }
 
         if (sortAndFilter.gender != GENDER_ALL) {

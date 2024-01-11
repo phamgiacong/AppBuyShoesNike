@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.TOKEN
@@ -42,10 +41,12 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar(mBinding?.toolbar)
+        Log.i(TAG, "getOfferOfUser: " + mArgs.offer)
         setupOfferDetail(mArgs.offer)
         getOfferOfUser()
 
         if (getStringDataByKey(requireContext(), TOKEN).isNotEmpty()) {
+            Log.i(TAG, "onViewCreated: ")
             mBinding?.btnGetOffer?.text = getString(R.string.loading)
         }
 
@@ -62,24 +63,28 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
                 if (userOffers != null && isHasOffer(userOffers, mArgs.offer)) {
                     informHaveReceiveOffer()
                 } else {
-                    mBinding?.btnGetOffer?.text = getText(R.string.get_offer)
+                    mBinding?.btnGetOffer?.text = getString(R.string.get_offer)
                     mAvailableToGetOffer = true
                 }
+            },
+            onError = {
+                Log.e(TAG, "getOfferOfUser: $it", )
             }
         )
     }
 
     private fun isHasOffer(userOffer: List<UserOffer>, offer: Offer): Boolean {
-        val res = userOffer.find {
-            it.offer.id == offer.id
+        var res : UserOffer?
+        try {
+             res = userOffer.find {
+                it.offer.id == offer.id
+            }
+            return res != null
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            return false
         }
-        return res != null
-    }
 
-    private fun findOffer(offer: Offer, offers: List<Offer>): Boolean {
-        return offers.find {
-            it.id == offer.id
-        } != null
     }
 
     @SuppressLint("SetTextI18n")
@@ -130,6 +135,7 @@ class OfferDetailFragment : BaseFragment<FragmentOfferDetailBinding>() {
     }
 
     private fun informHaveReceiveOffer() {
+        Log.i(TAG, "informHaveReceiveOffer: ")
         mAvailableToGetOffer = false
         mBinding?.btnGetOffer?.text = getString(R.string.have_receive)
     }
