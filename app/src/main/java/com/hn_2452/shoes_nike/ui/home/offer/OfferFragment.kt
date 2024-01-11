@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import coil.load
-import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.Offer
@@ -28,11 +27,13 @@ class OfferFragment : BaseFragment<FragmentOfferBinding>() {
         offer?.let { offer ->
             mBinding?.apply {
                 imvOfferImage.load(offer.image) {
-                    error(R.drawable.ic_launcher_background)
+                    error(R.color.background_secondary_color)
+                    placeholder(R.color.background_secondary_color)
                 }
 
                 root.setOnClickListener {
-                    val action = HomeFragmentDirections.actionHomeFragmentToOfferDetailFragment(offer)
+                    val action =
+                        HomeFragmentDirections.actionHomeFragmentToOfferDetailFragment(offer)
                     mNavController?.navigate(action)
                 }
             }

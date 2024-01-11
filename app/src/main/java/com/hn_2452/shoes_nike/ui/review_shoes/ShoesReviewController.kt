@@ -5,7 +5,6 @@ import com.airbnb.epoxy.TypedEpoxyController
 import com.hn_2452.shoes_nike.AN_MINUTE
 import com.hn_2452.shoes_nike.A_DAY
 import com.hn_2452.shoes_nike.A_HOUR
-import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.ShoesReview
 import com.hn_2452.shoes_nike.databinding.LayoutShoesReviewItemBinding
@@ -21,7 +20,8 @@ class ShoesReviewController : TypedEpoxyController<List<ShoesReview>>() {
             tvStar.text = "${shoesReview.rate} sao"
             tvUserName.text = shoesReview.user.name
             imvUser.load(shoesReview.user.avatar) {
-                error(R.drawable.ic_launcher_background)
+                error(R.color.white)
+                placeholder(R.color.white)
             }
         }
 

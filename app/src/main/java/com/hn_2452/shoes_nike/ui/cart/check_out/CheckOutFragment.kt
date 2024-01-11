@@ -58,22 +58,6 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
         StrictMode.setThreadPolicy(policy)
 
         ZaloPaySDK.init(553, Environment.SANDBOX)
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    Log.d(TAG, "Fragment back pressed invoked")
-                    // Do custom work here
-                    mCheckOutViewModel.clearData()
-
-                    // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-                        isEnabled = false
-                        requireActivity().onBackPressed()
-                    }
-                }
-            }
-            )
     }
 
 
@@ -437,5 +421,10 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
             mCheckOutViewModel.clearData()
             mNavController?.popBackStack()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCheckOutViewModel.clearData()
     }
 }

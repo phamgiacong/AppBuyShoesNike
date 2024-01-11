@@ -8,9 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import coil.load
-import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentHomeBinding
@@ -27,7 +27,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         private const val TAG = "Nike:HomeFragment: "
     }
 
-    private val mHomeViewModel: HomeViewModel by viewModels()
+    private var mLoadingTime = 0
+
+    private val mHomeViewModel: HomeViewModel by activityViewModels()
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentHomeBinding.inflate(inflater, container, false)
@@ -39,19 +41,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mLoadingTime = 0
+        if(mHomeViewModel.mOfferList == null) {
+            startPlaceHolderLayout()
+        } else {
+            mLoadingTime = 2
+            stopPlaceHolderLayout()
+        }
         setupBottomBar(true)
         setupShoesTypeList()
         setupPopularShoesList()
         setupOfferList()
         setupNavigateToNotificationScreen()
         setupSearching()
-        setupLogin()
         updateUserInfo()
+
+
     }
 
-    private fun setupLogin() {
-        mBinding?.imvUser?.setOnClickListener {
-            mNavController?.navigate(R.id.loginFragment)
+    private fun startPlaceHolderLayout() {
+        mBinding?.mainLayout?.visibility = View.INVISIBLE
+        mBinding?.placeHolderLayout?.visibility = View.VISIBLE
+        mBinding?.placeHolderLayout?.startShimmerAnimation()
+    }
+
+    private fun stopPlaceHolderLayout() {
+        mLoadingTime++
+        if (mLoadingTime >= 3) {
+            mBinding?.mainLayout?.visibility = View.VISIBLE
+            mBinding?.placeHolderLayout?.visibility = View.GONE
+            mBinding?.placeHolderLayout?.stopShimmerAnimation()
         }
     }
 
@@ -69,6 +88,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupOfferList() {
+        if(mHomeViewModel.mOfferList != null) {
+            mBinding?.tvSpecialOffer?.visibility = View.VISIBLE
+            mHomeViewModel.mOfferList?.let { offerList ->
+                Log.i(TAG, "setupOfferList: $offerList")
+                mBinding?.viewpagerOffer?.adapter = OfferAdapter(this, offerList)
+                autoRunOfferBanner(offerList.size)
+            }
+            return
+        }
         mHomeViewModel.getAvailableOffer().observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result.status) {
@@ -77,6 +105,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     Status.SUCCESS -> {
+                        stopPlaceHolderLayout()
+                        mBinding?.tvSpecialOffer?.visibility = View.VISIBLE
                         result.data?.let { offerList ->
                             Log.i(TAG, "setupOfferList: $offerList")
                             mBinding?.viewpagerOffer?.adapter = OfferAdapter(this, offerList)
@@ -117,6 +147,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             )
         }
         mBinding?.rcvShoesType?.setController(controller)
+        if(mHomeViewModel.mShoesTypeList != null) {
+            mBinding?.tvShoesType?.visibility = View.VISIBLE
+            controller.setData(mHomeViewModel.mShoesTypeList)
+            return
+        }
         mHomeViewModel.getShoesType().observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result.status) {
@@ -125,6 +160,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     Status.SUCCESS -> {
+                        stopPlaceHolderLayout()
+                        mBinding?.tvShoesType?.visibility = View.VISIBLE
                         controller.setData(result.data)
                     }
 
@@ -142,6 +179,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             mNavController?.navigate(action)
         }
         mBinding?.rcvPopularShoes?.setController(controller)
+        if(mHomeViewModel.mShoesList != null) {
+            mBinding?.tvPopularShoes?.visibility = View.VISIBLE
+            controller.setData(mHomeViewModel.mShoesList)
+            return
+        }
         mHomeViewModel.getPopularShoes().observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result.status) {
@@ -150,6 +192,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     Status.SUCCESS -> {
+                        stopPlaceHolderLayout()
+                        mBinding?.tvPopularShoes?.visibility = View.VISIBLE
                         controller.setData(result.data)
                     }
 
@@ -164,13 +208,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun updateUserInfo() {
         mBinding?.userBar?.visibility = View.GONE
         mHomeViewModel.mUsers.observe(viewLifecycleOwner) { users ->
-            if(users != null && users.isNotEmpty()) {
+            if (users != null && users.isNotEmpty()) {
                 val user = users[0]
                 mBinding?.imvUser?.load(user.avatar) {
+                    placeholder(R.drawable.user_placeholder)
                     error(R.drawable.user_placeholder)
                 }
 
-                if(user.fullName.isNullOrEmpty()) {
+                if (user.fullName.isNullOrEmpty()) {
                     mBinding?.tvUserName?.text = user.name
                 } else {
                     mBinding?.tvUserName?.text = user.fullName

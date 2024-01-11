@@ -21,7 +21,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OrderFragment : BaseFragment<FragmentOrderBinding>() {
 
-    private val mOrderViewModel: OrderViewModel by viewModels()
+    private val mOrderViewModel: OrderViewModel by activityViewModels()
 
     @Inject
     lateinit var mOrderItemAdapter: OrderItemAdapter

@@ -44,26 +44,6 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
         container: ViewGroup?
     ) = FragmentBuyNowBinding.inflate(inflater, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i(TAG, "onCreate: ")
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    Log.d(TAG, "Fragment back pressed invoked")
-                    // Do custom work here
-                    mCheckOutViewModel.clearData()
-
-                    // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-                        isEnabled = false
-                        requireActivity().onBackPressed()
-                    }
-                }
-            }
-            )
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,7 +70,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
             }
 
             tvNameProduct.text = orderItem.shoes.name
-            tvPriceProduct.text = orderItem.shoes.price.toLong().toVND()
+            tvPriceProduct.text = orderItem.shoes.finalPrice.toVND()
             tvSize.text = getString(R.string.shoes_size, orderItem.size)
             tvQuantity.text = getString(R.string.shoes_quantity, orderItem.quantity)
             cavColor.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor(orderItem.color)))

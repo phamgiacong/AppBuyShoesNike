@@ -251,6 +251,7 @@ class ChangeInfoFragment : BaseFragment<FragmentChangeInfoBinding>() {
                     mCurrentAvatar = user.avatar
                     mBinding?.imvUser?.load(user.avatar) {
                         error(R.drawable.user_placeholder)
+                        placeholder(R.drawable.user_placeholder)
                     }
                     mBinding?.edtUserName?.editText?.setText(user.name)
                     mBinding?.edtFullName?.editText?.setText(user.fullName)

@@ -8,6 +8,7 @@ import com.hn_2452.shoes_nike.TOKEN_METHOD
 import com.hn_2452.shoes_nike.data.repository.AuthRepository
 import com.hn_2452.shoes_nike.utility.Resource
 import com.hn_2452.shoes_nike.utility.getStringDataByKey
+import com.hn_2452.shoes_nike.utility.handleEx
 import com.hn_2452.shoes_nike.utility.isNotPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,7 +20,9 @@ class ChangePasswordViewModel @Inject constructor(
     private val mAuthRepository: AuthRepository,
     @ApplicationContext private val mContext: Context
 ) : ViewModel() {
-    fun changePassword(currentPass: String?, newPass: String?, reNewPass: String?) = liveData {
+    fun changePassword(currentPass: String?, newPass: String?, reNewPass: String?) = liveData(
+        handleEx(mContext)
+    ) {
         try {
             val token = TOKEN_METHOD + getStringDataByKey(mContext, TOKEN)
 

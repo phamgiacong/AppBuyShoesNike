@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/baseline_arrow_back"
         app:title="@string/policy_title"
-        app:titleTextAppearance="@style/bold_label" />
+        app:titleTextAppearance="@style/medium_bold_label" />
 
     <TextView
         android:layout_width="match_parent"

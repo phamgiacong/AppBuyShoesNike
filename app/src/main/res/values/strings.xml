@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppBuyShoesNike</string>
+    <string name="app_name">Nike</string>
     <string name="home">Trang chủ</string>
     <string name="cart">Giỏ hàng</string>
     <string name="order">Đơn hàng</string>
@@ -211,5 +211,13 @@
         <item>Chưa xác định giới tính</item>
         <item>Nam</item>
         <item>Nữ</item>
+    </string-array>
+
+    <string-array name="sort_shoes">
+        <item>Mới nhất</item>
+        <item>Giá từ cao đến thấp</item>
+        <item>Giá từ thấp đến cao</item>
+        <item>Được mua nhiều nhất</item>
+        <item>Đánh giá cao nhất</item>
     </string-array>
 </resources>

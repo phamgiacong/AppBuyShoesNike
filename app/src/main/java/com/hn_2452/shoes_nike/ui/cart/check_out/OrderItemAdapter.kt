@@ -43,11 +43,12 @@ class OrderItemAdapterHolder(
     fun bind(orderItem: OrderDetail) {
         with(mBinding) {
             imgProduct.load(orderItem.shoes.main_image) {
-                error(R.drawable.ic_launcher_background)
+                error(R.color.background_secondary_color)
+                placeholder(R.color.background_secondary_color)
             }
 
             tvNameProduct.text = orderItem.shoes.name
-            tvPriceProduct.text = orderItem.shoes.price.toLong().toVND()
+            tvPriceProduct.text = orderItem.shoes.finalPrice.toVND()
             tvSize.text = "Cỡ: ${orderItem.size}"
             tvQuantity.text = "Số lượng: ${orderItem.quantity}"
             cavColor.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor(orderItem.color)))

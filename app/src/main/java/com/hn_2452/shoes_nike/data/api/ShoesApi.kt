@@ -17,7 +17,7 @@ interface ShoesApi {
         @Query("sort_created_date") flag: Int = -1
     ) : NetworkResult<List<Shoes>>
 
-    @GET("/shoes?sort_sold=1&state=1&limit=20")
+    @GET("/shoes?sort_sold=-1&state=1&limit=20")
     suspend fun getPopularShoes(): NetworkResult<List<Shoes>>
 
     @GET("/shoes/shoes-by-name")
