@@ -119,6 +119,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
                     mBinding?.rcvCartItem?.visibility = View.GONE
                     mBinding?.constraintLayout4?.visibility = View.GONE
                     mBinding?.noneItem?.visibility = View.VISIBLE
+                    mBinding?.tvTitle?.visibility = View.VISIBLE
                 } else {
                     mBinding?.rcvCartItem?.visibility = View.VISIBLE
                     mBinding?.constraintLayout4?.visibility = View.VISIBLE
