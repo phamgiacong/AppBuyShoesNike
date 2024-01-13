@@ -37,4 +37,20 @@ class NotificationViewModel @Inject constructor(
             emit(Resource.error(null, ex.message!!))
         }
     }
+    fun updateSeenNotification(id:String)= liveData {
+        if(id.isNullOrEmpty()){
+            emit(Resource.error(message = "id error"))
+            return@liveData
+        }
+        emit(Resource.loading())
+        emit(notificationRepository.updateSeenNotification(id))
+    }
+    fun getQuantityNotification(id:String)= liveData {
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(notificationRepository.getQuantityNotification(id)))
+        } catch (ex: Exception) {
+            emit(Resource.error(null, ex.message!!))
+        }
+    }
 }

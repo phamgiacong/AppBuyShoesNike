@@ -36,6 +36,22 @@ class NotificationRepository @Inject constructor(
             Resource.error(message = response.message)
         }
     }
+    suspend fun updateSeenNotification(id:String) = withContext(Dispatchers.IO){
+        val response = NikeService.mNotificationApi.updateSeenNotification(id)
+        if (response.success) {
+            Resource.success(true)
+        } else {
+            Resource.error(message = response.message)
+        }
+    }
+    suspend fun getQuantityNotification(id:String)= withContext(Dispatchers.IO){
+        val response = NikeService.mNotificationApi.getQuantityNotification(id)
+        if (response.success) {
+            Resource.success(response.data)
+        } else {
+            Resource.error(message = response.message)
+        }
+    }
 
 
 }

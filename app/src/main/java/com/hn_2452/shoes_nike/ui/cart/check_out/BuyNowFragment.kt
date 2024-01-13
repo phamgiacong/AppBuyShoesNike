@@ -136,9 +136,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                                                 .setTitle("Payment Success")
                                                 .setMessage(
                                                     String.format(
-                                                        "TransactionId: %s - TransToken: %s",
-                                                        transactionId,
-                                                        transToken
+                                                        "Thanh toán thành công"
                                                     )
                                                 )
                                                 .setPositiveButton(
@@ -178,8 +176,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                                             .setTitle("User Cancel Payment")
                                             .setMessage(
                                                 String.format(
-                                                    "zpTransToken: %s \n",
-                                                    zpTransToken
+                                                  "Đã thoát thanh toán "
                                                 )
                                             )
                                             .setPositiveButton(
@@ -197,9 +194,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                                             .setTitle("Payment Fail")
                                             .setMessage(
                                                 String.format(
-                                                    "ZaloPayErrorCode: %s \nTransToken: %s",
-                                                    zaloPayError.toString(),
-                                                    zpTransToken
+                                                  "Lỗi thanh toán"
                                                 )
                                             )
                                             .setPositiveButton(
