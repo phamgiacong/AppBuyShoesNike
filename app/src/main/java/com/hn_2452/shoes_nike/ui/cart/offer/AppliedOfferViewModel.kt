@@ -11,6 +11,7 @@ import com.hn_2452.shoes_nike.data.repository.OfferRepository
 import com.hn_2452.shoes_nike.data.repository.UserOfferRepository
 import com.hn_2452.shoes_nike.utility.Resource
 import com.hn_2452.shoes_nike.utility.getStringDataByKey
+import com.hn_2452.shoes_nike.utility.handleEx
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -21,7 +22,7 @@ class AppliedOfferViewModel @Inject constructor(
     private val mUserOfferRepository: UserOfferRepository
 ) : ViewModel() {
 
-    fun getOfferOfUser() = liveData {
+    fun getOfferOfUser() = liveData(handleEx(mContext)) {
         try {
             emit(Resource.loading(null))
             emit(mUserOfferRepository.getUserOfferByUserId(

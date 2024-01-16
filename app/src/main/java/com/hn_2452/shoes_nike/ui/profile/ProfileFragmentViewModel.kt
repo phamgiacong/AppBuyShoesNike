@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.hn_2452.shoes_nike.TOKEN
 import com.hn_2452.shoes_nike.data.local.NikeDatabase
+import com.hn_2452.shoes_nike.utility.handleEx
 import com.hn_2452.shoes_nike.utility.saveStringDataByKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,7 +19,7 @@ class ProfileFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     val mUsers = mNikeDatabase.userDao().getUsers()
-    fun logout() = liveData {
+    fun logout() = liveData(handleEx(mApp)) {
         try {
             saveStringDataByKey(mApp, TOKEN, "")
             mNikeDatabase.userDao().deleteUser()

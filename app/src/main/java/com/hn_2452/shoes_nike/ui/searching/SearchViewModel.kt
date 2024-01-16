@@ -1,5 +1,6 @@
 package com.hn_2452.shoes_nike.ui.searching
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +15,9 @@ import com.hn_2452.shoes_nike.data.model.ShoesType
 import com.hn_2452.shoes_nike.data.repository.ShoesRepository
 import com.hn_2452.shoes_nike.data.repository.ShoesTypeRepository
 import com.hn_2452.shoes_nike.utility.Resource
+import com.hn_2452.shoes_nike.utility.handleEx
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,8 +26,14 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val mShoesRepository: ShoesRepository,
     private val mShoesTypeRepository: ShoesTypeRepository,
-    private val mNikeDatabase: NikeDatabase
+    private val mNikeDatabase: NikeDatabase,
+    @ApplicationContext private val mContext: Context
 ) : ViewModel() {
+
+    var mShowSortOption = false
+    var mAsSetPriceOptionFromUserAction = false
+    var mNoObserveQueryText = false
+
 
     var mShoesTypeList: List<ShoesType> = emptyList()
 
@@ -32,7 +41,9 @@ class SearchViewModel @Inject constructor(
 
     val mSortAndFilter = MutableLiveData(SortAndFilter())
 
-    var mCurrentShoesList : List<Shoes> = emptyList()
+    var mCurrentShoesList : MutableLiveData<List<Shoes>?> = MutableLiveData()
+
+    var mQueryText : MutableLiveData<String?> = MutableLiveData("")
 
     companion object {
         private const val TAG = "Nike:SearchViewModel: "
@@ -40,29 +51,31 @@ class SearchViewModel @Inject constructor(
 
     val mRecentSearching: LiveData<List<Searching>> = mNikeDatabase.searchingDao().getAllSearching()
 
-    fun addRecentSearching(content: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun addRecentSearching(content: String) = viewModelScope.launch(Dispatchers.IO + handleEx(mContext)) {
         val searching = Searching(content)
         mNikeDatabase.searchingDao().addSearching(searching)
     }
 
-    fun deleteRecentSearching(searching: Searching) = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteRecentSearching(searching: Searching) = viewModelScope.launch(Dispatchers.IO + handleEx(mContext)) {
         mNikeDatabase.searchingDao().deleteSearching(searching)
     }
 
-    fun deleteRecentSearching() = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteRecentSearching() = viewModelScope.launch(Dispatchers.IO + handleEx(mContext)) {
         mNikeDatabase.searchingDao().deleteAllSearch()
     }
 
-    fun loadingShoesByName(name: String) = liveData {
+    fun loadingShoesByName(name: String) = liveData(handleEx(mContext)) {
         try {
             Log.i(TAG, "loadingShoesByName: $name")
-            emit(mShoesRepository.getShoesByName(name, mSortAndFilter.value ?: SortAndFilter()))
+            val resource = mShoesRepository.getShoesByName(name, mSortAndFilter.value ?: SortAndFilter())
+            mCurrentShoesList.value = resource.data
+            emit(resource)
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message ?: "error"))
         }
     }
 
-    fun getShoesType() = liveData {
+    fun getShoesType() = liveData(handleEx(mContext)) {
         try {
             emit(Resource.loading(null))
             emit(mShoesTypeRepository.getShoesType())
@@ -72,20 +85,6 @@ class SearchViewModel @Inject constructor(
     }
 
 
-}
-
-class SearchViewModelFactory(
-    private val mShoesRepository: ShoesRepository,
-    private val mShoesTypeRepository: ShoesTypeRepository,
-    private val mNikeDatabase: NikeDatabase
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return SearchViewModel(mShoesRepository, mShoesTypeRepository, mNikeDatabase) as T
-        }
-        return super.create(modelClass)
-    }
 }
 
 
@@ -100,8 +99,8 @@ const val MIN_VALUE = 50_000L
 const val MAX_VALUE = 10_000_000L
 
 data class SortAndFilter(
-    var type: String = DEFAULT_SHOES_ID,
-    var gender: Number = GENDER_ALL,
+    var type: ShoesType = ShoesType(id = DEFAULT_SHOES_ID),
+    var gender: Int = GENDER_ALL,
     var priceRange: Pair<Long, Long> = Pair(MIN_VALUE, MAX_VALUE),
     var sort: String = POPULAR,
     var star: Int = -1

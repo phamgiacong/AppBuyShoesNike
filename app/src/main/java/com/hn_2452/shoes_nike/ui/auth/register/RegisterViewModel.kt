@@ -6,6 +6,7 @@ import androidx.lifecycle.liveData
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.repository.AuthRepository
 import com.hn_2452.shoes_nike.utility.Resource
+import com.hn_2452.shoes_nike.utility.handleEx
 import com.hn_2452.shoes_nike.utility.isNotEmail
 import com.hn_2452.shoes_nike.utility.isNotPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,7 @@ class RegisterViewModel @Inject constructor(
         checkerPassword: String,
         acceptPolicy: Boolean
     ) =
-        liveData {
+        liveData(handleEx(mContext)) {
 
             if (email.isEmpty()) {
                 emit(Resource.error(null, "Vui lòng nhập email của bạn"))

@@ -3,7 +3,9 @@ package com.hn_2452.shoes_nike.utility
 import android.content.Context
 import android.text.SpannableString
 import android.text.style.StrikethroughSpan
+import android.widget.Toast
 import com.hn_2452.shoes_nike.data.model.Shoes
+import kotlinx.coroutines.CoroutineExceptionHandler
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -87,4 +89,11 @@ fun getOriginPrice(shoes: Shoes): SpannableString {
     val priceString = SpannableString(price.toVND())
     priceString.setSpan(StrikethroughSpan(), 0, priceString.length, 0)
     return priceString
+}
+
+fun handleEx(context: Context): CoroutineExceptionHandler {
+    return CoroutineExceptionHandler { _, exception ->
+        exception.printStackTrace()
+        Toast.makeText(context, "Lỗi kết nối", Toast.LENGTH_LONG).show()
+    }
 }

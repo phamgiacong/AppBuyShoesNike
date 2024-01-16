@@ -16,11 +16,38 @@
             android:id="@+id/imvUser"
             android:layout_width="50dp"
             android:layout_height="50dp"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@color/background_secondary_color"
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
         <TextView
+            style="@style/medium_bold_label"
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

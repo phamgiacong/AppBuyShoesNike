@@ -11,6 +11,7 @@ import com.hn_2452.shoes_nike.data.repository.OrderRepository
 import com.hn_2452.shoes_nike.data.repository.ShoesReviewRepository
 import com.hn_2452.shoes_nike.utility.Resource
 import com.hn_2452.shoes_nike.utility.getStringDataByKey
+import com.hn_2452.shoes_nike.utility.handleEx
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -27,7 +28,7 @@ class OrderDetailViewModel @Inject constructor(
         const val TAG = "Nike:OrderDetailViewModel: "
     }
 
-    fun getOrderDetailById(id: String) = liveData {
+    fun getOrderDetailById(id: String) = liveData(handleEx(mContext)) {
         emit(Resource.loading())
         try {
             emit(mOrderRepository.getOrderById(id))
@@ -37,7 +38,7 @@ class OrderDetailViewModel @Inject constructor(
     }
 
 
-    fun cancelOrder(id: String, reason: String) = liveData {
+    fun cancelOrder(id: String, reason: String) = liveData(handleEx(mContext)) {
         emit(Resource.loading())
         try {
             emit(mOrderRepository.cancelOrder(id, reason))
@@ -46,7 +47,9 @@ class OrderDetailViewModel @Inject constructor(
         }
     }
 
-    fun reviewShoes(orderId: String, shoesId: String, star: Float, comment: String) = liveData {
+    fun reviewShoes(orderId: String, shoesId: String, star: Float, comment: String) = liveData(
+        handleEx(mContext)
+    ) {
         Log.i(TAG, "reviewShoes: orderId=$orderId shoesId=$shoesId star=$star comment=$comment")
         try {
             val token = TOKEN_METHOD + getStringDataByKey(mContext, TOKEN)

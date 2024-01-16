@@ -1,24 +1,18 @@
 package com.hn_2452.shoes_nike.ui.profile
 
 import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.viewModels
 import coil.load
-import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
@@ -51,7 +45,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         mBinding?.managePayment?.setOnClickListener {
-            Toast.makeText(requireContext(), "Chức năng hiện đang phát triển", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Chức năng hiện đang phát triển", Toast.LENGTH_SHORT)
+                .show()
         }
 
         mBinding?.security?.setOnClickListener {
@@ -61,11 +56,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         mBinding?.logout?.setOnClickListener {
             val dialog = AlertDialog.Builder(requireContext())
                 .setMessage("Bạn có chắc chắn muốn đăng xuất?")
-                .setNegativeButton("Hủy"
+                .setNegativeButton(
+                    "Hủy"
                 ) { dialog, _ ->
                     dialog?.dismiss()
                 }
-                .setPositiveButton("Đăng xuất"
+                .setPositiveButton(
+                    "Đăng xuất"
                 ) { dialog, _ ->
                     logout()
                     dialog?.dismiss()
@@ -82,26 +79,26 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun setupUserInfo() {
         mProfileFragmentViewModel.mUsers.observe(viewLifecycleOwner) { users ->
-            if(users != null && users.isNotEmpty()) {
+            if (users != null && users.isNotEmpty()) {
                 val user = users[0]
 
-                if(user.accountType != 0) {
+                if (user.accountType != 0) {
                     mBinding?.security?.visibility = View.GONE
-                }  else {
+                } else {
                     mBinding?.security?.visibility = View.VISIBLE
                 }
 
                 mBinding?.imvUser?.load(user.avatar) {
                     error(R.drawable.user_placeholder)
+                    placeholder(R.drawable.user_placeholder)
                 }
 
-                mBinding?.tvUserName?.text = user.name
-                if(user.phoneNumber != null) {
-                    mBinding?.tvPhoneNumber?.text = user.phoneNumber
-                    mBinding?.tvPhoneNumber?.visibility = View.VISIBLE
+                if(user.fullName.isNullOrEmpty()) {
+                    mBinding?.tvUserName?.text = user.name
                 } else {
-                    mBinding?.tvPhoneNumber?.visibility = View.GONE
+                    mBinding?.tvUserName?.text = user.fullName
                 }
+
                 mBinding?.layoutNeedLogin?.visibility = View.GONE
                 mBinding?.mainLayout?.visibility = View.VISIBLE
             } else {

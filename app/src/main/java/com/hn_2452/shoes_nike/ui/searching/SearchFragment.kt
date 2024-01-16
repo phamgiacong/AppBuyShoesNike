@@ -13,13 +13,14 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.slider.RangeSlider
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
+import com.hn_2452.shoes_nike.data.model.Shoes
 import com.hn_2452.shoes_nike.data.model.ShoesType
 import com.hn_2452.shoes_nike.databinding.FragmentSearchBinding
 import com.hn_2452.shoes_nike.databinding.SearchOptionItemBinding
@@ -46,7 +47,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         private const val TAG = "Nike:SearchFragment: "
     }
 
-    private val mSearchViewModel: SearchViewModel by viewModels()
+    private val mSearchViewModel: SearchViewModel by activityViewModels()
 
     private lateinit var mBottomSheetDialog: BottomSheetDialog
 
@@ -74,7 +75,194 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setupRcvShoesList()
         setupClearAllRecentSearch()
         setupBtnSearch()
+
         setupFilterAndSort()
+        setupQueryText()
+        setupShoesList()
+        fillPreviousData()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mSearchViewModel.mShowSortOption = false
+    }
+
+    private fun fillPreviousData() {
+        mSearchViewModel.mQueryText.value = mSearchViewModel.mQueryText.value
+        mSearchViewModel.mSortAndFilter.value = mSearchViewModel.mSortAndFilter.value?.copy()
+    }
+
+    private fun setupShoesList() {
+        mSearchViewModel.mCurrentShoesList.observe(viewLifecycleOwner) {
+            mShoesAdapter.setData(it)
+        }
+    }
+
+    private fun setupQueryText() {
+        mSearchViewModel.mQueryText.observe(viewLifecycleOwner) { queryText ->
+            if (mSearchViewModel.mNoObserveQueryText) {
+                mSearchViewModel.mNoObserveQueryText = false
+                return@observe
+            }
+            mBinding?.edtSearch?.setText(queryText)
+        }
+    }
+
+    private fun updateStarUI(star: Int) {
+        removeSearchOptionByTag(STAR_TAG)
+        if (star != -1) {
+            addSearchOptionByTag(STAR_TAG, "Đánh giá: $star sao") {
+                setupRcvStar()
+                mSearchViewModel.mSortAndFilter.value =
+                    mSearchViewModel.mSortAndFilter.value?.copy(star = -1)
+            }
+        }
+
+        val updateStartList = mutableListOf<Pair<Int, Boolean>>()
+        mSearchViewModel.mStarList.forEach {
+            if (it == star) {
+                updateStartList.add(Pair(it, true))
+            } else {
+                updateStartList.add(Pair(it, false))
+            }
+        }
+        mStarAdapter.setData(updateStartList)
+    }
+
+    private fun updateShoesTypeListUI(shoesType: ShoesType) {
+        removeSearchOptionByTag(TYPE_TAG)
+        if (shoesType.id != DEFAULT_SHOES_ID) {
+            addSearchOptionByTag(TYPE_TAG, "Loại giày: ${shoesType.name}") {
+                setupRcvShoesTypeList()
+                mSearchViewModel.mSortAndFilter.value =
+                    mSearchViewModel.mSortAndFilter.value?.copy(type = ShoesType(id = DEFAULT_SHOES_ID))
+            }
+        }
+        val updatedShoesTypeList = mutableListOf<Pair<ShoesType, Boolean>>()
+        updatedShoesTypeList.add(
+            Pair(
+                ShoesType(id = DEFAULT_SHOES_ID, name = "All"),
+                shoesType.id == DEFAULT_SHOES_ID
+            )
+        )
+        mSearchViewModel.mShoesTypeList.forEach {
+            if (it.id == shoesType.id) {
+                updatedShoesTypeList.add(Pair(it, true))
+            } else {
+                updatedShoesTypeList.add(Pair(it, false))
+            }
+        }
+        mShoesTypeAdapter.setData(updatedShoesTypeList)
+    }
+
+    private fun updatePriceUI(values: MutableList<Float>) {
+        removeSearchOptionByTag(PRICE_TAG)
+        if (values[0].toLong() != 50000L || values[1].toLong() != 10000000L) {
+            addSearchOptionByTag(
+                PRICE_TAG,
+                "Giá từ ${values[0].toLong().toVND()} tới ${values[1].toLong().toVND()}"
+            ) {
+                mSearchViewModel.mAsSetPriceOptionFromUserAction = true
+                val slide = mBottomSheetDialog.findViewById<RangeSlider>(R.id.price_range)
+                slide?.setValues(MIN_VALUE.toFloat(), MAX_VALUE.toFloat())
+            }
+        }
+    }
+
+    private fun updateGenderUI(gender: Int) {
+        val allGender = mBottomSheetDialog.findViewById<TextView>(R.id.gender_all)
+        val menGender = mBottomSheetDialog.findViewById<TextView>(R.id.gender_men)
+        val womenGender = mBottomSheetDialog.findViewById<TextView>(R.id.gender_women)
+        when (gender) {
+            0 -> {
+                allGender?.setTextColor(Color.WHITE)
+                allGender?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+                menGender?.setTextColor(Color.BLACK)
+                menGender?.backgroundTintList = null
+                womenGender?.setTextColor(Color.BLACK)
+                womenGender?.backgroundTintList = null
+                removeSearchOptionByTag(GENDER_TAG)
+            }
+
+            1 -> {
+                allGender?.setTextColor(Color.BLACK)
+                allGender?.backgroundTintList = null
+                menGender?.setTextColor(Color.WHITE)
+                menGender?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+                womenGender?.setTextColor(Color.BLACK)
+                womenGender?.backgroundTintList = null
+
+
+                removeSearchOptionByTag(GENDER_TAG)
+                addSearchOptionByTag(GENDER_TAG, "Giới tính: Nam") {
+                    allGender?.performClick()
+                }
+            }
+
+            2 -> {
+                allGender?.setTextColor(Color.BLACK)
+                allGender?.backgroundTintList = null
+                menGender?.setTextColor(Color.BLACK)
+                menGender?.backgroundTintList = null
+                womenGender?.setTextColor(Color.WHITE)
+                womenGender?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+
+
+                removeSearchOptionByTag(GENDER_TAG)
+                addSearchOptionByTag(GENDER_TAG, "Giới tính: Nữ") {
+                    allGender?.performClick()
+                }
+            }
+        }
+    }
+
+    private fun updateSortUI(sort: String) {
+        val popular = mBottomSheetDialog.findViewById<TextView>(R.id.sortPopular)
+        val recent = mBottomSheetDialog.findViewById<TextView>(R.id.sortRecent)
+        when (sort) {
+            POPULAR -> {
+                popular?.setTextColor(Color.WHITE)
+                popular?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+                recent?.setTextColor(Color.BLACK)
+                recent?.backgroundTintList = null
+
+                removeSearchOptionByTag(SORT_TAG)
+                if(mSearchViewModel.mShowSortOption) {
+                    addSearchOptionByTag(SORT_TAG, "Sắp xếp: Phổ biến") {
+                        popular?.setTextColor(Color.WHITE)
+                        popular?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+                        recent?.setTextColor(Color.BLACK)
+                        recent?.backgroundTintList = null
+                        mSearchViewModel.mShowSortOption = false
+                        mSearchViewModel.mSortAndFilter.value =
+                            mSearchViewModel.mSortAndFilter.value?.copy(sort = POPULAR)
+                    }
+                }
+
+
+            }
+
+            RECENT -> {
+                popular?.setTextColor(Color.BLACK)
+                popular?.backgroundTintList = null
+                recent?.setTextColor(Color.WHITE)
+                recent?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+
+                removeSearchOptionByTag(SORT_TAG)
+                if(mSearchViewModel.mShowSortOption) {
+                    addSearchOptionByTag(SORT_TAG, "Sắp xếp: Gần đây") {
+                        popular?.setTextColor(Color.WHITE)
+                        popular?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+                        recent?.setTextColor(Color.BLACK)
+                        recent?.backgroundTintList = null
+                        mSearchViewModel.mShowSortOption = false
+                        mSearchViewModel.mSortAndFilter.value =
+                            mSearchViewModel.mSortAndFilter.value?.copy(sort = POPULAR)
+                    }
+                }
+
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -95,45 +283,32 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         mSearchViewModel.mSortAndFilter.observe(viewLifecycleOwner) { filter ->
             Log.i(TAG, "setupFilterAndSort: $filter")
-            filter?.let {
-                Log.i(TAG, "filteredShoesList input: ${mSearchViewModel.mCurrentShoesList.size}")
-                val filteredShoesList = mSearchViewModel.mCurrentShoesList.filter { shoes ->
-                    shoes.gender == filter.gender
-                            && (shoes.price >= filter.priceRange.first && shoes.price <= filter.priceRange.second)
-                            && (shoes.rate.toInt() == filter.star || filter.star == -1)
-                            && (shoes.type == filter.type || filter.type == DEFAULT_SHOES_ID)
-                }
 
-                if (filter.sort == POPULAR) {
-                    filteredShoesList.sortedBy { shoes -> shoes.sold }
-                } else {
-                    filteredShoesList.sortedBy { shoes -> shoes.created_date }
-                }
+            updateStarUI(filter.star)
+            updateShoesTypeListUI(filter.type)
+            updateGenderUI(filter.gender)
+            updateSortUI(filter.sort)
 
-                Log.i(TAG, "filteredShoesList output: ${filteredShoesList.size}")
+            val slide = mBottomSheetDialog.findViewById<RangeSlider>(R.id.price_range)
+            slide?.setValues(filter.priceRange.first.toFloat(), filter.priceRange.second.toFloat())
+            updatePriceUI(mutableListOf(filter.priceRange.first.toFloat(), filter.priceRange.second.toFloat()))
 
-                mBinding?.tvFound?.text = "${filteredShoesList.size} sản phẩm"
-                mShoesAdapter.setData(filteredShoesList)
-            }
+            performSearch()
         }
     }
 
     private fun setupBtnReset() {
         val btnReset = mBottomSheetDialog.findViewById<Button>(R.id.btnReset)
         btnReset?.setOnClickListener {
-            val popular = mBottomSheetDialog.findViewById<TextView>(R.id.sortPopular)
-            popular?.performClick()
-            val allGender = mBottomSheetDialog.findViewById<TextView>(R.id.gender_all)
-            allGender?.performClick()
+            mSearchViewModel.mSortAndFilter.value =
+                mSearchViewModel.mSortAndFilter.value?.copy(
+                    type = ShoesType(id = DEFAULT_SHOES_ID),
+                    gender = 0,
+                    sort = POPULAR,
+                    star = -1
+                )
             val slide = mBottomSheetDialog.findViewById<RangeSlider>(R.id.price_range)
             slide?.setValues(MIN_VALUE.toFloat(), MAX_VALUE.toFloat())
-            setupRcvShoesTypeList()
-            mSearchViewModel.mSortAndFilter.value =
-                mSearchViewModel.mSortAndFilter.value?.copy(type = DEFAULT_SHOES_ID)
-            setupRcvStar()
-            mSearchViewModel.mSortAndFilter.value =
-                mSearchViewModel.mSortAndFilter.value?.copy(star = -1)
-
             mBinding?.searchOptionLayout?.removeAllViews()
         }
     }
@@ -145,42 +320,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         popular?.setTextColor(Color.WHITE)
         popular?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
         popular?.setOnClickListener {
-            popular.setTextColor(Color.WHITE)
-            popular.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
-            recent?.setTextColor(Color.BLACK)
-            recent?.backgroundTintList = null
+            mSearchViewModel.mShowSortOption = true
             mSearchViewModel.mSortAndFilter.value =
                 mSearchViewModel.mSortAndFilter.value?.copy(sort = POPULAR)
-
-            removeSearchOptionByTag(SORT_TAG)
-            addSearchOptionByTag(SORT_TAG, "Sắp xếp: Phổ biến") {
-                popular.setTextColor(Color.WHITE)
-                popular.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
-                recent?.setTextColor(Color.BLACK)
-                recent?.backgroundTintList = null
-                mSearchViewModel.mSortAndFilter.value =
-                    mSearchViewModel.mSortAndFilter.value?.copy(sort = POPULAR)
-            }
-
         }
 
         recent?.setOnClickListener {
-            popular?.setTextColor(Color.BLACK)
-            popular?.backgroundTintList = null
-            recent.setTextColor(Color.WHITE)
-            recent.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+            mSearchViewModel.mShowSortOption = true
             mSearchViewModel.mSortAndFilter.value =
                 mSearchViewModel.mSortAndFilter.value?.copy(sort = RECENT)
-
-            removeSearchOptionByTag(SORT_TAG)
-            addSearchOptionByTag(SORT_TAG, "Sắp xếp: Gần đây") {
-                popular?.setTextColor(Color.WHITE)
-                popular?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
-                recent.setTextColor(Color.BLACK)
-                recent.backgroundTintList = null
-                mSearchViewModel.mSortAndFilter.value =
-                    mSearchViewModel.mSortAndFilter.value?.copy(sort = POPULAR)
-            }
         }
 
     }
@@ -193,48 +341,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         allGender?.setTextColor(Color.WHITE)
         allGender?.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
         allGender?.setOnClickListener {
-            allGender.setTextColor(Color.WHITE)
-            allGender.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
-            menGender?.setTextColor(Color.BLACK)
-            menGender?.backgroundTintList = null
-            womenGender?.setTextColor(Color.BLACK)
-            womenGender?.backgroundTintList = null
             mSearchViewModel.mSortAndFilter.value =
                 mSearchViewModel.mSortAndFilter.value?.copy(gender = GENDER_ALL)
-
-            removeSearchOptionByTag(GENDER_TAG)
         }
 
         menGender?.setOnClickListener {
-            allGender?.setTextColor(Color.BLACK)
-            allGender?.backgroundTintList = null
-            menGender.setTextColor(Color.WHITE)
-            menGender.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
-            womenGender?.setTextColor(Color.BLACK)
-            womenGender?.backgroundTintList = null
             mSearchViewModel.mSortAndFilter.value =
                 mSearchViewModel.mSortAndFilter.value?.copy(gender = GENDER_MEN)
-
-            removeSearchOptionByTag(GENDER_TAG)
-            addSearchOptionByTag(GENDER_TAG, "Giới tính: Nam") {
-                allGender?.performClick()
-            }
         }
 
         womenGender?.setOnClickListener {
-            allGender?.setTextColor(Color.BLACK)
-            allGender?.backgroundTintList = null
-            menGender?.setTextColor(Color.BLACK)
-            menGender?.backgroundTintList = null
-            womenGender.setTextColor(Color.WHITE)
-            womenGender.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
             mSearchViewModel.mSortAndFilter.value =
                 mSearchViewModel.mSortAndFilter.value?.copy(gender = GENDER_WOMEN)
-
-            removeSearchOptionByTag(GENDER_TAG)
-            addSearchOptionByTag(GENDER_TAG, "Giới tính: Nữ") {
-                allGender?.performClick()
-            }
         }
     }
 
@@ -274,25 +392,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         mStarAdapter.setOnClick { star ->
             mSearchViewModel.mSortAndFilter.value =
                 mSearchViewModel.mSortAndFilter.value?.copy(star = star)
-
-            removeSearchOptionByTag(STAR_TAG)
-            if (star != -1) {
-                addSearchOptionByTag(STAR_TAG, "Đánh giá: $star sao") {
-                    setupRcvStar()
-                    mSearchViewModel.mSortAndFilter.value =
-                        mSearchViewModel.mSortAndFilter.value?.copy(star = -1)
-                }
-            }
-
-            val updateStartList = mutableListOf<Pair<Int, Boolean>>()
-            mSearchViewModel.mStarList.forEach {
-                if (it == star) {
-                    updateStartList.add(Pair(it, true))
-                } else {
-                    updateStartList.add(Pair(it, false))
-                }
-            }
-            mStarAdapter.setData(updateStartList)
         }
 
         setupRcvStar()
@@ -317,24 +416,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(value)
         }
 
-        slide?.addOnChangeListener { slider, _, _ ->
-            val values = slider.values
-            Log.i(TAG, "setupPriceRange: start=${values[0]} end=${values[1]}")
-            val newValue = Pair(values[0].toLong(), values[1].toLong())
-            mSearchViewModel.mSortAndFilter.value =
-                mSearchViewModel.mSortAndFilter.value?.copy(priceRange = newValue)
-
-            removeSearchOptionByTag(PRICE_TAG)
-            if (values[0].toLong() != 50000L || values[1].toLong() != 10000000L) {
-                addSearchOptionByTag(
-                    PRICE_TAG,
-                    "Giá từ ${values[0].toLong().toVND()} tới ${values[1].toLong().toVND()}"
-                ) {
-                    val slide = mBottomSheetDialog.findViewById<RangeSlider>(R.id.price_range)
-                    slide?.setValues(MIN_VALUE.toFloat(), MAX_VALUE.toFloat())
-                }
+        slide?.addOnChangeListener { slider, _, fromUser ->
+            if (fromUser || mSearchViewModel.mAsSetPriceOptionFromUserAction) {
+                mSearchViewModel.mAsSetPriceOptionFromUserAction = false
+                val values = slider.values
+                Log.i(TAG, "setupPriceRange: start=${values[0]} end=${values[1]}")
+                val newValue = Pair(values[0].toLong(), values[1].toLong())
+                mSearchViewModel.mSortAndFilter.value =
+                    mSearchViewModel.mSortAndFilter.value?.copy(priceRange = newValue)
+                updatePriceUI(values)
             }
-
         }
     }
 
@@ -342,52 +433,32 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         val rcvShoesType = mBottomSheetDialog.findViewById<RecyclerView>(R.id.rcvShoesType)
         mShoesTypeAdapter.setOnClick { shoesType ->
             mSearchViewModel.mSortAndFilter.value =
-                mSearchViewModel.mSortAndFilter.value?.copy(type = shoesType.id)
-            removeSearchOptionByTag(TYPE_TAG)
-            if (shoesType.id != DEFAULT_SHOES_ID) {
-                addSearchOptionByTag(TYPE_TAG, "Loại giày: ${shoesType.name}") {
-                    setupRcvShoesTypeList()
-                    mSearchViewModel.mSortAndFilter.value =
-                        mSearchViewModel.mSortAndFilter.value?.copy(type = DEFAULT_SHOES_ID)
-                }
-            }
-            val updatedShoesTypeList = mutableListOf<Pair<ShoesType, Boolean>>()
-            updatedShoesTypeList.add(
-                Pair(
-                    ShoesType(id = DEFAULT_SHOES_ID, name = "All"),
-                    shoesType.id == DEFAULT_SHOES_ID
-                )
-            )
-            mSearchViewModel.mShoesTypeList.forEach {
-                if (it.id == shoesType.id) {
-                    updatedShoesTypeList.add(Pair(it, true))
-                } else {
-                    updatedShoesTypeList.add(Pair(it, false))
-                }
-            }
-            mShoesTypeAdapter.setData(updatedShoesTypeList)
+                mSearchViewModel.mSortAndFilter.value?.copy(type = shoesType)
         }
         rcvShoesType?.adapter = mShoesTypeAdapter
 
-        mSearchViewModel.getShoesType().observe(viewLifecycleOwner) { result ->
-            result?.let {
-                when (result.status) {
-                    Status.LOADING -> {
-                        Log.i(TAG, "setupFilterAndSort: loading...")
-                    }
+        if(mSearchViewModel.mShoesTypeList.isEmpty()) {
+            mSearchViewModel.getShoesType().observe(viewLifecycleOwner) { result ->
+                result?.let {
+                    when (result.status) {
+                        Status.LOADING -> {
+                            Log.i(TAG, "setupFilterAndSort: loading...")
+                        }
 
-                    Status.SUCCESS -> {
-                        Log.i(TAG, "getShoesTypeList: ${result.data}")
-                        mSearchViewModel.mShoesTypeList = result.data ?: emptyList()
-                        setupRcvShoesTypeList()
-                    }
+                        Status.SUCCESS -> {
+                            Log.i(TAG, "getShoesTypeList: ${result.data}")
+                            mSearchViewModel.mShoesTypeList = result.data ?: emptyList()
+                            setupRcvShoesTypeList()
+                        }
 
-                    Status.ERROR -> {
-                        Log.e(TAG, "getShoesTypeList: ${result.message}")
+                        Status.ERROR -> {
+                            Log.e(TAG, "getShoesTypeList: ${result.message}")
+                        }
                     }
                 }
             }
         }
+
     }
 
     private fun setupRcvShoesTypeList() {
@@ -411,9 +482,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun setupBtnSearch() {
         mBinding?.edtSearch?.addTextChangedListener {
-            if (it.toString().isEmpty()) {
+            mSearchViewModel.mNoObserveQueryText = true
+            mSearchViewModel.mQueryText.value = it.toString()
+            if (it.isNullOrEmpty()) {
                 mBinding?.recentSearchingLayout?.visibility = View.VISIBLE
                 mBinding?.SearchedShoesLayout?.visibility = View.GONE
+            } else {
+                mBinding?.recentSearchingLayout?.visibility = View.GONE
+                mBinding?.SearchedShoesLayout?.visibility = View.VISIBLE
             }
         }
     }
@@ -461,6 +537,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun performSearch() {
         val string = mBinding?.edtSearch?.text.toString()
+        if(string.isEmpty()) {
+            return
+        }
         mSearchViewModel.loadingShoesByName(string).observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result.status) {
@@ -474,12 +553,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         mSearchViewModel.addRecentSearching(string)
 
                         Log.i(TAG, "performSearch: ${result.data}")
-                        if (result.data?.size != 0) {
-                            mSearchViewModel.mCurrentShoesList = result.data ?: emptyList()
-                            mShoesAdapter.setData(result.data)
-                            mBinding?.tvFound?.text = "${result.data?.size ?: 0} sản phẩm"
-                        }
-
+                        mShoesAdapter.setData(result.data)
+                        mBinding?.tvFound?.text = "${result.data?.size ?: 0} sản phẩm"
                     }
 
                     Status.ERROR -> {
@@ -488,5 +563,23 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
         }
+    }
+
+    private fun filter(shoesList: List<Shoes>?, filter: SortAndFilter): List<Shoes>? {
+        Log.i(TAG, "shoesList: ${shoesList?.size} filter: ${filter}")
+        val filteredShoesList = shoesList?.filter { shoes ->
+            (shoes.gender == filter.gender || filter.gender == 0) &&
+                    (shoes.price >= filter.priceRange.first && shoes.price <= filter.priceRange.second)
+                    && (shoes.rate.toInt() == filter.star || filter.star == -1)
+                    && (shoes.type == filter.type.id || filter.type.id == DEFAULT_SHOES_ID)
+        }
+
+        if (filter.sort == POPULAR) {
+            filteredShoesList?.sortedBy { shoes -> shoes.sold }
+        } else {
+            filteredShoesList?.sortedBy { shoes -> shoes.created_date }
+        }
+        Log.i(TAG, "output filter: ${filteredShoesList?.size}")
+        return filteredShoesList
     }
 }

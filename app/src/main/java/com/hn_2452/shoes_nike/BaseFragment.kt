@@ -13,6 +13,7 @@ import androidx.viewbinding.ViewBinding
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.FadingCircle
 import com.google.android.material.appbar.MaterialToolbar
+import com.hn_2452.shoes_nike.ui.home.shoes.ShoesFragment
 import com.hn_2452.shoes_nike.utility.getStringDataByKey
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {

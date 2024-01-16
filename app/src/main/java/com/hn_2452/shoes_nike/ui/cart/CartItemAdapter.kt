@@ -9,13 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
-import com.hn_2452.shoes_nike.BASE_URL
 import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.data.model.OrderDetail
 import com.hn_2452.shoes_nike.databinding.ItemCartBinding
 import com.hn_2452.shoes_nike.utility.getOriginPrice
 import com.hn_2452.shoes_nike.utility.getPrice
-import com.hn_2452.shoes_nike.utility.toVND
 import javax.inject.Inject
 
 val OrderDetailUtil = object : DiffUtil.ItemCallback<OrderDetail>() {
@@ -30,11 +28,12 @@ class CartItemAdapter @Inject constructor() :
 
     var mOnSelectItem: (shoesId: String) -> Unit = {}
     var mOnDeleteItem: (cartItem: OrderDetail) -> Unit = {}
-    var mOnIncreaseQuantity: (cartItemId: String, updatedQuantity: Int) -> Boolean = { _, _ -> false}
-    var mOnReduceQuantity: (cartItemId: String, reducedQuantity: Int) -> Boolean = { _, _ -> false}
-    var mOnCheck: (OrderDetail, Boolean) -> Unit = {_, _ ->}
+    var mOnIncreaseQuantity: (cartItemId: String, updatedQuantity: Int) -> Boolean =
+        { _, _ -> false }
+    var mOnReduceQuantity: (cartItemId: String, reducedQuantity: Int) -> Boolean = { _, _ -> false }
+    var mOnCheck: (OrderDetail, Boolean) -> Unit = { _, _ -> }
 
-    var mPreviousOrderDetailIds : List<String>? = null
+    var mPreviousOrderDetailIds: List<String>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CartItemAdapterHolder(
             ItemCartBinding.inflate(
@@ -67,13 +66,13 @@ class CartItemAdapterHolder(
 
     fun bind(cartItem: OrderDetail) {
         with(mBinding) {
-            imgProduct.load( cartItem.shoes.main_image) {
-                error(R.drawable.image_broken)
+            imgProduct.load(cartItem.shoes.main_image) {
+                error(R.color.place_holder_color)
             }
 
             tvNameProduct.text = cartItem.shoes.name
             tvPriceProduct.text = getPrice(cartItem.shoes)
-            if(cartItem.shoes.discount > 0) {
+            if (cartItem.shoes.discount > 0) {
                 tvOriginPrice.visibility = View.VISIBLE
                 tvOriginPrice.text = getOriginPrice(cartItem.shoes)
             } else {
@@ -88,19 +87,19 @@ class CartItemAdapterHolder(
             btnReduce.setOnClickListener {
                 val reducedQuantity = cartItem.quantity - 1
                 val result = mOnReduceQuantity(cartItem.id, reducedQuantity)
-                if(result) {
+                if (result) {
                     tvQuantity.text = reducedQuantity.toString()
                 }
             }
             btnAugment.setOnClickListener {
                 val increasedQuantity = cartItem.quantity + 1
                 val result = mOnIncreaseQuantity(cartItem.id, increasedQuantity)
-                if(result) {
+                if (result) {
                     tvQuantity.text = increasedQuantity.toString()
                 }
             }
 
-            if(mPreviousOrderDetailIds == null) {
+            if (mPreviousOrderDetailIds == null) {
                 checkBox.isChecked = true
             } else {
                 checkBox.isChecked = mPreviousOrderDetailIds.contains(cartItem.id)

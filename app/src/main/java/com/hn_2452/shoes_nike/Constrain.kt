@@ -1,6 +1,6 @@
 package com.hn_2452.shoes_nike
 
-const val BASE_URL = "http:192.168.0.102:3000/"
+const val BASE_URL = "https://nike-shoes-k1hc.onrender.com/"
 const val TOKEN = "token_key"
 const val WELCOME_KEY = "welcome_key"
 const val TOKEN_METHOD = "Bearer "
