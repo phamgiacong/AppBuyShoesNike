@@ -13,3 +13,7 @@ const val NEW_SHOES_NOTIFY = "NEW_SHOES_NOTIFY"
 const val ORDER_NOTIFY = "ORDER_NOTIFY"
 const val OFFER_NOTIFY = "OFFER_NOTIFY"
 const val OTHER_NOTIFY = "OTHER_NOTIFY"
+
+const val NOTIFICATION_ACTION = "com.hn_2452.shoes_nike.notification_action"
+const val NOTIFY_OBJECT_ID = "NOTIFY_ID"
+const val NOTIFY_TYPE = "NOTIFY_TYPE"

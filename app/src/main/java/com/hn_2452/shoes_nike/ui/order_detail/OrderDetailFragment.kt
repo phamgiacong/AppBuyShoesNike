@@ -200,7 +200,7 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
     }
 
     private fun loadOrder() {
-        Log.i(TAG, "loadOrder: ")
+        Log.i(TAG, "loadOrder: " + mAgrs.id)
         handleResource(
             data = mOrderDetailViewModel.getOrderDetailById(mAgrs.id),
             lifecycleOwner = viewLifecycleOwner,

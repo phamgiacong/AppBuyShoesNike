@@ -17,9 +17,6 @@
             android:id="@+id/action_homeFragment_to_shoesFragment"
             app:destination="@id/shoesFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_orderDetailFragment"
-            app:destination="@id/orderDetailFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_shoesByTypeFragment"
             app:destination="@id/shoesByTypeFragment" />
     </fragment>
@@ -62,7 +59,7 @@
         android:id="@+id/favoriteFragment"
         android:name="com.hn_2452.shoes_nike.ui.favorite.FavoriteFragment"
         android:label="FavoriteFragment"
-        tools:layout="@layout/fragment_favorite" >
+        tools:layout="@layout/fragment_favorite">
         <action
             android:id="@+id/action_favoriteFragment_to_shoesFragment"
             app:destination="@id/shoesFragment" />
@@ -220,7 +217,7 @@
         android:id="@+id/orderDetailFragment"
         android:name="com.hn_2452.shoes_nike.ui.order_detail.OrderDetailFragment"
         android:label="fragment_order_detail"
-        tools:layout="@layout/fragment_order_detail" >
+        tools:layout="@layout/fragment_order_detail">
         <argument
             android:name="id"
             app:argType="string" />
@@ -232,7 +229,7 @@
         android:id="@+id/shoesReviewFragment"
         android:name="com.hn_2452.shoes_nike.ui.review_shoes.ShoesReviewFragment"
         android:label="fragment_shoes_review"
-        tools:layout="@layout/fragment_shoes_review" >
+        tools:layout="@layout/fragment_shoes_review">
         <argument
             android:name="shoes_id"
             app:argType="string" />
@@ -241,8 +238,7 @@
         android:id="@+id/notificationsFragment"
         android:name="com.hn_2452.shoes_nike.ui.notification.NotificationsFragment"
         android:label="NotificationsFragment"
-        tools:layout="@layout/fragment_notification"
-        >
+        tools:layout="@layout/fragment_notification">
         <action
             android:id="@+id/action_notificationsFragment_to_orderDetailFragment"
             app:destination="@id/orderDetailFragment" />
@@ -253,7 +249,7 @@
     <fragment
         android:id="@+id/shoesByTypeFragment"
         android:name="com.hn_2452.shoes_nike.ui.shoes_by_type.ShoesByTypeFragment"
-        android:label="ShoesByTypeFragment" >
+        android:label="ShoesByTypeFragment">
         <argument
             android:name="name"
             app:argType="string" />
@@ -264,6 +260,15 @@
             android:name="typeId"
             app:argType="string" />
     </fragment>
+    <action
+        android:id="@+id/action_global_orderDetailFragment"
+        app:destination="@id/orderDetailFragment" />
+    <action
+        android:id="@+id/action_global_offerDetailFragment"
+        app:destination="@id/offerDetailFragment" />
+    <action
+        android:id="@+id/action_global_shoesFragment"
+        app:destination="@id/shoesFragment" />
 
 
 </navigation>

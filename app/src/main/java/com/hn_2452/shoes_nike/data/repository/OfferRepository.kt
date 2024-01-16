@@ -16,4 +16,13 @@ class OfferRepository @Inject constructor() {
             Resource.error(null, offerData.message)
         }
     }
+
+    suspend fun getOfferById(id: String): Resource<Offer> = withContext(Dispatchers.IO) {
+        val offerData = NikeService.mOfferApi.getOfferById(id)
+        if (offerData.success) {
+            Resource.success(offerData.data)
+        } else {
+            Resource.error(null, offerData.message)
+        }
+    }
 }

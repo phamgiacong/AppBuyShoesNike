@@ -9,7 +9,7 @@ interface TokenApi {
     @FormUrlEncoded
     @POST("/token")
     suspend fun sendRegistrationTokenToServer(
-        @Field("userId")userId:String,
+        @Field("userId")userId:String?,
         @Field("token") token:String
     ):NetworkResult<Nothing>
 }

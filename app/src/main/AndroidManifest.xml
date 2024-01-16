@@ -35,6 +35,11 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="demozpdk" android:host="app"/>
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.hn_2452.shoes_nike.notification_action"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
 
         <activity

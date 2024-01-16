@@ -32,7 +32,7 @@ class NotificationViewModel @Inject constructor(
     fun getNotificationOffer() = liveData {
         emit(Resource.loading(null))
         try {
-            emit(Resource.success(notificationRepository.getNotificationOffer()))
+            emit(notificationRepository.getNotificationOffer())
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message!!))
         }
