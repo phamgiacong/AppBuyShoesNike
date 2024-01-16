@@ -94,6 +94,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun setupShoesList() {
         mSearchViewModel.mCurrentShoesList.observe(viewLifecycleOwner) {
+            mBinding?.tvFound?.text = "${it?.size ?: 0} sản phẩm"
             mShoesAdapter.setData(it)
         }
     }
@@ -485,10 +486,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             mSearchViewModel.mNoObserveQueryText = true
             mSearchViewModel.mQueryText.value = it.toString()
             if (it.isNullOrEmpty()) {
-                mBinding?.recentSearchingLayout?.visibility = View.VISIBLE
                 mBinding?.SearchedShoesLayout?.visibility = View.GONE
+                mBinding?.searchOptionLayout?.visibility = View.GONE
+                mBinding?.recentSearchingLayout?.visibility = View.VISIBLE
             } else {
                 mBinding?.recentSearchingLayout?.visibility = View.GONE
+                mBinding?.searchOptionLayout?.visibility = View.VISIBLE
                 mBinding?.SearchedShoesLayout?.visibility = View.VISIBLE
             }
         }
@@ -563,23 +566,5 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
         }
-    }
-
-    private fun filter(shoesList: List<Shoes>?, filter: SortAndFilter): List<Shoes>? {
-        Log.i(TAG, "shoesList: ${shoesList?.size} filter: ${filter}")
-        val filteredShoesList = shoesList?.filter { shoes ->
-            (shoes.gender == filter.gender || filter.gender == 0) &&
-                    (shoes.price >= filter.priceRange.first && shoes.price <= filter.priceRange.second)
-                    && (shoes.rate.toInt() == filter.star || filter.star == -1)
-                    && (shoes.type == filter.type.id || filter.type.id == DEFAULT_SHOES_ID)
-        }
-
-        if (filter.sort == POPULAR) {
-            filteredShoesList?.sortedBy { shoes -> shoes.sold }
-        } else {
-            filteredShoesList?.sortedBy { shoes -> shoes.created_date }
-        }
-        Log.i(TAG, "output filter: ${filteredShoesList?.size}")
-        return filteredShoesList
     }
 }

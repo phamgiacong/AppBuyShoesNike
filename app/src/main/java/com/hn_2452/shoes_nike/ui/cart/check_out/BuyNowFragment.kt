@@ -49,6 +49,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i(TAG, "onViewCreated: ")
+        setupLoading(mBinding?.loadingProgress)
         setupOrderItem()
         setupBackBtn()
         setupSelectAddress()
@@ -96,6 +97,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                     lifecycleOwner = viewLifecycleOwner,
                     context = requireContext(),
                     onSuccess = {
+                        stopLoading()
                         Toast.makeText(
                             requireContext(),
                             "Đặt đơn hàng thành công",
@@ -106,7 +108,9 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                             BuyNowFragmentDirections.actionBuyNowFragmentToHomeFragment()
                         )
                     },
-                    isErrorInform = true
+                    isErrorInform = true,
+                    onLoading = {startLoading()},
+                    onError = {stopLoading()}
                 )
             } else {
                 val orderApi = CreateOrder()
@@ -145,6 +149,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                                                         lifecycleOwner = viewLifecycleOwner,
                                                         context = requireContext(),
                                                         onSuccess = {
+                                                            stopLoading()
                                                             Toast.makeText(
                                                                 requireContext(),
                                                                 "Đặt đơn hàng thành công",
@@ -154,7 +159,9 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                                                                 CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
                                                             )
                                                         },
-                                                        isErrorInform = true
+                                                        isErrorInform = true,
+                                                        onLoading = {startLoading()},
+                                                        onError = {stopLoading()}
                                                     )
 
                                                 }

@@ -206,6 +206,7 @@
     <string name="quantity">Số lượng</string>
     <string name="description">Mô tả</string>
     <string name="shoes_favorite">Sản phẩm yêu thích</string>
+    <string name="not_yet_confirm">Chưa xác nhận</string>
 
     <string-array name="genders_array">
         <item>Chưa xác định giới tính</item>

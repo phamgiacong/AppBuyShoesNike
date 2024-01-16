@@ -237,6 +237,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                     rate.text = "${shoes.rate} (${shoes.number_of_reviews} đánh giá)"
                     tvWatchReview.setOnClickListener {
                         if (shoes.number_of_reviews > 0) {
+                            mShoesViewModel.mNeedToLoadOldData = true
                             mNavController?.navigate(
                                 ShoesFragmentDirections.actionShoesFragmentToShoesReviewFragment2(
                                     shoes._id

@@ -72,4 +72,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun getOfferById(id: String) = liveData(handleEx(mContext)) {
+        try {
+            emit(Resource.loading(null))
+            val res = mOfferRepository.getOfferById(id)
+            emit(res)
+        } catch (ex: Exception) {
+            emit(Resource.error(null, ex.message!!))
+        }
+    }
+
 }
