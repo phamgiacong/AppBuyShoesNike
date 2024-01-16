@@ -241,7 +241,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                             }Status.SUCCESS ->{
                                 resources.data?.let {
-                                    it.data?.let {
+                                    it?.let {
                                         if(it>0){
                                             mBinding?.notificationNumber?.visibility=View.VISIBLE
                                             mBinding?.txtNotification?.text=it.toString()

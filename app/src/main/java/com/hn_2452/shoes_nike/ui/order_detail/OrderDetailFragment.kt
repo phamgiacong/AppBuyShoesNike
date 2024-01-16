@@ -223,6 +223,7 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
                             mBinding?.tvCancelReason?.text =
                                 getString(R.string.cancel_reason, cancelReason)
                             mBinding?.layoutInactive?.visibility = View.VISIBLE
+                            mBinding?.layoutActive?.visibility = View.GONE
                         }
 
                         3 -> {

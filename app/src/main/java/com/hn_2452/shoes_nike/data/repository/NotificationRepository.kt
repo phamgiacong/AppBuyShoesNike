@@ -22,6 +22,7 @@ class NotificationRepository @Inject constructor(
     }
     suspend fun getNotificationOfUser(id:String) = withContext(Dispatchers.IO){
         val response = NikeService.mNotificationApi.getNotificationOfUser(id)
+        Log.i("TAG", "$response: ")
         if(response.success){
             Resource.success(response.data)
         }else{

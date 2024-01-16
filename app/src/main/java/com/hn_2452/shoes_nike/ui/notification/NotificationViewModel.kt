@@ -16,7 +16,7 @@ class NotificationViewModel @Inject constructor(
     fun getNotification() = liveData {
         emit(Resource.loading(null))
         try {
-            emit(Resource.success(notificationRepository.getAllNotification()))
+            emit(notificationRepository.getAllNotification())
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message!!))
         }
@@ -24,7 +24,7 @@ class NotificationViewModel @Inject constructor(
     fun getNotificationOfUser(id:String)= liveData {
         emit(Resource.loading(null))
         try {
-            emit(Resource.success(notificationRepository.getNotificationOfUser(id)))
+            emit(notificationRepository.getNotificationOfUser(id))
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message!!))
         }
@@ -48,7 +48,7 @@ class NotificationViewModel @Inject constructor(
     fun getQuantityNotification(id:String)= liveData {
         emit(Resource.loading(null))
         try {
-            emit(Resource.success(notificationRepository.getQuantityNotification(id)))
+            emit(notificationRepository.getQuantityNotification(id))
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message!!))
         }

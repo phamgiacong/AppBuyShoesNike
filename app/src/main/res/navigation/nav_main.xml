@@ -212,6 +212,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_buyNowFragment_to_offerDetailFragment"
+            app:destination="@id/offerDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderDetailFragment"

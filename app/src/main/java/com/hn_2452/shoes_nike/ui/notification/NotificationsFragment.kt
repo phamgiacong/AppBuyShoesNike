@@ -134,7 +134,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationBinding>() {
                                 Status.SUCCESS -> {
                                     Log.e("TAG", "setupNotificationList: ", )
                                     resource.data?.let {
-                                        it.data.let {
+                                        it?.let {
                                             mNotificationItemApdapter.submitList(it)
                                         }
                                     }

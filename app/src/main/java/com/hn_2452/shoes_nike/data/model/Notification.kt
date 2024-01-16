@@ -5,7 +5,7 @@ data class Notification(
     val _id: String,
     val title: String,
     val content: String,
-    val type: Int,
+    val type: String,
     val link: String,
     val seen: Boolean,
     val time:Long
