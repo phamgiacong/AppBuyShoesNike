@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import com.google.firebase.messaging.FirebaseMessaging
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.databinding.FragmentNotificationBinding
 import com.hn_2452.shoes_nike.ui.home.HomeViewModel
@@ -118,33 +121,29 @@ class NotificationsFragment : BaseFragment<FragmentNotificationBinding>() {
                     )
                 }
             }
-            mHomeViewModel.mUsers.observe(viewLifecycleOwner) { users ->
-                if (users != null && users.isNotEmpty()) {
-                    mNotificationViewModel.getNotificationOfUser(users[0].id)
-                        .observe(viewLifecycleOwner) { resource ->
-                            resource?.let {
-                                when (resource.status) {
-                                    Status.LOADING -> {
-                                        Log.i(
-                                            TAG,
-                                            "setupNotificationList: loading ${users[0].id}",
-                                        )
-                                    }
-
-                                    Status.SUCCESS -> {
-                                        Log.i(TAG, "setupNotificationList: ")
-                                        resource.data?.let {
-                                            it.data.let {
-                                                mNotificationItemApdapter.submitList(it)
-                                            }
+            mNotificationItemApdapter.mNotificationViewModel=mNotificationViewModel
+            mNotificationItemApdapter.viewLifecycleOwner = viewLifecycleOwner
+            mHomeViewModel.mUsers.observe(viewLifecycleOwner){users->
+                if(users != null && users.isNotEmpty()){
+                    mNotificationViewModel.getNotificationOfUser(users[0].id).observe(viewLifecycleOwner) { resource ->
+                        resource?.let {
+                            when (resource.status) {
+                                Status.LOADING -> {
+                                    Log.e("TAG", "setupNotificationList: loading ${users[0].id}", )
+                                }
+                                Status.SUCCESS -> {
+                                    Log.e("TAG", "setupNotificationList: ", )
+                                    resource.data?.let {
+                                        it?.let {
+                                            mNotificationItemApdapter.submitList(it)
                                         }
                                     }
-
-                                    Status.ERROR -> {
-                                    }
+                                }
+                                Status.ERROR -> {
                                 }
                             }
                         }
+                    }
 
                 } else {
                     Log.i(TAG, "updateUserInfo: user is null")
@@ -153,7 +152,9 @@ class NotificationsFragment : BaseFragment<FragmentNotificationBinding>() {
         } else {
             mNotificationItemApdapter.mOnSelect = { id ->
             }
-            mNotificationViewModel.getNotificationOffer().observe(viewLifecycleOwner) { resources ->
+            mNotificationItemApdapter.mNotificationViewModel=mNotificationViewModel
+            mNotificationItemApdapter.viewLifecycleOwner = viewLifecycleOwner
+            mNotificationViewModel.getNotificationOffer().observe(viewLifecycleOwner){resources->
                 resources?.let {
                     when (resources.status) {
                         Status.LOADING -> {

@@ -10,7 +10,7 @@ import com.hn_2452.shoes_nike.utility.ViewBindingModel
 class NotificationAdapterController(val mOnDetail: (String) -> Unit) : TypedEpoxyController<List<Notification>>() {
     override fun buildModels(data: List<Notification>?) {
         data?.forEach { notification ->
-            NotificationModel(notification,mOnDetail).id(notification.id).addTo(this)
+            NotificationModel(notification,mOnDetail).id(notification._id).addTo(this)
         }
     }
 

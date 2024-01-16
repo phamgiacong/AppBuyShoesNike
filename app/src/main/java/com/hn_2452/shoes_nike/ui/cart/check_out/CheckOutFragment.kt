@@ -32,7 +32,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
-    private var totalPrice: String? = null
+    private var strTotalPrice: String? = null
 
     companion object {
         const val TAG = "Nike:CheckOutFragment: "
@@ -102,8 +102,9 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                     }
                 )
             } else {
+                Log.e("TAG", "setupOrderButton: $strTotalPrice", )
                 val orderApi = CreateOrder()
-                val data: JSONObject? = totalPrice?.let { it1 -> orderApi.createOrder(it1) }
+                val data: JSONObject? = strTotalPrice?.let { it1 -> orderApi.createOrder(it1) }
                 val code = data?.getString("returncode")
                 if (code == "1") {
                     val token = data?.getString("zptranstoken")
@@ -119,44 +120,25 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                                         transToken: String,
                                         appTransID: String
                                     ) {
-                                        requireActivity().runOnUiThread() {
-                                            Log.e("TAG", "onPaymentSucceeded: ")
-                                            AlertDialog.Builder(requireContext())
-                                                .setTitle("Payment Success")
-                                                .setMessage(
-                                                    String.format(
-                                                        "TransactionId: %s - TransToken: %s",
-                                                        transactionId,
-                                                        transToken
-                                                    )
+                                        handleResource(
+                                            data = mCheckOutViewModel.putNewOrder(),
+                                            lifecycleOwner = viewLifecycleOwner,
+                                            context = requireContext(),
+                                            onSuccess = {
+                                                stopLoading()
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    "Đặt đơn hàng thành công",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                                mNavController?.navigate(
+                                                    CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
                                                 )
-                                                .setPositiveButton(
-                                                    "OK"
-                                                ) { dialog, which ->
-                                                    handleResource(
-                                                        data = mCheckOutViewModel.putNewOrder(),
-                                                        lifecycleOwner = viewLifecycleOwner,
-                                                        context = requireContext(),
-                                                        onSuccess = {
-                                                            stopLoading()
-                                                            Toast.makeText(
-                                                                requireContext(),
-                                                                "Đặt đơn hàng thành công",
-                                                                Toast.LENGTH_LONG
-                                                            ).show()
-                                                            mNavController?.navigate(
-                                                                CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
-                                                            )
-                                                        },
-                                                        isErrorInform = true,
-                                                        onError =  {stopLoading()},
-                                                        onLoading = {startLoading()}
-                                                    )
-
-                                                }
-                                                .setNegativeButton("Cancel", null).show()
-                                        }
-
+                                            },
+                                            isErrorInform = true,
+                                            onError =  {stopLoading()},
+                                            onLoading = {startLoading()}
+                                        )
                                     }
 
                                     override fun onPaymentCanceled(
@@ -167,8 +149,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                                             .setTitle("User Cancel Payment")
                                             .setMessage(
                                                 String.format(
-                                                    "zpTransToken: %s \n",
-                                                    zpTransToken
+                                                   "Đã thoát thanh toán"
                                                 )
                                             )
                                             .setPositiveButton(
@@ -186,9 +167,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                                             .setTitle("Payment Fail")
                                             .setMessage(
                                                 String.format(
-                                                    "ZaloPayErrorCode: %s \nTransToken: %s",
-                                                    zaloPayError.toString(),
-                                                    zpTransToken
+                                                   "Lỗi thanh toán"
                                                 )
                                             )
                                             .setPositiveButton(
@@ -252,6 +231,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                         )
                     }
                     val currentPrice = mCheckOutViewModel.mPrice
+                    strTotalPrice = mCheckOutViewModel.mPrice.toString()
                     if (currentPrice != -1L) {
                         if (userOffer.offer.discountUnit == 0) {
                             var sale = (currentPrice * userOffer.offer.discount / 100)
@@ -267,6 +247,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                             }
 
                             val totalPrice = currentPrice - sale
+                            strTotalPrice= totalPrice.toString()
                             mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                             mCheckOutViewModel.mTotalPrice = totalPrice
                         } else {
@@ -274,6 +255,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                             // so tien khuyen mai = so tien khuyen mai
                             mBinding?.tvSale?.text = userOffer.offer.discount.toVND()
                             val totalPrice = (currentPrice - userOffer.offer.discount)
+                            strTotalPrice=totalPrice.toString()
                             mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                             mCheckOutViewModel.mTotalPrice = totalPrice
                         }
@@ -315,7 +297,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                 mCheckOutViewModel.mTotalPrice = currentPrice
                 mBinding?.tvAmount?.text = currentPrice.toVND()
                 mBinding?.tvTotalPrice?.text = currentPrice.toVND()
-                totalPrice = currentPrice.toString()
+                strTotalPrice = currentPrice.toString()
                 val currentOffer = mCheckOutViewModel.mCurrentOffer.value
                 if (currentOffer != null) {
                     if (currentOffer.offer.discountUnit == 0) {
@@ -332,6 +314,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                         }
 
                         val totalPrice = currentPrice - sale
+                        strTotalPrice = totalPrice.toString()
                         mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                         mCheckOutViewModel.mTotalPrice = totalPrice
                     } else {
@@ -339,6 +322,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                         // so tien khuyen mai = so tien khuyen mai
                         mBinding?.tvSale?.text = currentOffer.offer.discount.toVND()
                         val totalPrice = (currentPrice - currentOffer.offer.discount)
+                        strTotalPrice = totalPrice.toString()
                         mBinding?.tvTotalPrice?.text = totalPrice.toVND()
                         mCheckOutViewModel.mTotalPrice = totalPrice
                     }
@@ -434,8 +418,5 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mCheckOutViewModel.clearData()
-    }
+
 }

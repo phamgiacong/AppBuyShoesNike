@@ -5,6 +5,7 @@ import com.hn_2452.shoes_nike.data.model.Notification
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface NotificationApi {
@@ -16,4 +17,8 @@ interface NotificationApi {
 
     @GET("/notification/get-notification-offer")
     suspend fun getNotificationOffer():NetworkResult<List<Notification>>
+    @PUT("/notification/{idN}")
+    suspend fun updateSeenNotification(@Path("idN") id:String):NetworkResult<Nothing>
+    @GET("/notification/get-quantity-notification/{idU}")
+    suspend fun getQuantityNotification(@Path("idU") id:String):NetworkResult<Int>
 }
