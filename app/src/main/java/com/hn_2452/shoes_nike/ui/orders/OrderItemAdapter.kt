@@ -71,6 +71,7 @@ class OrderItemAdapterViewHolder(
             2 -> context.getString(R.string.shipping)
             3 -> context.getString(R.string.completed)
             4 -> context.getString(R.string.cancel_order)
+            -1 -> context.getString(R.string.not_yet_confirm)
             else -> ""
         }
     }

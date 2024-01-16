@@ -94,6 +94,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun setupShoesList() {
         mSearchViewModel.mCurrentShoesList.observe(viewLifecycleOwner) {
+            mBinding?.tvFound?.text = "${it?.size ?: 0} sản phẩm"
             mShoesAdapter.setData(it)
         }
     }

@@ -64,6 +64,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i(TAG, "onViewCreated: ")
+        setupLoading(mBinding?.loadingProgress)
         setupBackBtn()
         setupSelectAddress()
         setupAddressData()
@@ -81,6 +82,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                     lifecycleOwner = viewLifecycleOwner,
                     context = requireContext(),
                     onSuccess = {
+                        stopLoading()
                         Toast.makeText(
                             requireContext(),
                             "Đặt đơn hàng thành công",
@@ -91,7 +93,13 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                             CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
                         )
                     },
-                    isErrorInform = true
+                    isErrorInform = true,
+                    onLoading = {
+                        startLoading()
+                    },
+                    onError = {
+                        stopLoading()
+                    }
                 )
             } else {
                 val orderApi = CreateOrder()
@@ -130,6 +138,7 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                                                         lifecycleOwner = viewLifecycleOwner,
                                                         context = requireContext(),
                                                         onSuccess = {
+                                                            stopLoading()
                                                             Toast.makeText(
                                                                 requireContext(),
                                                                 "Đặt đơn hàng thành công",
@@ -139,7 +148,9 @@ class CheckOutFragment : BaseFragment<FragmentCheckOutBinding>() {
                                                                 CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
                                                             )
                                                         },
-                                                        isErrorInform = true
+                                                        isErrorInform = true,
+                                                        onError =  {stopLoading()},
+                                                        onLoading = {startLoading()}
                                                     )
 
                                                 }
