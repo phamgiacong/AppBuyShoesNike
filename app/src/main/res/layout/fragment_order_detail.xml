@@ -87,55 +87,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout7"
         app:layout_constraintStart_toStartOf="@+id/linearLayout7"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
-            android:gravity="center"
-            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAddress">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layoutPack"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layoutNextPack"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="50dp"
+                    android:id="@+id/pack"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:src="@drawable/pack"
-                    app:tint="@color/primary_color" />
+                    app:tint="@color/gray" />
 
                 <ImageView
-                    android:layout_width="50dp"
+                    android:id="@+id/packTicker"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:padding="13dp"
                     android:src="@drawable/tick"
-                    app:tint="@color/primary_color" />
+                    app:tint="@color/gray" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layoutNextPack"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layoutTransport"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/layoutPack"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <View
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp" />
 
                 <ImageView
                     android:id="@+id/line1"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:paddingVertical="10dp"
                     android:src="@drawable/line"
@@ -144,20 +156,26 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layoutTransport"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layoutNextTransport"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/layoutNextPack"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/transport"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:src="@drawable/transport"
                     app:tint="@color/gray" />
 
                 <ImageView
                     android:id="@+id/transportTick"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:padding="13dp"
                     android:src="@drawable/tick"
@@ -166,17 +184,23 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layoutNextTransport"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layoutDelivery"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/layoutTransport"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <View
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp" />
 
                 <ImageView
                     android:id="@+id/line2"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:paddingVertical="10dp"
                     android:src="@drawable/line"
@@ -185,20 +209,26 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layoutDelivery"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layoutNextDelivery"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/layoutNextTransport"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/delivery"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:src="@drawable/delivery"
                     app:tint="@color/gray" />
 
                 <ImageView
                     android:id="@+id/deliveryTick"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:padding="13dp"
                     android:src="@drawable/tick"
@@ -207,17 +237,23 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layoutNextDelivery"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layoutReceived"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/layoutDelivery"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <View
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp" />
 
                 <ImageView
                     android:id="@+id/line3"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:paddingVertical="10dp"
                     android:src="@drawable/line"
@@ -226,20 +262,26 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layoutReceived"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/layoutNextDelivery"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/upPack"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:src="@drawable/unpack"
                     app:tint="@color/gray" />
 
                 <ImageView
                     android:id="@+id/upPackTick"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:padding="13dp"
                     android:src="@drawable/tick"
@@ -248,7 +290,17 @@
             </LinearLayout>
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:textAlignment="textStart"
+            android:textColor="@color/text_color_red"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/cancel_order"

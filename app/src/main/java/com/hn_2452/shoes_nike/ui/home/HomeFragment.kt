@@ -16,6 +16,7 @@ import com.hn_2452.shoes_nike.R
 import com.hn_2452.shoes_nike.databinding.FragmentHomeBinding
 import com.hn_2452.shoes_nike.ui.ShoesAdapterController
 import com.hn_2452.shoes_nike.ui.home.offer.OfferAdapter
+import com.hn_2452.shoes_nike.ui.notification.NotificationViewModel
 import com.hn_2452.shoes_nike.utility.Status
 import com.hn_2452.shoes_nike.utility.getTimeOfDay
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +31,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private var mLoadingTime = 0
 
     private val mHomeViewModel: HomeViewModel by activityViewModels()
-
+    private val mNotificationViewModel: NotificationViewModel by viewModels()
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentHomeBinding.inflate(inflater, container, false)
 
@@ -55,7 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupNavigateToNotificationScreen()
         setupSearching()
         updateUserInfo()
-
+        setUpCountNotification()
 
     }
 
@@ -227,6 +228,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 Log.i(TAG, "updateUserInfo: user is null")
                 mBinding?.userBar?.visibility = View.GONE
             }
+        }
+    }
+    private fun setUpCountNotification() {
+        mHomeViewModel.mUsers.observe(viewLifecycleOwner){users->
+            if (users != null && users.isNotEmpty()) {
+                val user = users[0]
+                mNotificationViewModel.getQuantityNotification(user.id).observe(viewLifecycleOwner){resources->
+                    resources?.let {
+                        when(resources.status){
+                            Status.LOADING ->{
+
+                            }Status.SUCCESS ->{
+                                resources.data?.let {
+                                    it?.let {
+                                        if(it>0){
+                                            mBinding?.notificationNumber?.visibility=View.VISIBLE
+                                            mBinding?.txtNotification?.text=it.toString()
+                                        }else{
+                                            mBinding?.notificationNumber?.visibility=View.GONE
+                                        }
+                                    }
+                                }
+
+                            }Status.ERROR ->{
+
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
 

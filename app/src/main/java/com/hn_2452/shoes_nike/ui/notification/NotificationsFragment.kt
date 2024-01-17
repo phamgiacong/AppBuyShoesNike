@@ -20,15 +20,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class NotificationsFragment:BaseFragment<FragmentNotificationBinding>() {
+class NotificationsFragment : BaseFragment<FragmentNotificationBinding>() {
     private val mNotificationViewModel: NotificationViewModel by viewModels()
     private val mHomeViewModel: HomeViewModel by viewModels()
+
     companion object {
         const val DONHANG = 0
         const val KHUYENMAI = 1
         const val TAG = "Nike:OrderFragment: "
         var type = DONHANG
     }
+
     private var mCurrentStateOrder = DONHANG
     private var mPass = true
 
@@ -37,19 +39,18 @@ class NotificationsFragment:BaseFragment<FragmentNotificationBinding>() {
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    )=FragmentNotificationBinding.inflate(inflater,container,false)
+    ) = FragmentNotificationBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar(mBinding?.toolbar)
-        Toast.makeText(requireContext(), "aaaaa", Toast.LENGTH_SHORT).show()
         setupIndicator()
 
     }
 
     override fun onStart() {
         super.onStart()
-        if(OrderFragment.type == DONHANG) {
+        if (OrderFragment.type == DONHANG) {
             mBinding?.donHangLayout?.performClick()
         } else {
             mBinding?.khuyenMaiLayout?.performClick()
@@ -58,56 +59,60 @@ class NotificationsFragment:BaseFragment<FragmentNotificationBinding>() {
 
     private fun setupIndicator() {
         mCurrentStateOrder = DONHANG
-        mBinding?.donHangLayout?.setOnClickListener({
-            if(mCurrentStateOrder== KHUYENMAI||mPass){
+        mBinding?.donHangLayout?.setOnClickListener {
+            if (mCurrentStateOrder == KHUYENMAI || mPass) {
                 mPass = false
                 mCurrentStateOrder = DONHANG
                 type = DONHANG
                 mBinding?.tvDonHang?.setTextColor(Color.BLACK)
                 mBinding?.lineDonHang?.setBackgroundColor(Color.BLACK)
-                val layoutParams = mBinding?.lineDonHang?.layoutParams as ViewGroup.MarginLayoutParams
+                val layoutParams =
+                    mBinding?.lineDonHang?.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.height = dpToPx(requireContext(), 4)
                 layoutParams.setMargins(0, dpToPx(requireContext(), 8), 0, 0)
                 mBinding?.lineDonHang?.requestLayout()
                 //
                 mBinding?.tvKhuyenMai?.setTextColor(Color.LTGRAY)
                 mBinding?.lineKhuyenMai?.setBackgroundColor(Color.LTGRAY)
-                val completeLayoutParams = mBinding?.lineKhuyenMai?.layoutParams as ViewGroup.MarginLayoutParams
+                val completeLayoutParams =
+                    mBinding?.lineKhuyenMai?.layoutParams as ViewGroup.MarginLayoutParams
                 completeLayoutParams.height = dpToPx(requireContext(), 2)
                 completeLayoutParams.setMargins(0, dpToPx(requireContext(), 9), 0, 0)
                 mBinding?.lineKhuyenMai?.requestLayout()
                 setupNotificationList(0)
             }
-        })
-        mBinding?.khuyenMaiLayout?.setOnClickListener({
-            if(mCurrentStateOrder== DONHANG||mPass){
-                mPass=false
-                mCurrentStateOrder= KHUYENMAI
-                type= KHUYENMAI
+        }
+        mBinding?.khuyenMaiLayout?.setOnClickListener {
+            if (mCurrentStateOrder == DONHANG || mPass) {
+                mPass = false
+                mCurrentStateOrder = KHUYENMAI
+                type = KHUYENMAI
                 mBinding?.tvDonHang?.setTextColor(Color.LTGRAY)
                 mBinding?.lineDonHang?.setBackgroundColor(Color.LTGRAY)
-                val layoutParams = mBinding?.lineDonHang?.layoutParams as ViewGroup.MarginLayoutParams
+                val layoutParams =
+                    mBinding?.lineDonHang?.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.height = dpToPx(requireContext(), 2)
                 layoutParams.setMargins(0, dpToPx(requireContext(), 9), 0, 0)
                 mBinding?.lineDonHang?.requestLayout()
                 //
                 mBinding?.tvKhuyenMai?.setTextColor(Color.BLACK)
                 mBinding?.lineKhuyenMai?.setBackgroundColor(Color.BLACK)
-                val completeLayoutParams = mBinding?.lineKhuyenMai?.layoutParams as ViewGroup.MarginLayoutParams
+                val completeLayoutParams =
+                    mBinding?.lineKhuyenMai?.layoutParams as ViewGroup.MarginLayoutParams
                 completeLayoutParams.height = dpToPx(requireContext(), 4)
                 completeLayoutParams.setMargins(0, dpToPx(requireContext(), 8), 0, 0)
                 mBinding?.lineKhuyenMai?.requestLayout()
                 setupNotificationList(1)
             }
 
-        })
+        }
 
     }
 
-    private fun setupNotificationList(type:Int) {
-        if(type==0){
-            mNotificationItemApdapter.mOnSelect={id ->
-                Log.e("TAG", "setupNotificationList: click", )
+    private fun setupNotificationList(type: Int) {
+        if (type == 0) {
+            mNotificationItemApdapter.mOnSelect = { id ->
+                Log.e(TAG, "setupNotificationList: click")
                 id?.let {
                     mNavController?.navigate(
                         NotificationsFragmentDirections.actionNotificationsFragmentToOrderDetailFragment(
@@ -116,6 +121,8 @@ class NotificationsFragment:BaseFragment<FragmentNotificationBinding>() {
                     )
                 }
             }
+            mNotificationItemApdapter.mNotificationViewModel=mNotificationViewModel
+            mNotificationItemApdapter.viewLifecycleOwner = viewLifecycleOwner
             mHomeViewModel.mUsers.observe(viewLifecycleOwner){users->
                 if(users != null && users.isNotEmpty()){
                     mNotificationViewModel.getNotificationOfUser(users[0].id).observe(viewLifecycleOwner) { resource ->
@@ -127,7 +134,7 @@ class NotificationsFragment:BaseFragment<FragmentNotificationBinding>() {
                                 Status.SUCCESS -> {
                                     Log.e("TAG", "setupNotificationList: ", )
                                     resource.data?.let {
-                                        it.data.let {
+                                        it?.let {
                                             mNotificationItemApdapter.submitList(it)
                                         }
                                     }
@@ -138,27 +145,33 @@ class NotificationsFragment:BaseFragment<FragmentNotificationBinding>() {
                         }
                     }
 
-                }else{
-                    Log.i("TAG", "updateUserInfo: user is null")
+                } else {
+                    Log.i(TAG, "updateUserInfo: user is null")
                 }
             }
-        }else{
-            mNotificationItemApdapter.mOnSelect={id ->
+        } else {
+            mNotificationItemApdapter.mOnSelect = { id ->
             }
+            mNotificationItemApdapter.mNotificationViewModel=mNotificationViewModel
+            mNotificationItemApdapter.viewLifecycleOwner = viewLifecycleOwner
             mNotificationViewModel.getNotificationOffer().observe(viewLifecycleOwner){resources->
                 resources?.let {
-                    when(resources.status){
-                        Status.LOADING ->{
-                            Log.e("TAG", "setupNotificationList: loading}", )
-                        }Status.SUCCESS ->{
-                            if(resources.data==null){
-                                mBinding?.rcvNotification?.visibility=View.GONE
-                            }else{
-                                mNotificationItemApdapter.submitList(resources.data.data)
+                    when (resources.status) {
+                        Status.LOADING -> {
+                            Log.i(TAG, "setupNotificationList: loading}")
+                        }
+
+                        Status.SUCCESS -> {
+                            Log.i(TAG, "setupNotificationList: ${resources.data}")
+                            if (resources.data == null) {
+                                mBinding?.rcvNotification?.visibility = View.GONE
+                            } else {
+                                mNotificationItemApdapter.submitList(resources.data)
                             }
                         }
-                        Status.ERROR ->{
 
+                        Status.ERROR -> {
+                            Log.i(TAG, "setupNotificationList: ${resources.message}")
                         }
                     }
                 }

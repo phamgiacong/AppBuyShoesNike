@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.hn_2452.shoes_nike.BaseFragment
 import com.hn_2452.shoes_nike.R
@@ -70,7 +71,8 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
     }
 
     private fun setupReviewForm() {
-        mReviewFormBinding = LayoutEvaluateOrderBinding.inflate(LayoutInflater.from(requireContext()), null, false)
+        mReviewFormBinding =
+            LayoutEvaluateOrderBinding.inflate(LayoutInflater.from(requireContext()), null, false)
         mReviewForm = BottomSheetDialog(requireContext())
         mReviewForm.setContentView(mReviewFormBinding.root)
         with(mReviewFormBinding) {
@@ -150,7 +152,7 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
                 OrderDetailFragmentDirections.actionOrderDetailFragmentToShoesFragment(orderDetail.shoes._id)
             )
         }
-        mOrderItemAdapter.mOnReviewOrder = {orderDetail ->
+        mOrderItemAdapter.mOnReviewOrder = { orderDetail ->
             showReviewForm(orderDetail)
         }
         mBinding?.rcvOrderItems?.adapter = mOrderItemAdapter
@@ -158,6 +160,7 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
 
     private fun showReviewForm(orderDetail: OrderDetail) {
         with(mReviewFormBinding) {
+            orderItem.imgProduct.load(orderDetail.shoes.main_image)
             orderItem.tvNameProduct.text = orderDetail.shoes.name
             orderItem.cavColor.setCardBackgroundColor(Color.parseColor(orderDetail.color))
             orderItem.tvSize.text = getString(R.string.shoes_size, orderDetail.size)
@@ -167,19 +170,27 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
                 val star = mReviewFormBinding.star.rating
                 val comment = mReviewFormBinding.edtComment.editText?.text.toString()
 
-                if(comment.isEmpty()) {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.please_enter_your_comment), Toast.LENGTH_SHORT).show()
+                if (comment.isEmpty()) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.please_enter_your_comment), Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
                 handleResource(
-                    data = mOrderDetailViewModel.reviewShoes(orderDetail.id, orderDetail.shoes._id, star, comment),
+                    data = mOrderDetailViewModel.reviewShoes(
+                        orderDetail.id,
+                        orderDetail.shoes._id,
+                        star,
+                        comment
+                    ),
                     lifecycleOwner = viewLifecycleOwner,
                     context = requireContext(),
                     isErrorInform = true,
                     onSuccess = {
                         loadOrder()
-                        Toast.makeText(requireContext(), "Đã đánh giá đơn hàng", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Đã đánh giá đơn hàng", Toast.LENGTH_SHORT)
+                            .show()
                         mReviewForm.dismiss()
                     }
                 )
@@ -189,7 +200,7 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
     }
 
     private fun loadOrder() {
-        Log.i(TAG, "loadOrder: ")
+        Log.i(TAG, "loadOrder: " + mAgrs.id)
         handleResource(
             data = mOrderDetailViewModel.getOrderDetailById(mAgrs.id),
             lifecycleOwner = viewLifecycleOwner,
@@ -209,14 +220,16 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
 
                     when (status) {
                         4 -> {
+                            mBinding?.tvCancelReason?.text =
+                                getString(R.string.cancel_reason, cancelReason)
                             mBinding?.layoutInactive?.visibility = View.VISIBLE
-                            mBinding?.tvCancelReason?.text = getString(R.string.cancel_reason, cancelReason)
+                            mBinding?.layoutActive?.visibility = View.GONE
                         }
 
                         3 -> {
                             mBinding?.run {
-                                layoutActive.visibility = View.VISIBLE
-                                cancelOrder.visibility = View.GONE
+                                pack.imageTintList = mPrimaryColor
+                                packTicker.imageTintList = mPrimaryColor
                                 line1.imageTintList = mPrimaryColor
                                 transport.imageTintList = mPrimaryColor
                                 transportTick.imageTintList = mPrimaryColor
@@ -226,35 +239,51 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>() {
                                 line3.imageTintList = mPrimaryColor
                                 upPack.imageTintList = mPrimaryColor
                                 upPackTick.imageTintList = mPrimaryColor
+                                layoutActive.visibility = View.VISIBLE
+                                cancelOrder.visibility = View.GONE
                             }
                             mBinding?.layoutCompleted?.visibility = View.VISIBLE
                         }
 
                         0 -> {
-                            mBinding?.layoutActive?.visibility = View.VISIBLE
+                            mBinding?.run {
+                                pack.imageTintList = mPrimaryColor
+                                packTicker.imageTintList = mPrimaryColor
+                                layoutActive.visibility = View.VISIBLE
+                            }
                         }
 
                         1 -> {
                             mBinding?.run {
-                                layoutActive.visibility = View.VISIBLE
+                                pack.imageTintList = mPrimaryColor
+                                packTicker.imageTintList = mPrimaryColor
                                 line1.imageTintList = mPrimaryColor
                                 transport.imageTintList = mPrimaryColor
                                 transportTick.imageTintList = mPrimaryColor
+                                layoutActive.visibility = View.VISIBLE
                             }
 
                         }
 
                         2 -> {
                             mBinding?.run {
-                                layoutActive.visibility = View.VISIBLE
-                                tvCancelReason.visibility = View.GONE
+                                pack.imageTintList = mPrimaryColor
+                                packTicker.imageTintList = mPrimaryColor
                                 line1.imageTintList = mPrimaryColor
                                 transport.imageTintList = mPrimaryColor
                                 transportTick.imageTintList = mPrimaryColor
                                 line2.imageTintList = mPrimaryColor
                                 delivery.imageTintList = mPrimaryColor
                                 deliveryTick.imageTintList = mPrimaryColor
+                                layoutActive.visibility = View.VISIBLE
+                                tvCancelReason.visibility = View.GONE
                             }
+                        }
+
+                        -1 -> {
+                            mBinding?.status?.text = getString(R.string.not_yet_confirm)
+                            mBinding?.status?.visibility = View.VISIBLE
+                            mBinding?.layoutActive?.visibility = View.VISIBLE
                         }
                     }
                 }

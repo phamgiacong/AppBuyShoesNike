@@ -49,6 +49,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i(TAG, "onViewCreated: ")
+        setupLoading(mBinding?.loadingProgress)
         setupOrderItem()
         setupBackBtn()
         setupSelectAddress()
@@ -86,6 +87,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
         mBinding?.tvTotalPrice?.text = price.toVND()
         mCheckOutViewModel.mPrice = price
         mCheckOutViewModel.mTotalPrice = price
+        strPrice = price.toString()
     }
 
     private fun setupOrderButton() {
@@ -96,6 +98,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                     lifecycleOwner = viewLifecycleOwner,
                     context = requireContext(),
                     onSuccess = {
+                        stopLoading()
                         Toast.makeText(
                             requireContext(),
                             "Đặt đơn hàng thành công",
@@ -106,9 +109,12 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                             BuyNowFragmentDirections.actionBuyNowFragmentToHomeFragment()
                         )
                     },
-                    isErrorInform = true
+                    isErrorInform = true,
+                    onLoading = {startLoading()},
+                    onError = {stopLoading()}
                 )
             } else {
+                Log.e("TAG", "setupOrderButton: $strPrice", )
                 val orderApi = CreateOrder()
                 val data: JSONObject? = strPrice?.let { it1 -> orderApi.createOrder(it1) }
                 val code = data?.getString("returncode")
@@ -126,41 +132,25 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                                         transToken: String,
                                         appTransID: String
                                     ) {
-                                        requireActivity().runOnUiThread() {
-                                            Log.e("TAG", "onPaymentSucceeded: ")
-                                            AlertDialog.Builder(requireContext())
-                                                .setTitle("Payment Success")
-                                                .setMessage(
-                                                    String.format(
-                                                        "TransactionId: %s - TransToken: %s",
-                                                        transactionId,
-                                                        transToken
-                                                    )
+                                        handleResource(
+                                            data = mCheckOutViewModel.putNewOrder(),
+                                            lifecycleOwner = viewLifecycleOwner,
+                                            context = requireContext(),
+                                            onSuccess = {
+                                                stopLoading()
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    "Đặt đơn hàng thành công",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                                mNavController?.navigate(
+                                                    BuyNowFragmentDirections.actionBuyNowFragmentToHomeFragment()
                                                 )
-                                                .setPositiveButton(
-                                                    "OK"
-                                                ) { dialog, which ->
-                                                    handleResource(
-                                                        data = mCheckOutViewModel.putNewOrder(),
-                                                        lifecycleOwner = viewLifecycleOwner,
-                                                        context = requireContext(),
-                                                        onSuccess = {
-                                                            Toast.makeText(
-                                                                requireContext(),
-                                                                "Đặt đơn hàng thành công",
-                                                                Toast.LENGTH_LONG
-                                                            ).show()
-                                                            mNavController?.navigate(
-                                                                CheckOutFragmentDirections.actionCheckOutFragmentToHomeFragment()
-                                                            )
-                                                        },
-                                                        isErrorInform = true
-                                                    )
-
-                                                }
-                                                .setNegativeButton("Cancel", null).show()
-                                        }
-
+                                            },
+                                            isErrorInform = true,
+                                            onLoading = {startLoading()},
+                                            onError = {stopLoading()}
+                                        )
                                     }
 
                                     override fun onPaymentCanceled(
@@ -171,8 +161,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                                             .setTitle("User Cancel Payment")
                                             .setMessage(
                                                 String.format(
-                                                    "zpTransToken: %s \n",
-                                                    zpTransToken
+                                                  "Đã thoát thanh toán "
                                                 )
                                             )
                                             .setPositiveButton(
@@ -190,9 +179,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                                             .setTitle("Payment Fail")
                                             .setMessage(
                                                 String.format(
-                                                    "ZaloPayErrorCode: %s \nTransToken: %s",
-                                                    zaloPayError.toString(),
-                                                    zpTransToken
+                                                  "Lỗi thanh toán"
                                                 )
                                             )
                                             .setPositiveButton(
@@ -250,13 +237,14 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
                     tvExpired.text = "Hết hạn ${userOffer.offer.endTime.toDayString()}"
                     tvDetail.setOnClickListener {
                         mNavController?.navigate(
-                            CheckOutFragmentDirections.actionCheckOutFragmentToOfferDetailFragment(
+                            BuyNowFragmentDirections.actionBuyNowFragmentToOfferDetailFragment(
                                 userOffer.offer
                             )
                         )
                     }
 
                     val currentPrice = mCheckOutViewModel.mPrice
+                    strPrice = currentPrice.toString()
                     if (currentPrice != -1L) {
                         if (userOffer.offer.discountUnit == 0) {
                             var sale = (currentPrice * userOffer.offer.discount / 100)
@@ -370,10 +358,7 @@ class BuyNowFragment : BaseFragment<FragmentBuyNowBinding>() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mCheckOutViewModel.clearData()
-    }
+
 
 
 }

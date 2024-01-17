@@ -1,5 +1,6 @@
 package com.hn_2452.shoes_nike.ui.review_shoes
 
+import android.util.Log
 import coil.load
 import com.airbnb.epoxy.TypedEpoxyController
 import com.hn_2452.shoes_nike.AN_MINUTE
@@ -20,12 +21,13 @@ class ShoesReviewController : TypedEpoxyController<List<ShoesReview>>() {
             tvStar.text = "${shoesReview.rate} sao"
             tvUserName.text = shoesReview.user.name
             imvUser.load(shoesReview.user.avatar) {
-                error(R.color.white)
-                placeholder(R.color.white)
+                error(R.drawable.user_placeholder)
+                placeholder(R.drawable.user_placeholder)
             }
         }
 
         private fun getTime(postingTime: Long): String {
+            Log.i("Nike:", "getTime: $postingTime")
             val time = System.currentTimeMillis() - postingTime
 
             if (time > A_DAY) {

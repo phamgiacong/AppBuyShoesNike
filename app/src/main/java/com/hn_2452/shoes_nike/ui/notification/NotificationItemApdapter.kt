@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 val NotificationUtil = object :DiffUtil.ItemCallback<Notification>(){
     override fun areItemsTheSame(oldItem: Notification, newItem: Notification)=
-        oldItem.id == newItem.id
+        oldItem._id == newItem._id
 
     override fun areContentsTheSame(oldItem: Notification, newItem: Notification)=oldItem==newItem
 
@@ -22,11 +23,15 @@ class NotificationItemApdapter @Inject constructor(
     )
     :ListAdapter<Notification,NotificationItemViewHolder>(NotificationUtil) {
         var mOnSelect:(String?)-> Unit ={}
+        lateinit var mNotificationViewModel:NotificationViewModel
+        lateinit var viewLifecycleOwner:LifecycleOwner
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=
         NotificationItemViewHolder(
             LayoutNotificationItemBinding.inflate(LayoutInflater.from(parent.context),parent,false),
-            mOnSelect
+            mOnSelect,mNotificationViewModel,viewLifecycleOwner
+
         )
 
     override fun onBindViewHolder(holder: NotificationItemViewHolder, position: Int) =
@@ -36,7 +41,9 @@ class NotificationItemApdapter @Inject constructor(
 
 class  NotificationItemViewHolder(
     private val mBinding: LayoutNotificationItemBinding,
-    private val mOnSelect :(String?) ->Unit
+    private val mOnSelect :(String?) ->Unit,
+    private val mViewModel: NotificationViewModel,
+    private val viewLifecycleOwner: LifecycleOwner
 ):ViewHolder(mBinding.root){
     fun bind(notification: Notification){
         mBinding.tvTitle.text = notification.title
@@ -45,5 +52,11 @@ class  NotificationItemViewHolder(
             mOnSelect(notification.link)
             Log.e("TAG", "bind: click", )
         })
+        Log.e("TAG", "bind ID : ${notification._id} ${notification.content} ", )
+        mViewModel.updateSeenNotification(notification._id).observe(viewLifecycleOwner){
+            if(it.data==true){
+                Log.e("TAG", "update Seen ${notification.content}")
+            }
+        }
     }
 }
