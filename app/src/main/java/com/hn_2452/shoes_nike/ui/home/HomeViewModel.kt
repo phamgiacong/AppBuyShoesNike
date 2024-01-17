@@ -1,6 +1,7 @@
 package com.hn_2452.shoes_nike.ui.home
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -8,6 +9,7 @@ import com.hn_2452.shoes_nike.data.local.NikeDatabase
 import com.hn_2452.shoes_nike.data.model.Offer
 import com.hn_2452.shoes_nike.data.model.Shoes
 import com.hn_2452.shoes_nike.data.model.ShoesType
+import com.hn_2452.shoes_nike.data.repository.NotificationRepository
 import com.hn_2452.shoes_nike.data.repository.OfferRepository
 import com.hn_2452.shoes_nike.data.repository.ShoesRepository
 import com.hn_2452.shoes_nike.data.repository.ShoesTypeRepository
@@ -26,7 +28,8 @@ class HomeViewModel @Inject constructor(
     private val mShoesRepository: ShoesRepository,
     private val mOfferRepository: OfferRepository,
     mNikeDatabase: NikeDatabase,
-    @ApplicationContext private val mContext: Context
+    @ApplicationContext private val mContext: Context,
+    private val mNotificationRepository: NotificationRepository
 ) : ViewModel() {
     companion object {
         private const val TAG = "Nike:HomeViewModel: "
@@ -79,6 +82,19 @@ class HomeViewModel @Inject constructor(
             emit(res)
         } catch (ex: Exception) {
             emit(Resource.error(null, ex.message!!))
+        }
+    }
+
+    fun updateSeenNotification(id:String?)= liveData {
+        try {
+            if(id.isNullOrEmpty()){
+                emit(Resource.error(message = "id error"))
+                return@liveData
+            }
+            emit(Resource.loading())
+            emit(mNotificationRepository.updateSeenNotification(id))
+        } catch (ex: Exception) {
+            Log.e(TAG, "updateSeenNotification: ${ex.message}")
         }
     }
 

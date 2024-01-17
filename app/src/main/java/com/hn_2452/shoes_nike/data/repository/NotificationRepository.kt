@@ -2,6 +2,7 @@ package com.hn_2452.shoes_nike.data.repository
 
 import android.content.Context
 import android.util.Log
+import com.hn_2452.shoes_nike.TOKEN_METHOD
 import com.hn_2452.shoes_nike.data.NikeService
 import com.hn_2452.shoes_nike.utility.Resource
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,9 +21,8 @@ class NotificationRepository @Inject constructor(
             Resource.error(message = response.message)
         }
     }
-    suspend fun getNotificationOfUser(id:String) = withContext(Dispatchers.IO){
-        val response = NikeService.mNotificationApi.getNotificationOfUser(id)
-        Log.i("TAG", "$response: ")
+    suspend fun getNotificationOfUser(token: String) = withContext(Dispatchers.IO){
+        val response = NikeService.mNotificationApi.getNotificationOfUser(token)
         if(response.success){
             Resource.success(response.data)
         }else{

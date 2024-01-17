@@ -26,6 +26,7 @@ class GoogleSignInComponent @Inject constructor(
     private val mGoogleSignInClient = GoogleSignIn.getClient(
         mContext,
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("927557416953-53k4fakon2g977gli465h82vqljh0ctv.apps.googleusercontent.com")
             .requestEmail()
             .build()
     )

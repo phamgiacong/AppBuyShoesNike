@@ -1,5 +1,6 @@
 package com.hn_2452.shoes_nike.ui.notification
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,15 @@ import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import com.google.firebase.messaging.FirebaseMessaging
 import com.hn_2452.shoes_nike.BaseFragment
+import com.hn_2452.shoes_nike.NEW_SHOES_NOTIFY
+import com.hn_2452.shoes_nike.OFFER_NOTIFY
+import com.hn_2452.shoes_nike.OTHER_NOTIFY
 import com.hn_2452.shoes_nike.databinding.FragmentNotificationBinding
 import com.hn_2452.shoes_nike.ui.home.HomeViewModel
 import com.hn_2452.shoes_nike.ui.orders.OrderFragment
 import com.hn_2452.shoes_nike.utility.Status
 import com.hn_2452.shoes_nike.utility.dpToPx
+import com.hn_2452.shoes_nike.utility.handleResource
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -45,16 +50,16 @@ class NotificationsFragment : BaseFragment<FragmentNotificationBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar(mBinding?.toolbar)
         setupIndicator()
-
     }
 
     override fun onStart() {
         super.onStart()
-        if (OrderFragment.type == DONHANG) {
+        if (type == DONHANG) {
             mBinding?.donHangLayout?.performClick()
         } else {
             mBinding?.khuyenMaiLayout?.performClick()
         }
+        mPass = true
     }
 
     private fun setupIndicator() {
@@ -111,46 +116,73 @@ class NotificationsFragment : BaseFragment<FragmentNotificationBinding>() {
 
     private fun setupNotificationList(type: Int) {
         if (type == 0) {
-            mNotificationItemApdapter.mOnSelect = { id ->
-                Log.e(TAG, "setupNotificationList: click")
-                id?.let {
-                    mNavController?.navigate(
-                        NotificationsFragmentDirections.actionNotificationsFragmentToOrderDetailFragment(
-                            id
-                        )
+            mNotificationItemApdapter.mOnSelect = { notification ->
+                Log.i(TAG, "setupNotificationList: $notification")
+                mNavController?.navigate(
+                    NotificationsFragmentDirections.actionNotificationsFragmentToOrderDetailFragment(
+                        notification.link
                     )
-                }
+                )
             }
             mNotificationItemApdapter.mNotificationViewModel=mNotificationViewModel
             mNotificationItemApdapter.viewLifecycleOwner = viewLifecycleOwner
-            mHomeViewModel.mUsers.observe(viewLifecycleOwner){users->
-                if(users != null && users.isNotEmpty()){
-                    mNotificationViewModel.getNotificationOfUser(users[0].id).observe(viewLifecycleOwner) { resource ->
-                        resource?.let {
-                            when (resource.status) {
-                                Status.LOADING -> {
-                                    Log.e("TAG", "setupNotificationList: loading ${users[0].id}", )
-                                }
-                                Status.SUCCESS -> {
-                                    Log.e("TAG", "setupNotificationList: ", )
-                                    resource.data?.let {
-                                        it?.let {
-                                            mNotificationItemApdapter.submitList(it)
-                                        }
-                                    }
-                                }
-                                Status.ERROR -> {
-                                }
+            mNotificationViewModel.getNotificationOfUser().observe(viewLifecycleOwner) { resource ->
+                resource?.let {
+                    when (resource.status) {
+                        Status.LOADING -> {
+                            Log.i(TAG, "setupNotificationList: loading")
+                        }
+                        Status.SUCCESS -> {
+                            Log.i(TAG, "setupNotificationList: ${resource.data}")
+                            if(resource.data.isNullOrEmpty()) {
+                                mNotificationItemApdapter.submitList(emptyList())
+                                mBinding?.tvNoneItem?.visibility = View.VISIBLE
+                            } else {
+                                mBinding?.tvNoneItem?.visibility = View.GONE
+                                mNotificationItemApdapter.submitList(resource.data)
                             }
                         }
+                        Status.ERROR -> {
+                            Log.e(TAG, "setupNotificationList: ${resource.message}")
+                        }
                     }
-
-                } else {
-                    Log.i(TAG, "updateUserInfo: user is null")
                 }
             }
         } else {
-            mNotificationItemApdapter.mOnSelect = { id ->
+            mNotificationItemApdapter.mOnSelect = { notification ->
+                val notificationType = notification.type
+                val objectId = notification.link
+                Log.i(TAG, "setupNotificationList: type=$notificationType id=$objectId")
+                when (notificationType) {
+                    OFFER_NOTIFY -> {
+                        handleResource(
+                            mHomeViewModel.getOfferById(objectId),
+                            lifecycleOwner = viewLifecycleOwner,
+                            context = requireContext(),
+                            onSuccess = {
+                                it?.let {
+                                    mNavController?.navigate(
+                                        NotificationsFragmentDirections.actionNotificationsFragmentToOfferDetailFragment(it)
+                                    )
+                                }
+
+                            }
+                        )
+
+                    }
+                    NEW_SHOES_NOTIFY -> {
+                        mNavController?.navigate(
+                            NotificationsFragmentDirections.actionNotificationsFragmentToShoesFragment(objectId)
+                        )
+                    }
+                    OTHER_NOTIFY -> {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle(notification.title)
+                            .setMessage(notification.content)
+                            .create()
+                            .show()
+                    }
+                }
             }
             mNotificationItemApdapter.mNotificationViewModel=mNotificationViewModel
             mNotificationItemApdapter.viewLifecycleOwner = viewLifecycleOwner
@@ -163,23 +195,23 @@ class NotificationsFragment : BaseFragment<FragmentNotificationBinding>() {
 
                         Status.SUCCESS -> {
                             Log.i(TAG, "setupNotificationList: ${resources.data}")
-                            if (resources.data == null) {
-                                mBinding?.rcvNotification?.visibility = View.GONE
+                            if(resources.data.isNullOrEmpty()) {
+                                mNotificationItemApdapter.submitList(emptyList())
+                                mBinding?.tvNoneItem?.visibility = View.VISIBLE
                             } else {
+                                mBinding?.tvNoneItem?.visibility = View.GONE
                                 mNotificationItemApdapter.submitList(resources.data)
                             }
                         }
 
                         Status.ERROR -> {
-                            Log.i(TAG, "setupNotificationList: ${resources.message}")
+                            Log.e(TAG, "setupNotificationList: ${resources.message}")
                         }
                     }
                 }
             }
         }
 
-
         mBinding?.rcvNotification?.adapter = mNotificationItemApdapter
-
     }
 }

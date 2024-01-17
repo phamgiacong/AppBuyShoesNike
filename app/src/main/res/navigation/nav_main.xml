@@ -248,6 +248,9 @@
         <action
             android:id="@+id/action_notificationsFragment_to_offerDetailFragment"
             app:destination="@id/offerDetailFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_shoesFragment"
+            app:destination="@id/shoesFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoesByTypeFragment"

@@ -33,12 +33,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="ten_app" translatable="false">Shoea</string>
+    <string name="ten_app" translatable="false">Nike</string>
     <string name="welcome_to">Chào mừng tới</string>
     <string name="get_started">Bắt đầu</string>
     <string name="text_welcome1" translatable="false">Chúng tôi cung cấp sản phẩm tốt nhất cho bạn.</string>
     <string name="text_welcome2" translatable="false">Sử thỏa mãn của bạn là ưu tiên số một của chúng tôi.</string>
-    <string name="text_welcome3" translatable="false">Hãy tạo nên thời trang của bạn với Shoea ngay nào!</string>
+    <string name="text_welcome3" translatable="false">Hãy tạo nên thời trang của bạn với Nike ngay nào!</string>
     <string name="title_login" translatable="false">Đăng nhập</string>
     <string name="no_account" translatable="false">Bạn chưa có tài khoản? </string>
     <string name="button_signin" translatable="false">Đăng nhập</string>
@@ -207,6 +207,7 @@
     <string name="description">Mô tả</string>
     <string name="shoes_favorite">Sản phẩm yêu thích</string>
     <string name="not_yet_confirm">Chưa xác nhận</string>
+    <string name="other">Khác</string>
 
     <string-array name="genders_array">
         <item>Chưa xác định giới tính</item>

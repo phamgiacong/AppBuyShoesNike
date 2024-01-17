@@ -12,6 +12,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hn_2452.shoes_nike.NEW_SHOES_NOTIFY
 import com.hn_2452.shoes_nike.NOTIFICATION_ACTION
+import com.hn_2452.shoes_nike.NOTIFICATION_ID
 import com.hn_2452.shoes_nike.NOTIFY_OBJECT_ID
 import com.hn_2452.shoes_nike.NOTIFY_TYPE
 import com.hn_2452.shoes_nike.NikeShoesApplication
@@ -46,6 +47,7 @@ class NotificationService : FirebaseMessagingService() {
         val content: String? = message.data["body"]
         val id: String? = message.data["id"]
         val image: String? = message.data["image"]
+        val notificationId : String? = message.data["notification_id"]
 
         var bitmap: Bitmap? = null
         try {
@@ -55,17 +57,17 @@ class NotificationService : FirebaseMessagingService() {
         }
 
         if (type == ORDER_NOTIFY && getBooleanDataByKey(this, ORDER_NOTIFY)) {
-            sendOrderNotification(id, title, content)
+            sendOrderNotification(id, title, content, notificationId)
             return
         }
 
         if (type == OFFER_NOTIFY && getBooleanDataByKey(this, OFFER_NOTIFY)) {
-            sendOfferNotification(id, title, content, bitmap)
+            sendOfferNotification(id, title, content, bitmap, notificationId)
             return
         }
 
         if (type == NEW_SHOES_NOTIFY && getBooleanDataByKey(this, NEW_SHOES_NOTIFY)) {
-            sendNewShoesNotification(id, title, content, bitmap)
+            sendNewShoesNotification(id, title, content, bitmap, notificationId)
             return
         }
 
@@ -107,12 +109,18 @@ class NotificationService : FirebaseMessagingService() {
         )
     }
 
-    private fun sendOrderNotification(id: String?, title: String?, content: String?) {
+    private fun sendOrderNotification(
+        id: String?,
+        title: String?,
+        content: String?,
+        notificationId: String?
+    ) {
         Log.i(TAG, "sendOrderNotification: id=$id title=$title content==$content")
-        val notificationId = Random.nextInt()
+        val randomId = Random.nextInt()
         val data = Bundle().apply {
             putString(NOTIFY_OBJECT_ID, id)
             putString(NOTIFY_TYPE, ORDER_NOTIFY)
+            putString(NOTIFICATION_ID, notificationId)
         }
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -132,7 +140,7 @@ class NotificationService : FirebaseMessagingService() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager?)?.notify(
-            notificationId,
+            randomId,
             notificationBuilder.build()
         )
 
@@ -142,13 +150,15 @@ class NotificationService : FirebaseMessagingService() {
         id: String?,
         title: String?,
         content: String?,
-        bitmap: Bitmap?
+        bitmap: Bitmap?,
+        notificationId: String?
     ) {
         Log.i(TAG, "sendOrderNotification: id=$id title=$title content==$content")
-        val notificationId = Random.nextInt()
+        val randomId = Random.nextInt()
         val data = Bundle().apply {
             putString(NOTIFY_OBJECT_ID, id)
             putString(NOTIFY_TYPE, NEW_SHOES_NOTIFY)
+            putString(NOTIFICATION_ID, notificationId)
         }
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -173,7 +183,7 @@ class NotificationService : FirebaseMessagingService() {
             )
 
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager?)?.notify(
-            notificationId,
+            randomId,
             notificationBuilder.build()
         )
 
@@ -184,12 +194,14 @@ class NotificationService : FirebaseMessagingService() {
         id: String?,
         title: String?,
         content: String?,
-        bitmap: Bitmap?
+        bitmap: Bitmap?,
+        notificationId: String?
     ) {
-        val notificationId = Random.nextInt()
+        val randomId = Random.nextInt()
         val data = Bundle().apply {
             putString(NOTIFY_OBJECT_ID, id)
             putString(NOTIFY_TYPE, OFFER_NOTIFY)
+            putString(NOTIFICATION_ID, notificationId)
         }
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -214,7 +226,7 @@ class NotificationService : FirebaseMessagingService() {
             )
 
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager?)?.notify(
-            notificationId,
+            randomId,
             notificationBuilder.build()
         )
 

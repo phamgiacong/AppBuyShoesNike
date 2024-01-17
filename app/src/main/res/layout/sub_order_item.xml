@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="8dp"
-        android:text="Air Jordan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +29,8 @@
             android:id="@+id/shoesColor"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:cardBackgroundColor="@color/background_silver"
+            android:layout_margin="2dp"
+            android:layout_gravity="center_vertical"
             app:cardCornerRadius="@dimen/dimen_100dp" />
 
         <View
@@ -43,10 +43,10 @@
         <TextView
             android:id="@+id/shoesSize"
             style="@style/small_bold_label"
+            android:layout_marginTop="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/shoes_size"
             android:textAlignment="center" />
 
         <View
@@ -59,10 +59,10 @@
         <TextView
             android:id="@+id/tvShoesQuantity"
             style="@style/small_bold_label"
+            android:layout_marginTop="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Số lượng: 2"
             android:textAlignment="center" />
 
 

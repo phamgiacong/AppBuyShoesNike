@@ -33,7 +33,7 @@ class ShoesAdapterController(private val onClick: (shoes: Shoes) -> Unit) :
             imvShoesImage.load(shoes.main_image)
 
             tvShoesName.text = shoes.name
-            tvShoesRate.text = shoes.rate.toString()
+            tvShoesRate.text = String.format("%.2f", shoes.rate)
             tvShoesPrice.text = getPrice(shoes)
             if (shoes.discount > 0) {
                 tvShoesOriginPrice.visibility = View.VISIBLE

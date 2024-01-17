@@ -24,4 +24,10 @@ class ShoesImageFragment : BaseFragment<FragmentShoesImageBinding>() {
             error(R.color.background_secondary_color)
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        setupBottomBar(false)
+    }
+
 }

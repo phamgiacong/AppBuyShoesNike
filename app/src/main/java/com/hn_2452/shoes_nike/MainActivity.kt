@@ -1,6 +1,5 @@
 package com.hn_2452.shoes_nike
 
-import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -149,6 +148,7 @@ open class MainActivity : AppCompatActivity() {
         bundle ?: return
         val type = bundle.getString(NOTIFY_TYPE)
         val objectId = bundle.getString(NOTIFY_OBJECT_ID)
+        val notificationId = bundle.getString(NOTIFICATION_ID)
         Log.i(TAG, "handleNotification: type=$type object_id=$objectId")
 
         val navHostFragment =
@@ -157,12 +157,14 @@ open class MainActivity : AppCompatActivity() {
 
         when (type) {
             ORDER_NOTIFY -> {
+                mHomeViewModel.updateSeenNotification(notificationId).observe(this) { result ->
+                    Log.i(TAG, "handleNotification update seen notification: ${result.data}")
+                }
                 objectId?.let {
                     navController.navigate(
                         NavMenuDirections.actionGlobalOrderDetailFragment(objectId)
                     )
                 }
-
             }
 
             OFFER_NOTIFY -> {
@@ -173,6 +175,13 @@ open class MainActivity : AppCompatActivity() {
                         lifecycleOwner = this,
                         onSuccess = {
                             it?.let {
+                                mHomeViewModel.updateSeenNotification(notificationId)
+                                    .observe(this) { result ->
+                                        Log.i(
+                                            TAG,
+                                            "handleNotification update seen notification: ${result.data}"
+                                        )
+                                    }
                                 navController.navigate(
                                     NavMenuDirections.actionGlobalOfferDetailFragment(it)
                                 )
@@ -184,6 +193,9 @@ open class MainActivity : AppCompatActivity() {
             }
 
             NEW_SHOES_NOTIFY -> {
+                mHomeViewModel.updateSeenNotification(notificationId).observe(this) {
+                    Log.i(TAG, "handleNotification update seen notification: ${it.data}")
+                }
                 objectId?.let {
                     navController.navigate(
                         NavMenuDirections.actionGlobalShoesFragment(objectId)
