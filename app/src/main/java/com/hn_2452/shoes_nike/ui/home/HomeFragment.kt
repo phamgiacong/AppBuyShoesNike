@@ -28,12 +28,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         private const val TAG = "Nike:HomeFragment: "
     }
 
+    private var mRefreshTime = 0
+
     private var mLoadingTime = 0
 
     private val mHomeViewModel: HomeViewModel by activityViewModels()
     private val mNotificationViewModel: NotificationViewModel by viewModels()
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentHomeBinding.inflate(inflater, container, false)
+
+    private lateinit var mShoesAdapterController : ShoesAdapterController
+    private lateinit var mShoesTypeAdapterController: ShoesTypeAdapterController
 
     override fun onStart() {
         super.onStart()
@@ -57,7 +62,83 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupSearching()
         updateUserInfo()
         setUpCountNotification()
+        setupRefreshLayout()
+    }
 
+    private fun setupRefreshLayout() {
+        mBinding?.refreshLayout?.setOnRefreshListener {
+            mRefreshTime = 0
+            mHomeViewModel.getAvailableOffer().observe(viewLifecycleOwner) { result ->
+                result?.let {
+                    when (result.status) {
+                        Status.LOADING -> {
+
+                        }
+
+                        Status.SUCCESS -> {
+                            result.data?.let { offerList ->
+                                Log.i(TAG, "setupOfferList: $offerList")
+                                mBinding?.viewpagerOffer?.adapter = OfferAdapter(this, offerList)
+                                autoRunOfferBanner(offerList.size)
+                            }
+                            stopRefresh()
+                        }
+
+                        Status.ERROR -> {
+                            Log.e(TAG, "setupOfferList: ${result.message}")
+                            stopRefresh()
+                        }
+                    }
+                }
+            }
+
+            mHomeViewModel.getShoesType().observe(viewLifecycleOwner) { result ->
+                result?.let {
+                    when (result.status) {
+                        Status.LOADING -> {
+
+                        }
+
+                        Status.SUCCESS -> {
+                            mShoesTypeAdapterController.setData(result.data)
+                            stopRefresh()
+                        }
+
+                        Status.ERROR -> {
+                            Log.e(TAG, "setupShoesTypeList: ${result.message}")
+                            stopRefresh()
+                        }
+                    }
+                }
+            }
+
+            mHomeViewModel.getPopularShoes().observe(viewLifecycleOwner) { result ->
+                result?.let {
+                    when (result.status) {
+                        Status.LOADING -> {
+
+                        }
+
+                        Status.SUCCESS -> {
+                            mShoesAdapterController.setData(result.data)
+                            stopRefresh()
+                        }
+
+                        Status.ERROR -> {
+                            Log.e(TAG, "setupPopularShoesList: ${result.message}")
+                            stopRefresh()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun stopRefresh() {
+        mRefreshTime++
+        if(mRefreshTime == 3) {
+            mBinding?.refreshLayout?.isRefreshing = false
+        }
     }
 
     private fun startPlaceHolderLayout() {
@@ -68,10 +149,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun stopPlaceHolderLayout() {
         mLoadingTime++
-        if (mLoadingTime >= 3) {
+        if (mLoadingTime == 3) {
             mBinding?.mainLayout?.visibility = View.VISIBLE
             mBinding?.placeHolderLayout?.visibility = View.GONE
             mBinding?.placeHolderLayout?.stopShimmerAnimation()
+            return
         }
     }
 
@@ -142,15 +224,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupShoesTypeList() {
-        val controller = ShoesTypeAdapterController {
+        mShoesTypeAdapterController = ShoesTypeAdapterController {
             mNavController?.navigate(
                 HomeFragmentDirections.actionHomeFragmentToShoesByTypeFragment(it.name, it.id)
             )
         }
-        mBinding?.rcvShoesType?.setController(controller)
+        mBinding?.rcvShoesType?.setController(mShoesTypeAdapterController)
         if(mHomeViewModel.mShoesTypeList != null) {
             mBinding?.tvShoesType?.visibility = View.VISIBLE
-            controller.setData(mHomeViewModel.mShoesTypeList)
+            mShoesTypeAdapterController.setData(mHomeViewModel.mShoesTypeList)
             return
         }
         mHomeViewModel.getShoesType().observe(viewLifecycleOwner) { result ->
@@ -163,7 +245,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     Status.SUCCESS -> {
                         stopPlaceHolderLayout()
                         mBinding?.tvShoesType?.visibility = View.VISIBLE
-                        controller.setData(result.data)
+                        mShoesTypeAdapterController.setData(result.data)
                     }
 
                     Status.ERROR -> {
@@ -175,14 +257,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupPopularShoesList() {
-        val controller = ShoesAdapterController {
+        mShoesAdapterController = ShoesAdapterController {
             val action = HomeFragmentDirections.actionHomeFragmentToShoesFragment(it._id)
             mNavController?.navigate(action)
         }
-        mBinding?.rcvPopularShoes?.setController(controller)
+        mBinding?.rcvPopularShoes?.setController(mShoesAdapterController)
         if(mHomeViewModel.mShoesList != null) {
             mBinding?.tvPopularShoes?.visibility = View.VISIBLE
-            controller.setData(mHomeViewModel.mShoesList)
+            mShoesAdapterController.setData(mHomeViewModel.mShoesList)
             return
         }
         mHomeViewModel.getPopularShoes().observe(viewLifecycleOwner) { result ->
@@ -195,7 +277,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     Status.SUCCESS -> {
                         stopPlaceHolderLayout()
                         mBinding?.tvPopularShoes?.visibility = View.VISIBLE
-                        controller.setData(result.data)
+                        mShoesAdapterController.setData(result.data)
                     }
 
                     Status.ERROR -> {

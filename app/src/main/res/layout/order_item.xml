@@ -38,8 +38,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_round"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp"
-            android:text="Đang đóng gói" />
+            android:paddingVertical="4dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +57,6 @@
                 android:layout_weight="1"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="4dp"
-                android:text="Giá : 30000000Đ"
                 android:textAlignment="textStart" />
 
             <TextView

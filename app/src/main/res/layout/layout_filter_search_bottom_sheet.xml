@@ -66,7 +66,7 @@
             android:gravity="center"
             android:paddingHorizontal="32dp"
             android:paddingVertical="8dp"
-            android:text="All"
+            android:text="Tất cả"
             android:textStyle="bold" />
 
         <TextView
@@ -79,7 +79,7 @@
             android:gravity="center"
             android:paddingHorizontal="32dp"
             android:paddingVertical="8dp"
-            android:text="Men"
+            android:text="Nam"
             android:textStyle="bold" />
 
         <TextView
@@ -92,7 +92,7 @@
             android:gravity="center"
             android:paddingHorizontal="32dp"
             android:paddingVertical="8dp"
-            android:text="Women"
+            android:text="Nữ"
             android:textStyle="bold" />
 
 

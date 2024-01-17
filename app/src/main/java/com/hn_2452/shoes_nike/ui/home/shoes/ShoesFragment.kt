@@ -195,6 +195,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupCurrentShoes() {
         mShoesViewModel.mCurrentShoes.observe(viewLifecycleOwner) { shoes ->
             shoes?.let {
@@ -234,7 +235,7 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
                     }
                     tvDescription.text = shoes.description
                     sold.text = getString(R.string.shoes_sold, shoes.sold)
-                    rate.text = "${shoes.rate} (${shoes.number_of_reviews} đánh giá)"
+                    rate.text = "${String.format("%.2f", shoes.rate)} (${shoes.number_of_reviews} đánh giá)"
                     tvWatchReview.setOnClickListener {
                         if (shoes.number_of_reviews > 0) {
                             mShoesViewModel.mNeedToLoadOldData = true
@@ -262,11 +263,10 @@ class ShoesFragment : BaseFragment<FragmentShoesBinding>() {
         currentIndex?.let {
             var index = 0
             if (currentIndex < size - 1) {
-                index = mBinding?.viewPagerShoesImage?.currentItem?.plus(1) ?: 0
+                index = currentIndex.plus(1)
             } else if (currentIndex >= size) {
                 index = 0
             }
-
             mBinding?.viewPagerShoesImage?.setCurrentItem(index, false)
             Handler(Looper.getMainLooper()).postDelayed({
                 autoRunOfferBanner(size)
